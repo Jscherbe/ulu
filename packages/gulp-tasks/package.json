@@ -1,0 +1,18 @@
+{
+  "name": "@ulu/gulp-tasks",
+  "version": "0.0.1",
+  "description": "Gulp tasks for consumption by ulu/gulp-init",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jscherbe/ulu/packages/gulp-tasks"
+  },
+  "keywords": [
+    "gulp",
+    "task"
+  ],
+  "author": "Joe Scherben",
+  "license": "MIT"
+}
