@@ -13,6 +13,10 @@
     "gulp",
     "task"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "author": "Joe Scherben",
-  "license": "MIT"
+  "license": "MIT",
+  "gitHead": "de4ceb294253bc959fce1b72a61f8d6d5493e1b0"
 }

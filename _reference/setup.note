@@ -1,0 +1,4 @@
+Setup Notes:
+	- **DO NOT** Use ES modules
+		- Needs experimental flag in Node 12 (LST)
+		
