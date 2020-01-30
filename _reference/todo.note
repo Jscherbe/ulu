@@ -1,0 +1,5 @@
+Todos:
+	☐	Create a LESS Module System
+	☐	Create repos for Javascript
+		☐	Figure out how to make node modules for frontend and backend
+			☐	Do they need to be compiled to /dist/ ?
