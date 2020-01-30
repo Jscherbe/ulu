@@ -1,0 +1,23 @@
+{
+  "name": "@ulu/jquery-prototypes",
+  "version": "1.0.0",
+  "description": "Collection of useful functions to extend jquery",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jscherbe/ulu/packages/jquery-prototypes"
+  },
+  "keywords": [
+    "jquery",
+    "fn",
+    "prototypes"
+  ],
+  "author": "Joe Scherben",
+  "license": "MIT",
+  "devDependencies": {
+    "jquery": "^3.4.1"
+  }
+}
