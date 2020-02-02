@@ -2,32 +2,30 @@
 
 ## init
 
-Expose the main initialization function, responsible for accepting user  
-   configuration and setting up gulp task. Users will have the ability to  
-   configure the canned tasks or remove or override  them. They will also  
-   have the ability to add their  own custom tasks to initialize.
-
-Type: [function][1]
-
-## tasks
-
-Expose all initialization tasks so user can use them on their own
-
-Type: [Object][2]&lt;[function][1]>
-
-## init
-
 Gulp Initialization function, used in gulpfile
 
 ### Parameters
 
--   `config` **[object][2]** The users configuration
--   `cwd` **[string][3]** Current Working Directory (from gulpfile.js)
+-   `config` **[object][1]** The users configuration
+-   `cwd` **[string][2]** Current Working Directory (from gulpfile.js)
 
-Returns **[object][2]** Object that gulpfile exports (for task definitions)
+Returns **[object][1]** Object that gulpfile exports (for task definitions)
 
-[1]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
+## exampleTask
 
-[2]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
+Task Example, Should be given the resolved
+  user configuration and then pass back a function
+  to be initialized as a gulp task. The function
+  will be executed by gulp during runtime.
 
-[3]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+### Parameters
+
+-   `config` **[object][1]** Finished users site configuration
+
+Returns **[function][3]** Gulp task function, name the function
+
+[1]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
+
+[2]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+
+[3]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
