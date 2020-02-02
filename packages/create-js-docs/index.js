@@ -17,7 +17,9 @@ let options = {
   "description" : "Automatically generated documentation",
   "includes" : ["index.js"],
   "html" : true,
+  "htmlDir" : "/docs",
   "markdown" : true,
+  "markdownFilename" : "readme.docs.md"
 };
 const debugFragment = "the main script or from prop ulu.docs (.includes <array>, .html <bool>, .md <bool>)"
 
@@ -50,8 +52,8 @@ if (!includes.length) {
   return; // Exit
 }
 
-let markdownPath = join(cwd, 'readme.md');
-let htmlPath = join(cwd, '/docs');
+let markdownPath = join(cwd, options.markdownFilename);
+let htmlPath = join(cwd, options.htmlDir);
 
 if (options.markdown) {
   documentation.build(includes, { shallow: false })

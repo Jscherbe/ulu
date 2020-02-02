@@ -21,7 +21,7 @@
   },
   "ulu" : {
     "docs" : {
-      "title" : "Gulp Init",
+      "title" : "Gulp Init > Docs",
       "includes" : ["src/"],
       "html" : true,
       "markdown" : true
