@@ -16,6 +16,7 @@
   "author": "Joe Scherben",
   "license": "MIT",
   "dependencies": {
-    "documentation": "^12.1.4"
+    "documentation": "^12.1.4",
+    "markdown-toc": "^1.2.0"
   }
 }

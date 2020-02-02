@@ -6,12 +6,15 @@
 
 const cwd = process.cwd();
 const documentation = require('documentation');
+var toc = require('markdown-toc');
 var streamArray = require('stream-array');
 var vfs = require('vinyl-fs');
 const fs = require('fs');
 const { join } = require('path');
 
 let options = {
+  "title" : "Docs",
+  "description" : "Automatically generated documentation",
   "includes" : ["index.js"],
   "html" : true,
   "markdown" : true,
@@ -26,6 +29,10 @@ if (userPackage) {
   // Check for includes
   if (userPackage.ulu && userPackage.ulu.docs) {
     options = Object.assign({}, options, userPackage.ulu.docs);
+    // If they didn't pass a title or description 
+    // we will grab it from package.json
+    if (!userPackage.ulu.docs.title) options.title = userPackage.name;
+    if (!userPackage.ulu.docs.description) options.description = userPackage.description;
   // Default to the main script
   } else if (userPackage.main) {
     options.includes = [userPackage.main];
@@ -37,7 +44,7 @@ if (userPackage) {
 
 // Map the paths to the current directory
 const includes = options.includes.map(p => join(cwd, p));
-console.log(includes);
+
 if (!includes.length) {
   console.log('Create Docs: No javascript files to include specified from ' + debugFragment);
   return; // Exit
@@ -50,8 +57,26 @@ if (options.markdown) {
   documentation.build(includes, { shallow: false })
     .then(documentation.formats.md)
     .then(output => {
-      fs.writeFileSync(markdownPath, output);
+      fs.writeFileSync(markdownPath, templateMarkdown(output));
     });
+}
+
+function templateMarkdown(docs) {
+return `
+# ${ options.title }
+
+${ options.description }
+
+## Table of Contents
+
+${ toc(docs).content }
+
+---
+
+${ docs }
+
+
+`;
 }
 
 // if (options.html) {
