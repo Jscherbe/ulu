@@ -2,10 +2,10 @@
 // Default Configuration
 // =============================================================================
 
-function default(context) {
+function defaults(context) {
   return {
     paths: {
-      output: 
+      output: ""
     }
   };
 }

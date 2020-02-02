@@ -25,7 +25,7 @@ function init(config) {
   debug.error(!config.settings, 'You are missing the required "config.settings" property in your config');
 
   const defaultTasks = [
-    require('./tasks-webpack.js')(config)
+    require('./task-webpack.js')(config)
   ];
   // Merge Settings
   const settings = _.merge({}, defaults, config.settings.all, config.settings[env]);

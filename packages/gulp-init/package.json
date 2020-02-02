@@ -4,7 +4,8 @@
   "description": "Gulp task initialization handler",
   "main": "index.js",
   "scripts": {
-    "test": "node test.js"
+    "test": "node test.js",
+    "docs": "node ./node_modules/@ulu/create-js-docs/index.js"
   },
   "repository": {
     "type": "git",
@@ -18,14 +19,21 @@
   "publishConfig": {
     "access": "public"
   },
+  "ulu" : {
+    "docs" : {
+      "includes" : ["index.js"],
+      "html" : true,
+      "markdown" : true
+    }
+  },
   "author": "Joe Scherben",
   "license": "MIT",
   "dependencies": {
     "@ulu/logger": "^0.0.1",
     "lodash": "^4.17.15"
   },
-  "gitHead": "de4ceb294253bc959fce1b72a61f8d6d5493e1b0",
-  "devDependencies": {
-    "jsdoc-to-markdown": "^5.0.3"
-  }
+  "devDependencies" : {
+    "@ulu/create-js-docs": "^0.0.1"
+  },
+  "gitHead": "de4ceb294253bc959fce1b72a61f8d6d5493e1b0"
 }
