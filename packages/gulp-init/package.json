@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "description": "Gulp task initialization handler",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "test": "node test.js"
   },
@@ -22,7 +21,11 @@
   "author": "Joe Scherben",
   "license": "MIT",
   "dependencies": {
-    "@ulu/gulp-tasks": "^0.0.1"
+    "@ulu/logger": "^0.0.1",
+    "lodash": "^4.17.15"
   },
-  "gitHead": "de4ceb294253bc959fce1b72a61f8d6d5493e1b0"
+  "gitHead": "de4ceb294253bc959fce1b72a61f8d6d5493e1b0",
+  "devDependencies": {
+    "jsdoc-to-markdown": "^5.0.3"
+  }
 }

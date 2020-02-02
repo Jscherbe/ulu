@@ -1,0 +1,27 @@
+Things to accomplish:
+	☐	Need a consistent area to pull task functions
+	☐	Need task functions to be able to grab other internal modules 
+		* Modules location can't change
+		* Maybe configure where this is
+	☐	Need a place to put custom code for a site
+	☐	Think about how this will change in "VUE > _library"
+	☐	Make everything work off environmental variables
+	☐	https://subscription.packtpub.com/book/application_development/9781783288434/1/ch01lvl1sec14/creating-a-modular-gulp-configuration
+Issues to solve:
+	☐	How can we easily include dependencies in the javascript framework and less framework
+		- Just have one giant package file even if dependencies aren't being used
+			- It's so hard to update then you have to go through the new dependencies and selectively update the projects NPM requirements **IMPORTANT NOTE**
+		- ie. the package.json?
+		- This is a recurring issue since our setups are not individual node modules that would be installed / updated
+			**This may be a reason to go back to this idea**
+All the tasks I can think of:
+	- Build JS (webpack)
+	- Minify JS
+	- Build LESS (gulp-less) || Build SCSS (gulp-sass?)
+	- Minify CSS (?)
+	- Lint JS (JS Lint || JS Hint)
+	- Copy Files (src --> dest)
+	- Minify Images
+	- Build HUGO
+
+

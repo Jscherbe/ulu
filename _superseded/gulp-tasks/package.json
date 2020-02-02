@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "description": "Gulp tasks for consumption by ulu/gulp-init",
   "main": "index.js",
-  "type": "module",
   "scripts": {},
   "repository": {
     "type": "git",

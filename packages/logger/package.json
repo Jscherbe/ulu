@@ -1,0 +1,28 @@
+{
+  "name": "@ulu/logger",
+  "version": "0.0.1",
+  "description": "Module to help make consistent console logging for debugging/informational.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jscherbe/ulu/packages/logger"
+  },
+  "keywords": [
+    "console",
+    "log",
+    "debugging",
+    "lists"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Joseph Scherben",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^3.0.0"
+  }
+}

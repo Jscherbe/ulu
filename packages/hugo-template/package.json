@@ -1,0 +1,12 @@
+{
+  "name": "@ulu/hugo-template",
+  "version": "0.0.1",
+  "description": "A hugo site that contains hugo assets for starting project, includes ulu gulp setup and project scaffolding",
+  "author": "Joseph Scherben",
+  "license": "MIT",
+  "scripts": {},
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "@ulu/gulp-init": "^0.0.1"
+  }
+}

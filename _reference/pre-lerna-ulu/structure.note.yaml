@@ -1,0 +1,38 @@
+
+
+
+SITE:
+  _build:
+    js:
+      core:
+      site:
+    gulp:
+      core:
+      site:
+    less:
+      core:
+      site:
+
+APP:
+  src:
+    _library:
+      js:
+        core:
+
+SITE:
+  _build:
+    js:
+      core:
+        module(s)
+      site:
+        index
+    gulp:
+      core:
+        module(s)
+      site:
+        config
+    less:
+      core:
+      site:
+  config/package.json
+

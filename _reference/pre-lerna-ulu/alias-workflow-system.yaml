@@ -1,0 +1,8 @@
+Alias System Flow:
+  - Gulpfile loads site-config script
+  - Gulpfile loads path-alias script passing it site-config
+    - path-alias sets up path aliases
+  - Gulpfile loads @library/gulp/init
+    - The init script will add the tasks
+    - Tasks will be required and can be overriden in the user's site folder
+    

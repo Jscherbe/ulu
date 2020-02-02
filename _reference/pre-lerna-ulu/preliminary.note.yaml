@@ -1,0 +1,149 @@
+Reference Links:
+  Read:
+    - https://github.com/lerna/lerna
+    - https://www.toptal.com/front-end/webpack-browserify-gulp-which-is-better
+    - https://words.mxbry.com/making-react-webpack-browsersync-gulp-play-nice-and-hot-reload-b2c1e01522e3
+    - https://forestry.io/blog/gulp-and-webpack-best-of-both-worlds/
+    - https://subscription.packtpub.com/book/application_development/9781783288434/1/ch01lvl1sec14/creating-a-modular-gulp-configuration
+    - https://www.freshconsulting.com/how-to-organize-your-gulp-js-development-builds-for-multiple-environments/
+  Unread:
+    - https://blog.bitsrc.io/monorepo-architecture-simplified-with-bit-and-npm-b1354be62870
+    - *Monorepo?: https://hackernoon.com/5-practical-ways-to-share-code-from-npm-to-lerna-and-bit-732f2a4db512
+
+Like the idea of a modular gulp tasks:
+  - that way we can customize the gulp setup per project 
+  - Hopefully in a way that you never need to change the actual gulp build tasks
+    - Just modify or hook into them with other task modules?
+Actual Implementation Steps:
+  1: Setup a configuration file:
+    - Should include all enviromental settings?
+      - Research this
+    - Should be not tranformed (easy to extend as modules that it configures API changes)
+      - Loosly coupled
+    - Includes the webpack configuration?
+      - Maybe the gulp-config.webpack (config) can be a require of webpack-config.js so that we can use it in non-gulp enviroments
+      - But the other enviroments have there own special webpack configuration so maybe it's within
+  2: Create two processes:
+    - Build | Builds site for production
+    - Develop | Builds and then serves site with browsersync
+      - For drupal it will do what it currently does
+    - Consider that any complex functionality within this module will be placed in it's own javascript module and organized within our javascript library
+  3: Pull out modules within current gulp-file:
+    - Hugo debug
+    - Etc…
+  4: Start converting javascript framework to flat modules:
+    - This way it works with webpack
+    - This way we can grab a module from within it without using the whole thing (Vue, React)
+Javascrript Library:
+  - Needs a new more scalable structure
+  Avoid this:
+    - js
+      - node
+      - browser
+  Organize by purpose/intent (since some can be used in any enviroment):
+    - js
+      - gulp (module list)
+        - ex. task-build
+        - ex. task-build-webpack
+      - webpack (module list)
+      - front-end (module list)
+      - utils (module list)
+      - vendor (module list)
+      - jquery (module list)
+      - vue (modules list)
+    - Note: Everything else will move to deprecated
+      - Avoids es lint/hint errors
+      - If something old is needed it get's ported over in the same format (es module)
+Gulp 4 Update:
+  Reason to Update:
+    - Plugins/dependencies are 4+ years old 
+      - Now expierencing issues using them or updating them
+    - Want to be able to easily add new dependencies to projects
+    - Need to be able to refer to plugins documentation but most are old and issues have been patched
+    - Would like to use the most current dependencies
+      - Minifying
+      - Bundling
+      - Analyzing
+  Steps to update:
+    1: Break up the javasrcipt framework core into parts, Make ES Modules
+    2: Make modules ES Modules
+  Features/Issues to accomadate:
+    - Better configuration for all paths
+      - root path --> _build
+      - output paths
+    - Image Minification Caching
+    - Build everything as seperate modules
+    - Have webpack hot module replacement for javascript
+    Javascript Framework:
+      - Transpile Javascript and Use ES Modules for javascript framework
+        - Allows for easier use in application
+      - Use webpack to crawl javascript dependencies
+    Gulp Configuration:
+      - Pretty much the same as it is now
+      - Make sure and use exact keys to make configuration more like lookup table
+        - config[pluginName].enabled
+    Npm Packages:
+      - It might be nice to npm packages
+        - Updating between site will be easier
+        - Development will be easier
+Notes for why moving to npm packages would be a good idea:
+- Development is easier:
+    - I can add the package (JS Framework) to other packages and will be able to test between them 
+    - Currently we have do all of this manually when testing 
+    - Webpack plugin
+    - Gulp 
+    - Gulp for code kit
+    - Testing can be done easier in smaller areas
+    - Currently a large portion of my work when working on these things is maintaining the packages by hand which is error prone and excessive
+- We have versions:
+    + Previous sites can use older versions of the package but be updated with ease
+- It's a pattern that will work better for the team:
+    + Currently I'm the only one that knows how all these things need to be used together
+    + It will encourage reusing code in the library
+        * Better documentation and 
+What would these packages look like?:
+  Gulp Framework:
+      - Would have tasks broken into individual modules
+      - A everything module can be used to get all the normal tasks we need
+      - A sample gulp file can be provided and used in tests
+      - Note: We would still copy our scaffolding with "gulpfile.js" but that file would just require the normal gulp tasks from this module. that way we can easily maintain versioning and updating
+      - Tests
+  Vue Framework:
+      - Project Scaffolding
+      - Components
+          - Modals
+          - Collapsibles
+      - Utilities
+      - Tests
+  Javascript Framework:
+      - Our library and workflow for javascript
+      - Broken into modules
+      - Can be used ala-carte
+      - Exposes common utilities that can be used ala-carte
+      - Documentation Generator (based on comment blocks)
+          + To be moved to Codekit as a sister site? Or integrated
+      - Tests
+  Less Framework:
+      - Actual Less Code
+  Less Framework: Plugin
+      - Scans the Less Directory for requirements and automatically creates imports
+      - Copies over defaults to working directory
+      - Creates variations of paths for other systems
+      - Other misc things
+      - Includes less plugins required for our less 
+      - Tests
+  Less Framework: Output Plugin
+      - Used in combination with "Less Framework Plugin" 
+      - Will output CSS using the node LESS module (instead of gulp-less)
+      - Used outside of Gulp
+      - Has it's own watch mechanism
+      - Is the entry point to communicate javascript needs to "Javascript Framework"
+      - Tests
+  Less Framework: Webpack Plugin
+      - Used in combination with "Less Framework Plugin" 
+      - Will output configuration settings for Webpack to import the less framework
+      - Will install less plugins using Webpack "less-loader" API
+      - Future (not working correctly yet), will install a Webpack watcher that will monitor changes to Less Framework: Plugin configuration files and will rerun it when the user changes configuration
+      - Tests
+
+
