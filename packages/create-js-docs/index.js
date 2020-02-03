@@ -21,7 +21,7 @@ let options = {
   "description" : "Automatically generated documentation",
   "includes" :  null,
   "html" : true,
-  "htmlDir" : "/docs",
+  "htmlDir" : false,
   "markdown" : true,
   "markdownFilename" : "readme.docs.md"
 };
@@ -33,11 +33,12 @@ const package = require(join(cwd, 'package.json'));
 if (package) {
   // Check for includes
   if (package.ulu && package.ulu.docs) {
-    options = Object.assign({}, options, package.ulu.docs);
+    const docOps = package.ulu.docs;
+    options = Object.assign({}, options, docOps);
     // If they didn't pass a title or description 
     // we will grab it from package.json
-    if (!package.ulu.docs.title) options.title = package.name;
-    if (!package.ulu.docs.description) options.description = package.description;
+    if (!docOps.title) options.title = package.name;
+    if (!docOps.description) options.description = package.description;
   // Default to the main script
   } else if (package.main) {
     options.includes = [package.main];
@@ -58,8 +59,7 @@ if (!includes.length) {
   return; // Exit
 }
 
-let markdownPath = join(cwd, options.markdownFilename);
-let htmlPath = join(cwd, options.htmlDir);
+const markdownPath = join(cwd, options.markdownFilename);
 
 if (options.markdown) {
   documentation.build(includes, parseOptions)
@@ -73,6 +73,11 @@ if (options.markdown) {
     });
 }
 
+// If it had a value the user is choosing to place documents 
+// somewhere other than the global documentation area. If thats
+// not the case we are going to make the path to the global folder
+
+const htmlPath = join("../../", "docs", options.title);
 
 if (options.html) {
   documentation.build(includes, parseOptions)

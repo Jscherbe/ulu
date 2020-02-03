@@ -1,5 +1,5 @@
 
-# Gulp Init > Docs
+# Gulp Init - API
 
 Gulp task initialization handler
 
