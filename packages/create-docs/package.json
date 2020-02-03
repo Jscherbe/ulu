@@ -16,8 +16,9 @@
   "author": "Joe Scherben",
   "license": "MIT",
   "dependencies": {
+    "@ulu/logger": "^0.0.1",
     "documentation": "^12.1.4",
-    "markdown-toc": "^1.2.0",
-    "@ulu/logger": "^0.0.1"
+    "documentation-theme-light": "^1.1.1",
+    "markdown-toc": "^1.2.0"
   }
 }

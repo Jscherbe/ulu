@@ -1,214 +1,231 @@
 <!doctype html>
-<html lang="en">
+<html>
 <head>
-  <meta charset='utf-8'>
-  <title>@ulu/gulp-init 0.0.1 | Documentation</title>
-  <meta name='description' content='Gulp task initialization handler'>
-  <meta name='viewport' content='width=device-width,initial-scale=1'>
-  <link href='assets/bass.css' rel='stylesheet'>
-  <link href='assets/style.css' rel='stylesheet'>
-  <link href='assets/github.css' rel='stylesheet'>
-  <link href='assets/split.css' rel='stylesheet'>
+	<meta charset='utf-8' />
+	<title>@ulu/gulp-init 0.0.1 | Documentation</title>
+	<meta name='description' content='Gulp task initialization handler'>
+	<meta name='viewport' content='width=device-width,initial-scale=1'>
+	<link href='assets/styles.min.css' rel='stylesheet' />
 </head>
-<body class='documentation m0'>
-    <div class='flex'>
-      <div id='split-left' class='overflow-auto fs0 height-viewport-100'>
-        <div class='py1 px2'>
-          <h3 class='mb0 no-anchor'>@ulu/gulp-init</h3>
-          <div class='mb1'><code>0.0.1</code></div>
-          <input
-            placeholder='Filter'
-            id='filter-input'
-            class='col12 block input'
-            type='text' />
-          <div id='toc'>
-            <ul class='list-reset h5 py1-ul'>
-              
-                
-                <li><a
-                  href='#init'
-                  class="">
-                  init
-                  
-                </a>
-                
-                </li>
-              
-                
-                <li><a
-                  href='#exampletask'
-                  class="">
-                  exampleTask
-                  
-                </a>
-                
-                </li>
-              
-            </ul>
-          </div>
-          <div class='mt1 h6 quiet'>
-            <a href='https://documentation.js.org/reading-documentation.html'>Need help reading this?</a>
-          </div>
-        </div>
-      </div>
-      <div id='split-right' class='relative overflow-auto height-viewport-100'>
-        
-          
-          <section class='p2 mb2 clearfix bg-white minishadow'>
 
-  
-  <div class='clearfix'>
-    
-    <h3 class='fl m0' id='init'>
-      init
-    </h3>
-    
-    
-  </div>
-  
+<body class='documentation'>
+<div class='px2'>
+	<div class='clearfix md-flex lg-flex flex-stretch mxn2'>
+		<div class='documentation-sidebar relative top-0 bottom-0 right-0 px2 py2 col-3 md-show'>
+			<div class='font-smaller fixed col-3 top-0 bottom-0 left-0 overflow-auto fill-light dark-link'>
+				<div class='px2'>
+					<h3 class='mb0 no-anchor'><code>@ulu/gulp-init</code></h3>
+					<div class='mb1'><code>0.0.1</code></div>
+					<input placeholder='Filter' id='filter-input' class='col12 block input' type='text' />
+					<div id="toc">
+						
+						
+						
+						<a
+								href='#init'
+								class="regular block">
+							<code>init</code>
+							
+						</a>
+						
+						
+						
+						
+						
+						<a
+								href='#exampletask'
+								class="regular block">
+							<code>exampleTask</code>
+							
+						</a>
+						
+						
+						
+					</div>
+					<div class='mt1 h6 quiet'>
+						<a href='https://documentation.js.org/reading-documentation.html'>Need help reading this?</a>
+					</div>
+				</div>
 
-  <p>Gulp Initialization function, used in gulpfile</p>
+			</div>
+		</div>
+		<div class='sm-col-12 md-col-9 lg-col-9 flex flex-column'>
+			<div class='flex-auto full-width'>
+				
+				
+				<section id='init'class='mt2 mb2 px3 py1 keyline-top'>
 
-    <div class='pre p1 fill-light mt0'>init(config: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, cwd: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></div>
-  
-  
+	<div class='right py2'>
+		
+		
+	</div>
 
-  
-  
-  
-  
-  
-  
+	<h3 class='regular'>
+		<a class='black' href='#init'>
+			<code>
+				init
+				<span class='gray'>(config, cwd)</span>
+			</code>
+		</a>
+	</h3>
 
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>config</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
-	    The users configuration
+	<p>Gulp Initialization function, used in gulpfile</p>
 
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>cwd</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-	    Current Working Directory (from gulpfile.js)
+	
 
-          </div>
-          
-        </div>
-      
-    </div>
-  
+	
+	
+	
+	
+	
+	
 
-  
+	
+	<table class='table-light mt3 rounded keyline-all keyline-light overflow-hidden bg-cloudy-light'>
+		<thead class='fill-light'>
+		<th class='col-3 small caps quiet'>parameter</th>
+		<th class='col-3 small caps quiet'>type</th>
+		<th class='col-6 small caps quiet'>description</th>
+		</thead>
+		
+		<tr>
+			<td class='col-3 strong'><code>config</code></td>
+			<td class='col-3 quiet'>
+				<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>
+				
+			</td>
+			<td class='col-6'>The users configuration
+</td>
+		</tr>
+		
+		
+		<tr>
+			<td class='col-3 strong'><code>cwd</code></td>
+			<td class='col-3 quiet'>
+				<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>
+				
+			</td>
+			<td class='col-6'>Current Working Directory (from gulpfile.js)
+</td>
+		</tr>
+		
+		
+	</table>
+	
 
-  
-    
-      <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></code>:
-        Object that gulpfile exports (for task definitions)
+	
 
-      
-    
-  
+	
+	
+	<h4 class='caps quiet mb1 mt3'>Returns</h4>
+	<code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></code>
+	:
+	<span class='force-inline'>Object that gulpfile exports (for task definitions)
+</span>
+	
+	
+	
 
-  
+	
 
-  
+	
 
-  
+	
 
-  
+	
 
-  
+	
 
-  
+	
 </section>
 
-          
-        
-          
-          <section class='p2 mb2 clearfix bg-white minishadow'>
+				
+				
+				
+				<section id='exampletask'class='mt2 mb2 px3 py1 keyline-top'>
 
-  
-  <div class='clearfix'>
-    
-    <h3 class='fl m0' id='exampletask'>
-      exampleTask
-    </h3>
-    
-    
-  </div>
-  
+	<div class='right py2'>
+		
+		
+	</div>
 
-  <p>Task Example, Should be given the resolved
+	<h3 class='regular'>
+		<a class='black' href='#exampletask'>
+			<code>
+				exampleTask
+				<span class='gray'>(config)</span>
+			</code>
+		</a>
+	</h3>
+
+	<p>Task Example, Should be given the resolved
 user configuration and then pass back a function
 to be initialized as a gulp task. The function
 will be executed by gulp during runtime.</p>
 
-    <div class='pre p1 fill-light mt0'>exampleTask(config: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a></div>
-  
-  
+	
 
-  
-  
-  
-  
-  
-  
+	
+	
+	
+	
+	
+	
 
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>config</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
-	    Finished users site configuration
+	
+	<table class='table-light mt3 rounded keyline-all keyline-light overflow-hidden bg-cloudy-light'>
+		<thead class='fill-light'>
+		<th class='col-3 small caps quiet'>parameter</th>
+		<th class='col-3 small caps quiet'>type</th>
+		<th class='col-6 small caps quiet'>description</th>
+		</thead>
+		
+		<tr>
+			<td class='col-3 strong'><code>config</code></td>
+			<td class='col-3 quiet'>
+				<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>
+				
+			</td>
+			<td class='col-6'>Finished users site configuration
+</td>
+		</tr>
+		
+		
+	</table>
+	
 
-          </div>
-          
-        </div>
-      
-    </div>
-  
+	
 
-  
+	
+	
+	<h4 class='caps quiet mb1 mt3'>Returns</h4>
+	<code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a></code>
+	:
+	<span class='force-inline'>Gulp task function, name the function
+</span>
+	
+	
+	
 
-  
-    
-      <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a></code>:
-        Gulp task function, name the function
+	
 
-      
-    
-  
+	
 
-  
+	
 
-  
+	
 
-  
+	
 
-  
-
-  
-
-  
+	
 </section>
 
-          
-        
-      </div>
-    </div>
-  <script src='assets/anchor.js'></script>
-  <script src='assets/split.js'></script>
-  <script src='assets/site.js'></script>
+				
+				
+			</div>
+		</div>
+	</div>
+</div>
+<script src='assets/scripts.min.js'></script>
 </body>
 </html>

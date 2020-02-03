@@ -90,7 +90,11 @@ const htmlPath = join(globalPath, urlize(options.title));
 
 if (options.html) {
   documentation.build(includes, parseOptions)
-    .then(documentation.formats.html)
+    .then(resp => {
+      return documentation.formats.html(resp, { 
+        theme: "node_modules/@ulu/create-docs/node_modules/documentation-theme-light"
+      });
+    })
     .then(docs => {
       if (!fs.existsSync(htmlPath)) {
         fs.mkdirSync(htmlPath);
