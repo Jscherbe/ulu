@@ -13,6 +13,7 @@ const fs = require('fs');
 const debug = require('./src/debug.js');
 const { join } = require('path');
 const templateMarkdown = require('./src/markdown-template.js');
+const updateGlobalIndex = require('./src/update-global-index.js');
 const parseOptions = {
   shallow: false
 };
@@ -77,7 +78,8 @@ if (options.markdown) {
 // somewhere other than the global documentation area. If thats
 // not the case we are going to make the path to the global folder
 
-const htmlPath = join("../../", "docs", options.title);
+const globalPath = join("../../", "docs");
+const htmlPath = join(globalPath, options.title);
 
 if (options.html) {
   documentation.build(includes, parseOptions)
@@ -88,6 +90,8 @@ if (options.html) {
       }
       streamArray(docs).pipe(vfs.dest(htmlPath));
       debug.message('Built HTML for ' + options.title);
+      debug.message('Creating global docs index');
+      updateGlobalIndex(globalPath);
     });
 }
 
