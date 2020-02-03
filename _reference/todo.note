@@ -1,8 +1,14 @@
 Todos:
+	☐	Create the unit testing workflow for repo
+		☐	Choose a testing framework
+		☐	Setup Tests
 	✔	Pro/Con Javascript bundlers
 		- Webpack, Rollup, Parcel, FusionBox, etc
 		- Decided to stick with webpack
 	✔	Create Readme to explain how to launch the lerna development environment
+	☐	Think about other package properties needed
+		- homepage
+		- jsnext:main   <-- look up
 	☐	Gulp Initializer Script @in-progress
 	☐	One consistent configuration file @yes
 		- Make a module/package that handles merging the user configuration with the defaults
@@ -16,10 +22,15 @@ Todos:
 		☐	Think about how the icon font would work in Webpack
 			- That would be nice to have
 	☐	Create repository for Javascript library
+		☐	Starting with jquery prototype library
+			- See this repo
+				- https://github.com/aptivator/jquery.extras
 		☐	Figure out how to make node modules for front-end and back-end
-			☐	Do they need to be compiled to /dist/ ? @solved
+			✘	Do they need to be compiled to /dist/ ? @solved
 				- Use Webpack libraries for this that way we can include the scripts anywhere
 					- See documentation webpack > creating libraries
+			☐	Thinking about using rollup, simpler configuration and webpack seems to be a headache to understand (transformation)
 		☐	Move Urlize out of create-docs
 	☐	Move modular site generator to Ulu
 	☐	Move the node scripts for validation, etc
+	☐	Move inDesign Scripts

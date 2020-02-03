@@ -2,7 +2,8 @@
   "name": "@ulu/jquery-prototypes",
   "version": "1.0.0",
   "description": "Collection of useful functions to extend jquery",
-  "main": "index.js",
+  "main": "dist/ulu-jquery-fn.js",
+  "jsnext:main": "dist/ulu-jquery-fn.es.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
