@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "description": "Module to help make consistent console logging for debugging/informational.",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "test": "node test.js"
   },

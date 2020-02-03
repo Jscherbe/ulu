@@ -43,6 +43,3 @@ Returns **[function][3]** Gulp task function, name the function
 [2]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
 
 [3]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
-
-
-

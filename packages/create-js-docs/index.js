@@ -6,41 +6,44 @@
 
 const cwd = process.cwd();
 const documentation = require('documentation');
-var toc = require('markdown-toc');
-var streamArray = require('stream-array');
-var vfs = require('vinyl-fs');
+const toc = require('markdown-toc');
+const streamArray = require('stream-array');
+const vfs = require('vinyl-fs');
 const fs = require('fs');
+const debug = require('./src/debug.js');
 const { join } = require('path');
-
+const templateMarkdown = require('./src/markdown-template.js');
+const parseOptions = {
+  shallow: false
+};
 let options = {
   "title" : "Docs",
   "description" : "Automatically generated documentation",
-  "includes" : ["index.js"],
+  "includes" :  null,
   "html" : true,
   "htmlDir" : "/docs",
   "markdown" : true,
   "markdownFilename" : "readme.docs.md"
 };
-const debugFragment = "the main script or from prop ulu.docs (.includes <array>, .html <bool>, .md <bool>)"
 
 // Get the current package.json and see if there is settings
 // if not default to main entry point in package.
-const userPackage = require(join(cwd, 'package.json'));
+const package = require(join(cwd, 'package.json'));
 
-if (userPackage) {
+if (package) {
   // Check for includes
-  if (userPackage.ulu && userPackage.ulu.docs) {
-    options = Object.assign({}, options, userPackage.ulu.docs);
+  if (package.ulu && package.ulu.docs) {
+    options = Object.assign({}, options, package.ulu.docs);
     // If they didn't pass a title or description 
     // we will grab it from package.json
-    if (!userPackage.ulu.docs.title) options.title = userPackage.name;
-    if (!userPackage.ulu.docs.description) options.description = userPackage.description;
+    if (!package.ulu.docs.title) options.title = package.name;
+    if (!package.ulu.docs.description) options.description = package.description;
   // Default to the main script
-  } else if (userPackage.main) {
-    options.includes = [userPackage.main];
+  } else if (package.main) {
+    options.includes = [package.main];
   }
 } else {
-  console.log('Create Docs: Unable to find package.json to get ' + debugFragment);
+  debug.error('Unable to find package.json for project ', cwd);
   return; // Exit
 }
 
@@ -48,7 +51,10 @@ if (userPackage) {
 const includes = options.includes.map(p => join(cwd, p));
 
 if (!includes.length) {
-  console.log('Create Docs: No javascript files to include specified from ' + debugFragment);
+  debug.error(
+    'No javascript files to include', 
+    'Package.json is missing "main" or "ulu.docs.includes"'
+  );
   return; // Exit
 }
 
@@ -56,38 +62,27 @@ let markdownPath = join(cwd, options.markdownFilename);
 let htmlPath = join(cwd, options.htmlDir);
 
 if (options.markdown) {
-  documentation.build(includes, { shallow: false })
+  documentation.build(includes, parseOptions)
     .then(documentation.formats.md)
-    .then(output => {
-      fs.writeFileSync(markdownPath, templateMarkdown(output));
+    .then(docs => {
+      fs.writeFileSync(
+        markdownPath, 
+        templateMarkdown(options.title, options.description, toc(docs).content, docs)
+      );
+      debug.message('Built Markdown for ' + options.title);
     });
 }
 
-function templateMarkdown(docs) {
-return `
-# ${ options.title }
 
-${ options.description }
-
-## Table of Contents
-
-${ toc(docs).content }
-
----
-
-${ docs }
-
-
-`;
+if (options.html) {
+  documentation.build(includes, parseOptions)
+    .then(documentation.formats.html)
+    .then(docs => {
+      if (!fs.existsSync(htmlPath)) {
+        fs.mkdirSync(htmlPath);
+      }
+      streamArray(docs).pipe(vfs.dest(htmlPath));
+      debug.message('Built HTML for ' + options.title);
+    });
 }
 
-// if (options.html) {
-//   documentation.build(includes)
-//     .then(documentation.formats.html)
-//     .then(output => {
-//       if (!fs.existsSync(htmlPath)) {
-//         fs.mkdirSync(htmlPath);
-//       }
-//       streamArray(output).pipe(vfs.dest(htmlPath));
-//     });
-// }
