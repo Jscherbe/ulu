@@ -1,7 +1,7 @@
 const fs = require('fs');
 const { join } = require('path');
 const debug = require('./debug.js');
-const template = require('./global-index-template.js');
+const template = require('./global-template.js');
 /**
  *   function updates the global docs index file by
  *   parsing the folder post doc generation and creating

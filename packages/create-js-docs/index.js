@@ -11,6 +11,7 @@ const streamArray = require('stream-array');
 const vfs = require('vinyl-fs');
 const fs = require('fs');
 const debug = require('./src/debug.js');
+const urlize = require('./src/urlize.js');
 const { join } = require('path');
 const templateMarkdown = require('./src/markdown-template.js');
 const updateGlobalIndex = require('./src/update-global-index.js');
@@ -79,7 +80,7 @@ if (options.markdown) {
 // not the case we are going to make the path to the global folder
 
 const globalPath = join("../../", "docs");
-const htmlPath = join(globalPath, options.title);
+const htmlPath = join(globalPath, urlize(options.title));
 
 if (options.html) {
   documentation.build(includes, parseOptions)
