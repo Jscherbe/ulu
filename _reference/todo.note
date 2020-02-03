@@ -1,4 +1,5 @@
 Todos:
+	☐	Create readme.development.md to explain how to launch the lerna development enviroment
 	☐	Gulp Initializer Script @in-progress
 	☐	One consistent configuration file @yes
 		- Make a module/package that handles merging the user configuration with the defaults
