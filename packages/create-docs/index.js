@@ -1,8 +1,14 @@
 // =============================================================================
-// Documentation Script
+// Create Docs
 // =============================================================================
 // 
+// Description:     Will create standardized documentation for a package in Ulu.
+//                  - Generate markdown docs within package folder (for local/GitHub reference)
+//                  - Generate HTML documentation site for package in ulu/docs/
+//                  - Create a index.md file with links to all directories in ulu/docs/
+//                  
 // Reference:       https://github.com/documentationjs/documentation/blob/master/docs/NODE_API.md
+// 
 
 const cwd = process.cwd();
 const documentation = require('documentation');

@@ -1,5 +1,5 @@
 {
-  "name": "@ulu/create-js-docs",
+  "name": "@ulu/create-docs",
   "version": "0.0.1",
   "description": "Handles javascript documentation in Ulu library",
   "main": "index.js",

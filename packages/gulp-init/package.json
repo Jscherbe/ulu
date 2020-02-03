@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "node test.js",
-    "docs": "node ./node_modules/@ulu/create-js-docs/index.js"
+    "docs": "node ./node_modules/@ulu/create-docs/index.js"
   },
   "repository": {
     "type": "git",
@@ -34,7 +34,7 @@
     "lodash": "^4.17.15"
   },
   "devDependencies" : {
-    "@ulu/create-js-docs": "^0.0.1"
+    "@ulu/create-docs": "^0.0.1"
   },
   "gitHead": "de4ceb294253bc959fce1b72a61f8d6d5493e1b0"
 }

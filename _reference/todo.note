@@ -1,5 +1,21 @@
 Todos:
-	☐	Create a LESS Module System
-	☐	Create repos for Javascript
-		☐	Figure out how to make node modules for frontend and backend
-			☐	Do they need to be compiled to /dist/ ?
+	☐	Gulp Initializer Script @in-progress
+	☐	One consistent configuration file @yes
+		- Make a module/package that handles merging the user configuration with the defaults
+			- That way we can always count on it being the same configuration file no matter who decides to consume it
+			- Such as the less framework working independently from Gulp? 
+	☐	Create a LESS Module
+		- Redesign script and think about whether or not you want to tweak the workflow or keep it the same
+		- Needs to play nice with Webpack/Vue
+		☐	Should expose plugin for Webpack?
+		☐	Should expose workflow for Gridsome?
+		☐	Think about how the icon font would work in Webpack
+			- That would be nice to have
+	☐	Create repository for Javascript library
+		☐	Figure out how to make node modules for front-end and back-end
+			☐	Do they need to be compiled to /dist/ ? @solved
+				- Use Webpack libraries for this that way we can include the scripts anywhere
+					- See documentation webpack > creating libraries
+		☐	Move Urlize out of create-docs
+	☐	Move modular site generator to Ulu
+	☐	Move the node scripts for validation, etc
