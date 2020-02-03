@@ -4,7 +4,7 @@
  *   @return {string}
  */
 module.exports = function templateMarkdown(directories) {
-  const links = directories.map(d => `[${ d }](${ d })`);
+  const links = directories.map(d => `(${ d })[${ d }]`);
   return `
 # Ulu Documentation 
 
