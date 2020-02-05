@@ -3,7 +3,8 @@
 // =============================================================================
 
 const path = require('path');
-const chalk = require('chalk');
+const Chalk = require('chalk');
+const chalk = new Chalk.Instance({ level: 1 });
 const defaults = {
         enabled: true,        // <boolean|function>      Whether to output logs
         title: "",            // <string>       The title to prefix the logs with 

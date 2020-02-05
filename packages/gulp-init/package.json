@@ -4,7 +4,7 @@
   "description": "Gulp task initialization handler",
   "main": "index.js",
   "scripts": {
-    "test": "node test.js",
+    "test": "mocha ./tests/index.js",
     "docs": "node ./node_modules/@ulu/create-docs/index.js"
   },
   "repository": {
@@ -19,12 +19,14 @@
   "publishConfig": {
     "access": "public"
   },
-  "ulu" : {
-    "docs" : {
-      "title" : "Gulp Init - API",
-      "includes" : ["src/"],
-      "html" : true,
-      "markdown" : true
+  "ulu": {
+    "docs": {
+      "title": "Gulp Init - API",
+      "includes": [
+        "src/"
+      ],
+      "html": true,
+      "markdown": true
     }
   },
   "author": "Joe Scherben",
@@ -33,8 +35,9 @@
     "@ulu/logger": "^0.0.1",
     "lodash": "^4.17.15"
   },
-  "devDependencies" : {
-    "@ulu/create-docs": "^0.0.1"
+  "devDependencies": {
+    "@ulu/create-docs": "^0.0.1",
+    "chai": "^4.2.0"
   },
   "gitHead": "de4ceb294253bc959fce1b72a61f8d6d5493e1b0"
 }
