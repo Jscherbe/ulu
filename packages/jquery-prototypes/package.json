@@ -1,11 +1,10 @@
 {
   "name": "@ulu/jquery-prototypes",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Collection of useful functions to extend jquery",
   "main": "dist/ulu-jquery-fn.js",
   "jsnext:main": "dist/ulu-jquery-fn.es.js",
-  "scripts": {
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "https://github.com/Jscherbe/ulu/packages/jquery-prototypes"

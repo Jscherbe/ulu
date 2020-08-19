@@ -1,9 +1,9 @@
 {
   "name": "@ulu/vue-collapsibles",
   "author": "Joe Scherben",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "license": "MIT",
-  "homepage" : "https://github.com/Jscherbe/ulu/tree/master/packages/vue-collapsibles",
+  "homepage": "https://github.com/Jscherbe/ulu/tree/master/packages/vue-collapsibles",
   "keywords": [
     "vue",
     "component",
@@ -27,7 +27,6 @@
     "type": "git",
     "url": "https://github.com/Jscherbe/ulu"
   },
-  
   "publishConfig": {
     "access": "public"
   },

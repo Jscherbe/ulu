@@ -1,10 +1,9 @@
 {
   "name": "@ulu/logger",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Module to help make consistent console logging for debugging/informational.",
   "main": "index.js",
-  "scripts": {
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "https://github.com/Jscherbe/ulu/packages/logger"
