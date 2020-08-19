@@ -2,6 +2,7 @@
   "name": "@ulu/gulp-init",
   "version": "0.0.1",
   "description": "Gulp task initialization handler",
+  "homepage" : "https://github.com/Jscherbe/ulu/tree/master/packages/gulp-init",
   "main": "index.js",
   "scripts": {
     "test": "mocha ./tests/index.js",
@@ -9,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Jscherbe/ulu/packages/gulp-init"
+    "url": "https://github.com/Jscherbe/ulu"
   },
   "keywords": [
     "gulp",
