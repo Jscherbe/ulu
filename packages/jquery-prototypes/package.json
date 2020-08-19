@@ -18,5 +18,6 @@
   "license": "MIT",
   "devDependencies": {
     "jquery": "^3.4.1"
-  }
+  },
+  "gitHead": "06c066810e4ce16640de3ea7b21ebf601f3034d3"
 }

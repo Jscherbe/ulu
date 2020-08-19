@@ -46,5 +46,6 @@
     "rollup-plugin-vue": "^5.1.6",
     "vue": "^2.6.11",
     "vue-template-compiler": "^2.6.11"
-  }
+  },
+  "gitHead": "06c066810e4ce16640de3ea7b21ebf601f3034d3"
 }

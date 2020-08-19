@@ -38,5 +38,6 @@
   "devDependencies": {
     "@ulu/create-docs": "^0.0.2",
     "chai": "^4.2.0"
-  }
+  },
+  "gitHead": "06c066810e4ce16640de3ea7b21ebf601f3034d3"
 }

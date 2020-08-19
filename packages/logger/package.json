@@ -21,5 +21,6 @@
   "license": "MIT",
   "dependencies": {
     "chalk": "^3.0.0"
-  }
+  },
+  "gitHead": "06c066810e4ce16640de3ea7b21ebf601f3034d3"
 }
