@@ -1,0 +1,56 @@
+{
+  "name": "@ulu/vue-collapsibles",
+  "author": "Joe Scherben",
+  "version": "0.0.1",
+  "license": "MIT",
+  "keywords": [
+    "vue",
+    "component",
+    "transition",
+    "collapsible",
+    "animation",
+    "accordion",
+    "hide/show",
+    "hide",
+    "show",
+    "accessibility",
+    "WCAG",
+    "508"
+  ],
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "test:unit": "vue-cli-service test:unit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jscherbe/ulu/packages/vue-collapsibles"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "ulu": {
+    "docs": {
+      "title": "Vue Collapsibles - API",
+      "includes": [
+        "src/"
+      ],
+      "html": true,
+      "markdown": true
+    }
+  },
+  "dependencies": {
+    "core-js": "^3.6.5",
+    "vue": "^2.6.11"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-unit-mocha": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "@vue/test-utils": "^1.0.3",
+    "chai": "^4.1.2",
+    "sass": "^1.26.5",
+    "sass-loader": "^8.0.2",
+    "vue-template-compiler": "^2.6.11"
+  }
+}
