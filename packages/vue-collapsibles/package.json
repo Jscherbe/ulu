@@ -3,6 +3,7 @@
   "author": "Joe Scherben",
   "version": "0.0.1",
   "license": "MIT",
+  "homepage" : "https://github.com/Jscherbe/ulu/tree/master/packages/vue-collapsibles",
   "keywords": [
     "vue",
     "component",
@@ -24,20 +25,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Jscherbe/ulu/packages/vue-collapsibles"
+    "url": "https://github.com/Jscherbe/ulu"
   },
+  
   "publishConfig": {
     "access": "public"
-  },
-  "ulu": {
-    "docs": {
-      "title": "Vue Collapsibles - API",
-      "includes": [
-        "src/"
-      ],
-      "html": true,
-      "markdown": true
-    }
   },
   "dependencies": {
     "core-js": "^3.6.5",
