@@ -1,6 +1,6 @@
 {
   "name": "@ulu/vue-modal",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Accessible modal plugin and components for vue",
   "main": "index.js",
   "scripts": {
@@ -36,7 +36,7 @@
   "author": "Joe Scherben",
   "license": "MIT",
   "devDependencies": {
-    "@ulu/create-docs": "^0.0.2",
+    "@ulu/create-docs": "^0.0.3",
     "chai": "^4.2.0"
   },
   "gitHead": "06c066810e4ce16640de3ea7b21ebf601f3034d3"

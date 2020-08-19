@@ -1,6 +1,6 @@
 {
   "name": "@ulu/create-docs",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Handles javascript documentation in Ulu library",
   "main": "index.js",
   "repository": {
@@ -16,7 +16,7 @@
   "author": "Joe Scherben",
   "license": "MIT",
   "dependencies": {
-    "@ulu/logger": "^0.0.2",
+    "@ulu/logger": "^0.0.3",
     "documentation": "^12.1.4",
     "documentation-theme-light": "^1.1.1",
     "markdown-toc": "^1.2.0"

@@ -1,6 +1,6 @@
 {
   "name": "@ulu/gulp-init",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Gulp task initialization handler",
   "homepage": "https://github.com/Jscherbe/ulu/tree/master/packages/gulp-init",
   "main": "index.js",
@@ -33,11 +33,11 @@
   "author": "Joe Scherben",
   "license": "MIT",
   "dependencies": {
-    "@ulu/logger": "^0.0.2",
+    "@ulu/logger": "^0.0.3",
     "lodash": "^4.17.15"
   },
   "devDependencies": {
-    "@ulu/create-docs": "^0.0.2",
+    "@ulu/create-docs": "^0.0.3",
     "chai": "^4.2.0"
   },
   "gitHead": "06c066810e4ce16640de3ea7b21ebf601f3034d3"
