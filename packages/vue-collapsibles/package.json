@@ -18,10 +18,18 @@
     "WCAG",
     "508"
   ],
+  "main": "dist/collapsible-region.umd.js",
+  "module": "dist/collapsible-region.esm.js",
+  "unpkg": "dist/collapsible-region.min.js",
+  "browser": {
+    "./sfc": "src/CollapsibleRegion.vue"
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "test:unit": "vue-cli-service test:unit"
+    "build": "npm run build:umd & npm run build:es & npm run build:unpkg",
+    "build:umd": "rollup --config rollup.config.js --format umd --file dist/collapsible-region.umd.js",
+    "build:es": "rollup --config rollup.config.js --format es --file dist/collapsible-region.esm.js",
+    "build:unpkg": "rollup --config rollup.config.js --format iife --file dist/collapsible-region.min.js"
   },
   "repository": {
     "type": "git",
@@ -35,11 +43,15 @@
     "vue": "^2.6.11"
   },
   "devDependencies": {
+    "@rollup/plugin-buble": "^0.21.3",
+    "@rollup/plugin-commonjs": "^15.0.0",
     "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-unit-mocha": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
+    "@vue/compiler-sfc": "^3.0.0-rc.6",
     "@vue/test-utils": "^1.0.3",
     "chai": "^4.1.2",
+    "rollup": "^2.26.4",
+    "rollup-plugin-vue": "^6.0.0-beta.10",
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
     "vue-template-compiler": "^2.6.11"
