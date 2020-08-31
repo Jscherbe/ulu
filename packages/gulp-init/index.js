@@ -8,5 +8,5 @@ exports.init = require('./src/init.js');
  *   @type {Object.<function>}
  */
 exports.tasks = {
-  webpack: requie('./src/task-webpack.js')
+  webpack: require('./src/task-webpack.js')
 };

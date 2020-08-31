@@ -1,0 +1,16 @@
+Use Cases:
+  Javascript:
+    - Individually
+    - Full jQuery Framework
+  Less:
+    - Base stylesheet
+    - Full Framework
+    - Modules Al a Carte
+
+Ways to get things where they need to go:
+  Less:
+    - Gulp
+    - Webpack (Apps)
+  JS:
+    - Gulp 
+    - Webpack

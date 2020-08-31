@@ -1,0 +1,49 @@
+{
+  "name": "@ulu/sass-library",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Library of mixins, components and workflow related helpers for sass",
+  "author": {
+    "name": "Joseph Scherben"
+  },
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "core-js": "^3.6.5",
+    "sass": "^1.26.10",
+    "vue": "^2.6.11",
+    "vue-router": "^3.2.0",
+    "vuex": "^3.4.0"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-router": "~4.5.0",
+    "@vue/cli-plugin-vuex": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "sass": "^1.26.5",
+    "sass-loader": "^8.0.2",
+    "vue-template-compiler": "^2.6.11"
+  },
+  "_id": "@ulu/sass-library@0.0.1",
+  "keywords": [
+    "sass",
+    "scss",
+    "css",
+    "frontend",
+    "library",
+    "webpack"
+  ],
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jscherbe/ulu/packages/sass-library"
+  }
+}
