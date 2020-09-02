@@ -1,0 +1,8 @@
+Need to remember:
+
+- vue components are going to be evaluated on their own
+  - We need to import configured modules
+    - Need a init or bootstrap or setup scss file that
+      - Pulls in the variables
+      - Pulls in configured modules
+        * This needs to be where modules are configured for the stylesheet as well

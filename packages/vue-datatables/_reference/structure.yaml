@@ -1,0 +1,5 @@
+Table DOM Structure:
+  Container:
+    Table: Actual table with the data (static)
+    TableHeader: Primary Sticky Header
+    TableHeaderFirstColumn: (If first column is sticky) This is the first cell
