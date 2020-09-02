@@ -91,3 +91,10 @@ _Will run every packages NPM > scripts > docs and report._
 - Generate local markdown documentation for each package that supports documentation generation.
 - Update or add HTML version of documentation to global docs for the Ulu repository. Which is accessible via Git Pages here.
 - Update the list of links to each global docs child sites
+
+## Resources
+
+### Vue JS Guides
+
+- [Packaging Components](https://vuejs.org/v2/cookbook/packaging-sfc-for-npm.html)
+
