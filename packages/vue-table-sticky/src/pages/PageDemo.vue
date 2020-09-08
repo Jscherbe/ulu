@@ -1,22 +1,29 @@
 <template>
   <div class="PageTableDemo">
-    <DataTable 
+    <div style="height: 50vh; background-color: gray; margin: 5em 0;">
+      Above the table
+    </div>
+    <TableSticky 
       :columns="columns" 
       :rows="rows"
+      firstColumnSticky
     >
-    </DataTable>
+    </TableSticky>
+    <div style="height: 200vh; background-color: gray; margin: 5em 0;">
+      Below the table
+    </div>
   </div>
 </template>
 
 <script>
   import rows from "@/data/drink-specials/data.csv";
   import { columns } from "@/data/drink-specials/config.js";
-  import DataTable from "@/components/DataTable.vue";
+  import TableSticky from "@/components/TableSticky.vue";
 
   export default {
     name: 'PageTableDemo',
     components: {
-      DataTable
+      TableSticky
     },
     data() {
       return {

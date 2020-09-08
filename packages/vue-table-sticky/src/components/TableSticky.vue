@@ -1,48 +1,67 @@
+<!-- 
+  Main component that creates the sticky table from data passed
+
+  Todo:
+    - Need to document the vue-waypoint dependency
+ -->
 <template>
-  <div class="DataTable">
-    <table class="DataTable__table">
-      <thead>
-        <tr 
-          v-for="(row, rowIndex) in headerColumnsByRow"
-          :key="`hr-${ rowIndex }`"
-        >
-          <th 
-            v-for="(column, index) in row"
-            :key="`hc-${ index }`"
-            :id="column.id"
-            :rowspan="column.rowspan"
-            :colspan="column.colspan"
-          >{{ column.name }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          v-for="(row, rowIndex) in rows"
-          :key="`br-${ rowIndex }`"
-        >
-          <td
-            v-for="(column, index) in rowColumns"
-            :key="`bc-${ index }`"
-            :headers="column.headers.join(' ')"
-          >
-            {{ row[column.key] }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="TableSticky">
+    <div 
+      ref="display" 
+      class="TableSticky__display"
+    >
+      <TsTable 
+        ref="table"
+        class="TableSticky__table TableSticky__table--actual"
+        :headerColumns="headerColumns" 
+        :rows="rows"
+        :rowColumns="rowColumns"
+      />
+      <TsTable 
+        ref="header"
+        class="TableSticky__table TableSticky__table--header"
+        :headerColumns="headerColumns" 
+      />
+      <TsTable 
+        v-if="firstColumnSticky"
+        ref="firstColumn"
+        class="TableSticky__table TableSticky__table--first-olumn"
+        :headerColumns="headerColumnsFirst" 
+        :rows="rows"
+        :rowColumns="rowColumnsFirst"
+      />
+    </div>
   </div>
 </template>
 
 <script>
-  // TODO:
-  //  - Account for scope attribute
+  import TsTable from "./TsTable.vue";
+  import ElementInView from "@/waypoints--element-in-view";
+
   const cloneDeep = require('lodash/cloneDeep')
   const arrayOfObjects = a => a.every(o => typeof o === "object");
   const required = true;
 
   export default {
-    name: 'DataTable',
+    name: 'TableSticky',
+    components: {
+      TsTable
+    },
     props: {
+      /**
+       * Scrollable context DOM Element, defaults to window but if the 
+       * sticky element is within another scrolling parent use this to
+       * change the scroll activation handler to use a custom s
+       * crollable parent element
+       */
+      scrollContext: {
+        type: Object,
+      },
+      /**
+       * Whether the first column of the table should be sticky
+       * - Requires that the table's first column header is nested
+       */
+      firstColumnSticky: Boolean,
       /**
        * Array of tables columns
        * - Each column is an object who's value will match rows
@@ -84,6 +103,12 @@
         default: 'DT'
       }
     },
+    data() {
+      return  {
+        WaypointInstance: null,
+        waypointBottom: null, 
+      };
+    },
     computed: {
       /**
        * Current columns being used in the display
@@ -114,7 +139,7 @@
             column.columns.forEach(c => prep(c, column));
           // Make sure column has a required property
           } else if (!column.key) {
-            console.warn('DataTable: Missing "key" in column configration for', column);
+            console.warn('TableSticky: Missing "key" in column configration for', column);
           }
         };
         columns.forEach(c => prep(c, null));
@@ -126,7 +151,7 @@
        * - Used for nested hedaers
        * - Transform nested data into row arrays
        */
-      headerColumnsByRow() {
+      headerColumns() {
         // Create empty row array, each array will hold it's columns
         const count = this.currentColumns.reduce(this.maxColumnChildren, 1);
         const rows = new Array(count).fill(null).map(() => []);
@@ -146,7 +171,6 @@
           rows[depth].push(column);
         }
         this.currentColumns.forEach(c => setInRows(0, c));
-        console.log('rowsHeader:\n', rows);
         return rows;
       },
       /**
@@ -163,6 +187,18 @@
         // Create array of actaul 
         columns.forEach(add);
         return all;
+      },
+      /**
+       * Reduce the array of column header rows to the first row, first column
+       */
+      headerColumnsFirst() {
+        return [[ this.headerColumns[0][0] ]];
+      },
+      /**
+       * Reduce the rowColumn array to only the first column
+       */
+      rowColumnsFirst() {
+        return [ this.rowColumns[0] ];
       }
     },
     methods: {
@@ -172,20 +208,73 @@
       maxColumnChildren(d, c) {
         const m = c.columns ? c.columns.reduce(this.maxColumnChildren) + 1 : 1;
         return d > m ? d : m;
+      },
+      setupWaypoints() {
+        const element = this.$refs.display;
+        const context = this.scrollContext || window;
+
+        const WaypointInstance = new ElementInView({
+          element,
+          context,
+          handler(active, direction) {
+            console.log('active:\n', active);
+            console.log('direction:\n', direction);
+          }
+        });
+        console.log('WaypointInstance:\n', WaypointInstance);
       }
-    }
+    },
+    mounted() {
+      this.setupWaypoints();
+      // this.waypoint = new Waypoint.Inview({
+      //   element: this.$refs.display,
+      //   context: this.scrollContext || window,
+      //   enter() {
+      //     console.log('enter waypoint');
+      //   },
+      //   entererd() {
+      //     console.log('entererd waypoint');
+      //   },
+      //   exit() {
+      //     console.log('exit waypoint');
+      //   },
+      //   exited() {
+      //     console.log('exited waypoint');
+      //   },
+      // });
+    },
   }
 </script>
 
 <style lang="scss">
-  .DataTable {
-    table {
-      border-collapse: collapse;
-      background-color: black;
-    }
-    td, th {
-      border: 3px solid black;
-      background-color: white;
+  .TableSticky {
+    position: relative; // For controls
+    * {
+      box-sizing: border-box;
     }
   }
+  .TableSticky__display {
+    position: relative; // For sticky header
+    overflow-x: auto;
+    overflow-y: hidden;
+    z-index: 1;
+  }
+  .TableSticky__table {
+    border-collapse: collapse;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
+  .TableSticky__table--header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    z-index: 50;
+    width: auto;
+    z-index: 10;
+    width: 100%;
+    // Sticky method:
+    // transform: translateY($calculatedByScript);
+  }  
 </style>
