@@ -2,7 +2,16 @@
   Main component that creates the sticky table from data passed
 
   Todo:
-    - Need to document the vue-waypoint dependency
+    - [ ] Need to document the vue-waypoint dependency
+    - [ ] Need to go through and remove the stored instances waypoints, they don't need to be reactive
+    - [ ] Need to provide each row's height in header
+    - [ ] If they are using first column sticky need to set each body row's height
+      + Need to change row printout structure to array of objects with columns key or something 
+        so I can set the row's height reactivly
+    - [ ] Need to set the width on each <th> including the original table's
+      + This should be added to the column objects so it populates each element
+      + Needs to be after the orginal table has been plotted
+    - [ ] 
  -->
 <template>
   <div class="TableSticky">
@@ -13,30 +22,37 @@
       <TsTable 
         ref="table"
         class="TableSticky__table TableSticky__table--actual"
+        isActual
         :headerColumns="headerColumns" 
         :rows="rows"
         :rowColumns="rowColumns"
+        @hook:mounted="tableReady"
       />
       <TsTable 
         ref="header"
         class="TableSticky__table TableSticky__table--header"
+        :style="{
+          opacity: headerVisible ? 1 : 0,
+          transform: headerTransform,
+          width: tableWidth
+        }"
         :headerColumns="headerColumns" 
       />
-      <TsTable 
+      <!-- <TsTable 
         v-if="firstColumnSticky"
         ref="firstColumn"
-        class="TableSticky__table TableSticky__table--first-olumn"
+        class="TableSticky__table TableSticky__table--first-column"
         :headerColumns="headerColumnsFirst" 
         :rows="rows"
         :rowColumns="rowColumnsFirst"
-      />
+      /> -->
     </div>
   </div>
 </template>
 
 <script>
   import TsTable from "./TsTable.vue";
-  import ElementInView from "@/waypoints--element-in-view";
+  import ElementWaypoint from "../element-waypoint.js";
 
   const cloneDeep = require('lodash/cloneDeep')
   const arrayOfObjects = a => a.every(o => typeof o === "object");
@@ -49,13 +65,13 @@
     },
     props: {
       /**
-       * Scrollable context DOM Element, defaults to window but if the 
-       * sticky element is within another scrolling parent use this to
-       * change the scroll activation handler to use a custom s
-       * crollable parent element
+       * Scrollable context DOM Element, if the sticky element is within another
+       * scrolling parent use this tochange the scroll activation handler to use a custom
+       * scrollable parent element
+       * 
        */
       scrollContext: {
-        type: Object,
+        default: () => window
       },
       /**
        * Whether the first column of the table should be sticky
@@ -105,8 +121,10 @@
     },
     data() {
       return  {
-        WaypointInstance: null,
-        waypointBottom: null, 
+        headerVisible: false,
+        headerTransform: 0,
+        scrollTicking: false,
+        tableWidth: 'auto',
       };
     },
     computed: {
@@ -123,6 +141,7 @@
         const prep = (column, parent) => {
           column.id = newId();
           column.parent = parent;
+          column.width = 'auto';
           let headers = [];
           // Add the column's headers for output to attribute
           if (parent) {
@@ -153,8 +172,15 @@
        */
       headerColumns() {
         // Create empty row array, each array will hold it's columns
+        let id = 0;
+        const newId = () => `${ this.idPrefix }-row-${ ++id }`;
         const count = this.currentColumns.reduce(this.maxColumnChildren, 1);
-        const rows = new Array(count).fill(null).map(() => []);
+        const height = 'auto';
+        const rows = new Array(count).fill(null).map(() => ({ 
+          height, 
+          columns: [],
+          id: newId()
+        }));
         /**
          * Function that adds columsn to the rows array's based 
          * on their depth, called recursivly.
@@ -168,7 +194,7 @@
           // the parents children's colspans and children would include their children
           column.rowspan = columns ? 1 : count - depth;
           column.colspan = columns ? columns.reduce((a, c) => a + c.colspan, 0) : 1;
-          rows[depth].push(column);
+          rows[depth].columns.push(column);
         }
         this.currentColumns.forEach(c => setInRows(0, c));
         return rows;
@@ -191,15 +217,15 @@
       /**
        * Reduce the array of column header rows to the first row, first column
        */
-      headerColumnsFirst() {
-        return [[ this.headerColumns[0][0] ]];
-      },
+      // headerColumnsFirst() {
+      //   return [[ this.headerColumns[0][0] ]];
+      // },
       /**
        * Reduce the rowColumn array to only the first column
        */
-      rowColumnsFirst() {
-        return [ this.rowColumns[0] ];
-      }
+      // rowColumnsFirst() {
+      //   return [ this.rowColumns[0] ];
+      // }
     },
     methods: {
       /**
@@ -209,44 +235,84 @@
         const m = c.columns ? c.columns.reduce(this.maxColumnChildren) + 1 : 1;
         return d > m ? d : m;
       },
-      setupWaypoints() {
-        const element = this.$refs.display;
-        const context = this.scrollContext || window;
-
-        const WaypointInstance = new ElementInView({
-          element,
-          context,
-          handler(active, direction) {
-            console.log('active:\n', active);
-            console.log('direction:\n', direction);
-          }
+      /**
+       * Method is fired when scroll enters and leaves the table 
+       */
+      onWaypoint(entered, direction) {
+        this.listenScrollY(entered);
+        this.headerVisible = entered;
+      },
+      /**
+       * Scroll handler for vertical scroll
+       */
+      onScrollY(event) {
+        if (!this.scrollTicking) {
+          window.requestAnimationFrame(() => {
+            // Offset the header by the difference of the trigger point
+            // and the current scroll position. 
+            const y = this.waypointContext.oldScroll.y;
+            const t = this.waypointTop.triggerPoint;
+            this.headerTransform = `translateY(${ y - t }px)`;
+            this.scrollTicking = false;
+          });
+          this.scrollTicking = true;
+        }
+      },
+      /**
+       * Manages the adding and removing the scrollY handler
+       */
+      listenScrollY(attach) {
+        this.scrollContext[(attach ? 'add' : 'remove') + 'EventListener']('scroll', this.onScrollY);
+      },
+      /**
+       * Cleanup function for when component is not in use
+       */
+      removeHandlers() {
+        this.listenScrollY(false);
+      },
+      setTableSizes() {
+        // Set the table and it's cloned header to the exact same width
+        const table = this.$refs.table;
+        this.tableWidth = `${ table.$el.offsetWidth }px`;
+        const getElement = object => document.getElementById(object.id);
+        // Set the tables header <tr> and <th> to their rendered sizes
+        // By measuring each and updating it's column object data
+        // reactively updating all the cloned verisons
+        this.headerColumns.forEach(row => {
+          row.height = `${ getElement(row).offsetHeight }px`;
+          row.columns.forEach(column => {
+            column.width = `${ getElement(column).offsetWidth }px`;
+          });
         });
-        console.log('WaypointInstance:\n', WaypointInstance);
+      },
+      tableReady() {
+        this.setTableSizes();
+        // Calculate header heights and column widths
       }
     },
     mounted() {
-      this.setupWaypoints();
-      // this.waypoint = new Waypoint.Inview({
-      //   element: this.$refs.display,
-      //   context: this.scrollContext || window,
-      //   enter() {
-      //     console.log('enter waypoint');
-      //   },
-      //   entererd() {
-      //     console.log('entererd waypoint');
-      //   },
-      //   exit() {
-      //     console.log('exit waypoint');
-      //   },
-      //   exited() {
-      //     console.log('exited waypoint');
-      //   },
-      // });
+      const offsetBottom = this.$refs.header.$el.offsetHeight;
+      // Note: Non-reactive property
+      this.elementWaypoint = new ElementWaypoint({ 
+        element: this.$refs.display,
+        context: this.scrollContext, 
+        handler: this.onWaypoint.bind(this),
+        offsetBottom
+      });
+      // Get references from Waypoints instance
+      this.waypointTop = this.elementWaypoint.top;
+      this.waypointContext = this.waypointTop.context;
+      
+      console.log('TABLE STICKY', this);
     },
+    beforeDestroy() {
+      this.removeHandlers();
+    }
   }
 </script>
 
 <style lang="scss">
+  $duration: 200ms;
   .TableSticky {
     position: relative; // For controls
     * {
@@ -274,7 +340,7 @@
     width: auto;
     z-index: 10;
     width: 100%;
-    // Sticky method:
-    // transform: translateY($calculatedByScript);
+    transition: opacity $duration;
+    background-color: white;
   }  
 </style>

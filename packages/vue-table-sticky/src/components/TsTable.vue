@@ -11,14 +11,23 @@
       <tr 
         v-for="(row, rowIndex) in headerColumns"
         :key="`hr-${ rowIndex }`"
+        :id="isActual && row.id"
+        :style="{
+          height: row.height
+        }"
       >
         <th 
-          v-for="(column, index) in row"
+          v-for="(column, index) in row.columns"
           :key="`hc-${ index }`"
-          :id="column.id"
+          :id="isActual && column.id"
           :rowspan="column.rowspan"
           :colspan="column.colspan"
-        >{{ column.name }}</th>
+          :style="{
+            width: column.width
+          }"
+        >
+          {{ column.name }}
+        </th>
       </tr>
     </thead>
     <tbody v-if="rows">
@@ -54,6 +63,15 @@
       rowColumns: {
         type: Array,
       },
+      /**
+       * Is the actual table not a clone for sticky headers
+       */
+      isActual: {
+        type: Boolean
+      }
+    },
+    mounted() {
+      console.log('this.headerColumns', this.headerColumns);
     }
   }
 </script>
