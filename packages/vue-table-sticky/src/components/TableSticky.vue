@@ -24,28 +24,44 @@
         class="TableSticky__table TableSticky__table--actual"
         isActual
         :headerRows="headerRows" 
-        :rows="rows"
+        :rows="currentRows"
         :rowColumns="rowColumns"
         @hook:mounted="tableReady"
+      />
+      <TsTable 
+        v-if="firstColumnSticky"
+        ref="firstColumn"
+        class="TableSticky__table TableSticky__table--first-column"
+        :headerRows="headerRowsFirst" 
+        :columnWidth="firstColumnSize.width"
+        :rows="currentRows"
+        :rowColumns="rowColumnsFirst"
+        :style="{
+          opacity: +headerVisible,
+        }"
       />
       <TsTable 
         ref="header"
         class="TableSticky__table TableSticky__table--header"
         :style="{
-          opacity: 1,
-          transform: headerTransform,
+          opacity: +headerVisible,
+          transform: `translateY(${ headerTransformY }px)`,
           width: tableWidth
         }"
         :headerRows="headerRows" 
       />
-      <!-- <TsTable 
+      <TsTable 
         v-if="firstColumnSticky"
-        ref="firstColumn"
-        class="TableSticky__table TableSticky__table--first-column"
-        :headerColumns="headerColumnsFirst" 
-        :rows="rows"
-        :rowColumns="rowColumnsFirst"
-      /> -->
+        ref="firstColumnHeader"
+        class="TableSticky__table TableSticky__table--first-column-header"
+        :headerRows="headerRowsFirst" 
+        :style="{
+          height: firstColumnSize.height,
+          opacity: +headerVisible,
+          transform: `translate(${ firstColumnTransformX }, ${ headerTransformY }px)`,
+        }"
+      />
+      
     </div>
   </div>
 </template>
@@ -54,7 +70,8 @@
   import TsTable from "./TsTable.vue";
   import ElementWaypoint from "../element-waypoint.js";
 
-  const cloneDeep = require('lodash/cloneDeep')
+  const cloneDeep = require('lodash/cloneDeep');
+  const debounce = require('lodash/debounce');
   const arrayOfObjects = a => a.every(o => typeof o === "object");
   const required = true;
 
@@ -120,19 +137,22 @@
       }
     },
     data() {
-      const currentColumns = this.cloneColumns();
+      const currentColumns = this.createColumns();
+      const currentRows = this.createRows();
       return  {
-        headerVisible: false,
-        headerTransform: 0,
-        scrollTicking: false,
         currentColumns,
+        currentRows,
+        headerVisible: false,
+        headerTransformY: 0,
+        firstColumnTransformX: 0,
+        scrollTicking: false,
         headerRows: this.createHeaderRows(currentColumns),
         tableWidth: 'auto',
+        resizeHandler: debounce(this.onResize.bind(this), 500, { leading: true }),
+        resizing: false
       };
     },
     computed: {
-      
-      
       /**
        * Used to output the body rows. This is an array of only the deepest child columns
        * parent column information can be accessed by reference
@@ -151,31 +171,77 @@
       /**
        * Reduce the array of column header rows to the first row, first column
        */
-      // headerColumnsFirst() {
-      //   return [[ this.headerColumns[0][0] ]];
-      // },
+      headerRowsFirst() {
+        const firstRow = this.headerRows[0];
+        const firstColumn = firstRow.columns[0] // Object.assign({}, firstRow.columns[0], { width: 'auto' });
+        const columns = [ firstColumn ];
+        // Offset height would be the combination of all the rows height's
+        const offsetHeight = this.headerRows.reduce((a, r) => a + r.offsetHeight, 0);
+        return [{ 
+          ...firstRow, 
+          columns,
+          offsetHeight,
+          height: `${ offsetHeight }px`
+        }];
+      },
       /**
        * Reduce the rowColumn array to only the first column
        */
-      // rowColumnsFirst() {
-      //   return [ this.rowColumns[0] ];
-      // }
+      rowColumnsFirst() {
+        return [ this.rowColumns[0] ];
+      },
+      firstColumnSize() {
+        const height = this.headerRowsFirst[0].height;
+        const width = this.headerRows[0].columns[0].width;
+        return { width, height };
+      }
     },
     methods: {
+      onResize() {
+        // Called when the resize event is first fired (before change)
+        if (!this.resizing) {
+          this.resizing = true;
+          this.headerVisible = false;
+        } else {
+          this.resizing = false;
+          this.headerVisible = true;
+          this.removeTableSizes();
+          this.setTableSizes();
+        }
+      },
+      idCreator(type) {
+        let id = 0;
+        return () => `${ this.idPrefix }-${ type }-${ ++id }`
+      },
       /**
-       * Current columns being used in the display
+       * Creates row array for internal use
+       * - Avoid mutating user's prop
+       */
+      createRows() {
+        const newId = this.idCreator('br');
+        return this.rows.map(row => ({
+          height: null,
+          offsetHeight: null,
+          data: row,
+          id: newId()
+        }));
+      },
+      /**
+       * Creates column array for internal use
+       * - Avoid mutating user's prop 
+       * - Current columns being used in the display
        * - This internal copy has internal properties/structural info (like ID)
        * - This is the copy of the users columns to avoid mutating their object
        * - Can be used in the future for adding/removing or enabling/disabling
        */
-      cloneColumns() {
-        let id = 0;
-        const newId = () => `${ this.idPrefix }-${ ++id }`;
+      createColumns() {
+        const newId = this.idCreator('c');
         const columns = cloneDeep(this.columns);
         const prep = (column, parent) => {
           column.id = newId();
           column.parent = parent;
           column.width = 'auto';
+          column.offsetWidth = null;
           let headers = [];
           // Add the column's headers for output to attribute
           if (parent) {
@@ -206,12 +272,12 @@
        */
       createHeaderRows(currentColumns) {
         // Create empty row array, each array will hold it's columns
-        let id = 0;
-        const newId = () => `${ this.idPrefix }-row-${ ++id }`;
+        const newId = this.idCreator('hr');
         const count = currentColumns.reduce(this.maxColumnChildren, 1);
         const height = 'auto';
         const rows = new Array(count).fill(null).map(() => ({ 
           height, 
+          offsetHeight: null,
           columns: [],
           id: newId()
         }));
@@ -247,7 +313,7 @@
         this.listenScrollY(entered);
         this.headerVisible = entered;
         if (!entered && direction === "up") {
-          this.setHeaderTransform(0);
+          this.headerTransformY = 0;
         }
       },
       /**
@@ -262,14 +328,11 @@
             // point and the current scroll position. 
             const y = this.waypointContext.oldScroll.y;
             const t = this.waypointTop.triggerPoint;
-            this.setHeaderTransform(y - t - 1);
+            this.headerTransformY = y - t - 1;
             
           });
           this.scrollTicking = true;
         }
-      },
-      setHeaderTransform(value) {
-        this.headerTransform = `translateY(${ value }px)`;
       },
       /**
        * Manages the adding and removing the scrollY handler
@@ -288,45 +351,71 @@
         const table = this.$refs.table;
         this.tableWidth = `${ table.$el.offsetWidth }px`;
         const getElement = object => document.getElementById(object.id);
+        const setRowHeight = row => {
+          row.offsetHeight = getElement(row).offsetHeight;
+          row.height = `${ row.offsetHeight }px`;
+        };
         // Set the tables header <tr> and <th> to their rendered sizes
         // By measuring each and updating it's column object data
         // reactively updating all the cloned verisons
         this.headerRows.forEach(row => {
-          row.height = `${ getElement(row).offsetHeight }px`;
+          setRowHeight(row);
           row.columns.forEach(column => {
-            column.width = `${ getElement(column).offsetWidth }px`;
+            column.offsetWidth = getElement(column).offsetWidth;
+            column.width = `${ column.offsetWidth }px`;
           });
         });
+        // If first column sticky the plugin needs to set  
+        // each row's height so the cloned column matches
+        if (this.firstColumnSticky) {
+          this.currentRows.forEach(row => setRowHeight(row));
+        }
+      },
+      removeTableSizes() {
+        const setRowHeight = row => {
+          row.offsetHeight = null;
+          row.height = 'auto';
+        };
+        this.tableWidth = 'auto';
+        this.headerRows.forEach(row => {
+          setRowHeight(row);
+          row.columns.forEach(column => {
+            column.offsetWidth = null;
+            column.width = 'auto';
+          });
+        });
+        if (this.firstColumnSticky) {
+          this.currentRows.forEach(row => setRowHeight(row));
+        }
       },
       tableReady() {
         this.setTableSizes();
-        // Calculate header heights and column widths
       },
       setupWaypoint() {
         const element = this.$refs.display;
         const header = this.$refs.header.$el;
         const offsetBottom = this.$refs.header.$el.offsetHeight;
-        // Note: Non-reactive property
-        this.elementWaypoint = new ElementWaypoint({ 
+        const config = { 
           element,
           context: this.scrollContext, 
           handler: this.onWaypoint.bind(this),
           offsetBottom() {
             return header.offsetHeight;
           }
-        });
-        // Get references from Waypoints instance
+        };
+        this.elementWaypoint = new ElementWaypoint(config); // Note: Non-reactive property
         this.waypointTop = this.elementWaypoint.top;
         this.waypointContext = this.waypointTop.context;
       }
     },
     mounted() {
       this.setupWaypoint();
-      
+      window.addEventListener('resize', this.resizeHandler);
       console.log('TABLE STICKY', this);
     },
     beforeDestroy() {
       this.removeHandlers();
+      window.removeEventListener('resize', this.resizeHandler);
     }
   }
 </script>
@@ -343,7 +432,7 @@
     position: relative; // For sticky header
     overflow-x: auto;
     overflow-y: hidden;
-    z-index: 1;
+    // z-index: 1;
   }
   .TableSticky__table {
     border-collapse: collapse;
@@ -351,16 +440,24 @@
     padding: 0;
     width: 100%;
   }
-  .TableSticky__table--header {
+  .TableSticky__table--header,
+  .TableSticky__table--first-column,
+  .TableSticky__table--first-column-header {
     position: absolute;
     top: 0;
     left: 0;
-    opacity: 0;
-    z-index: 50;
+    // opacity: 0;
+  }
+  .TableSticky__table--header {
     width: auto;
-    z-index: 10;
+    // z-index: 10;
     width: 100%;
     transition: opacity $duration;
     background-color: white;
-  }  
+  }
+  .TableSticky__table--first-column,
+  .TableSticky__table--first-column-header {
+    width: auto;
+    table-layout: fixed;
+  }
 </style>

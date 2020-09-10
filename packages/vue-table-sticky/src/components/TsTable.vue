@@ -6,7 +6,7 @@
   - cannot use functional component here, can't refs in parent component
  -->
 <template>
-  <table v-if="">
+  <table>
     <thead>
       <tr 
         v-for="(row, rowIndex) in headerRows"
@@ -34,13 +34,20 @@
       <tr
         v-for="(row, rowIndex) in rows"
         :key="`br-${ rowIndex }`"
+        :id="isActual && row.id"
+        :style="{
+          height: row.height
+        }"
       >
         <td
           v-for="(column, index) in rowColumns"
           :key="`bc-${ index }`"
           :headers="column.headers.join(' ')"
+          :style="{
+            width: columnWidth
+          }"
         >
-          {{ row[column.key] }}
+          {{ row.data[column.key] }}
         </td>
       </tr>
     </tbody>
@@ -68,10 +75,13 @@
        */
       isActual: {
         type: Boolean
+      },
+      columnWidth: {
+        type: String
       }
     },
     mounted() {
-      console.log('this.headerRows', this.headerRows);
+      // console.log('TsTable', this);
     }
   }
 </script>

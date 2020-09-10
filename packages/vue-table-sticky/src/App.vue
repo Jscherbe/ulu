@@ -32,7 +32,7 @@
 
   thead {
     th {
-      background-color: rgb(black, 2%);
+      background-color: rgb(247, 247, 247);
       color: rgba(black, 80%);
       border-left: $table-rule;
       font-size: small;
