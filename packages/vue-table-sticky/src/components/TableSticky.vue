@@ -23,7 +23,7 @@
         ref="table"
         class="TableSticky__table TableSticky__table--actual"
         isActual
-        :headerColumns="headerColumns" 
+        :headerRows="headerRows" 
         :rows="rows"
         :rowColumns="rowColumns"
         @hook:mounted="tableReady"
@@ -32,11 +32,11 @@
         ref="header"
         class="TableSticky__table TableSticky__table--header"
         :style="{
-          opacity: headerVisible ? 1 : 0,
+          opacity: 1,
           transform: headerTransform,
           width: tableWidth
         }"
-        :headerColumns="headerColumns" 
+        :headerRows="headerRows" 
       />
       <!-- <TsTable 
         v-if="firstColumnSticky"
@@ -120,85 +120,19 @@
       }
     },
     data() {
+      const currentColumns = this.cloneColumns();
       return  {
         headerVisible: false,
         headerTransform: 0,
         scrollTicking: false,
+        currentColumns,
+        headerRows: this.createHeaderRows(currentColumns),
         tableWidth: 'auto',
       };
     },
     computed: {
-      /**
-       * Current columns being used in the display
-       * - This internal copy has internal properties/structural info (like ID)
-       * - This is the copy of the users columns to avoid mutating their object
-       * - Can be used in the future for adding/removing or enabling/disabling
-       */
-      currentColumns() {
-        let id = 0;
-        const newId = () => `${ this.idPrefix }-${ ++id }`;
-        const columns = cloneDeep(this.columns);
-        const prep = (column, parent) => {
-          column.id = newId();
-          column.parent = parent;
-          column.width = 'auto';
-          let headers = [];
-          // Add the column's headers for output to attribute
-          if (parent) {
-            if (parent.headers && parent.headers.length) {
-              headers = [ ...parent.headers ];
-            } else {
-              headers.push(parent.id);
-            }
-          }
-          headers.push(column.id);
-          column.headers = headers;
-          // Call the function on this column's children
-          if (column.columns) {
-            column.columns.forEach(c => prep(c, column));
-          // Make sure column has a required property
-          } else if (!column.key) {
-            console.warn('TableSticky: Missing "key" in column configration for', column);
-          }
-        };
-        columns.forEach(c => prep(c, null));
-        return columns;
-      },
-      /**
-       * This property is a conversion of the columns (which are nested heirachy)
-       * to a flat list of columns sorted by the way they need to be displayed in rows 
-       * - Used for nested hedaers
-       * - Transform nested data into row arrays
-       */
-      headerColumns() {
-        // Create empty row array, each array will hold it's columns
-        let id = 0;
-        const newId = () => `${ this.idPrefix }-row-${ ++id }`;
-        const count = this.currentColumns.reduce(this.maxColumnChildren, 1);
-        const height = 'auto';
-        const rows = new Array(count).fill(null).map(() => ({ 
-          height, 
-          columns: [],
-          id: newId()
-        }));
-        /**
-         * Function that adds columsn to the rows array's based 
-         * on their depth, called recursivly.
-         */
-        function setInRows(depth, column) {
-          const columns = column.columns;
-          // Go to inward to the deepest child
-          if (columns) columns.forEach(c => setInRows(1 + depth, c));
-          // Now that the deepest children have been calculated and pushed we have
-          // all the information we need to determing the parent's colspan by reducing
-          // the parents children's colspans and children would include their children
-          column.rowspan = columns ? 1 : count - depth;
-          column.colspan = columns ? columns.reduce((a, c) => a + c.colspan, 0) : 1;
-          rows[depth].columns.push(column);
-        }
-        this.currentColumns.forEach(c => setInRows(0, c));
-        return rows;
-      },
+      
+      
       /**
        * Used to output the body rows. This is an array of only the deepest child columns
        * parent column information can be accessed by reference
@@ -229,6 +163,77 @@
     },
     methods: {
       /**
+       * Current columns being used in the display
+       * - This internal copy has internal properties/structural info (like ID)
+       * - This is the copy of the users columns to avoid mutating their object
+       * - Can be used in the future for adding/removing or enabling/disabling
+       */
+      cloneColumns() {
+        let id = 0;
+        const newId = () => `${ this.idPrefix }-${ ++id }`;
+        const columns = cloneDeep(this.columns);
+        const prep = (column, parent) => {
+          column.id = newId();
+          column.parent = parent;
+          column.width = 'auto';
+          let headers = [];
+          // Add the column's headers for output to attribute
+          if (parent) {
+            if (parent.headers && parent.headers.length) {
+              headers = [ ...parent.headers ];
+            } else {
+              headers.push(parent.id);
+            }
+          }
+          headers.push(column.id);
+          column.headers = headers;
+          // Call the function on this column's children
+          if (column.columns) {
+            column.columns.forEach(c => prep(c, column));
+          // Make sure column has a required property
+          } else if (!column.key) {
+            console.warn('TableSticky: Missing "key" in column configration for', column);
+          }
+        };
+        columns.forEach(c => prep(c, null));
+        return columns;
+      },
+      /**
+       * Conversion of the columns (which are nested heirachy) to a flat list of columns 
+       * sorted by the way they need to be displayed in rows 
+       * - Used for nested hedears
+       * - Transform nested data into row arrays
+       */
+      createHeaderRows(currentColumns) {
+        // Create empty row array, each array will hold it's columns
+        let id = 0;
+        const newId = () => `${ this.idPrefix }-row-${ ++id }`;
+        const count = currentColumns.reduce(this.maxColumnChildren, 1);
+        const height = 'auto';
+        const rows = new Array(count).fill(null).map(() => ({ 
+          height, 
+          columns: [],
+          id: newId()
+        }));
+        /**
+         * Function that adds columsn to the rows array's based 
+         * on their depth, called recursivly.
+         */
+        function setInRows(depth, column) {
+          const columns = column.columns;
+          // Go to inward to the deepest child
+          if (columns) columns.forEach(c => setInRows(1 + depth, c));
+          // Now that the deepest children have been calculated and pushed we have
+          // all the information we need to determing the parent's colspan by reducing
+          // the parents children's colspans and children would include their children
+          column.rowspan = columns ? 1 : count - depth;
+          column.colspan = columns ? columns.reduce((a, c) => a + c.colspan, 0) : 1;
+          rows[depth].columns.push(column);
+        }
+        currentColumns.forEach(c => setInRows(0, c));
+        return rows;
+      },
+      /**
        * Recursive function used as a reducer to return the deepest nested columns
        */
       maxColumnChildren(d, c) {
@@ -241,6 +246,9 @@
       onWaypoint(entered, direction) {
         this.listenScrollY(entered);
         this.headerVisible = entered;
+        if (!entered && direction === "up") {
+          this.setHeaderTransform(0);
+        }
       },
       /**
        * Scroll handler for vertical scroll
@@ -248,15 +256,20 @@
       onScrollY(event) {
         if (!this.scrollTicking) {
           window.requestAnimationFrame(() => {
-            // Offset the header by the difference of the trigger point
-            // and the current scroll position. 
+            this.scrollTicking = false;
+            if (!this.headerVisible) return;
+            // Offset the header by the difference of the trigger 
+            // point and the current scroll position. 
             const y = this.waypointContext.oldScroll.y;
             const t = this.waypointTop.triggerPoint;
-            this.headerTransform = `translateY(${ y - t }px)`;
-            this.scrollTicking = false;
+            this.setHeaderTransform(y - t - 1);
+            
           });
           this.scrollTicking = true;
         }
+      },
+      setHeaderTransform(value) {
+        this.headerTransform = `translateY(${ value }px)`;
       },
       /**
        * Manages the adding and removing the scrollY handler
@@ -278,7 +291,7 @@
         // Set the tables header <tr> and <th> to their rendered sizes
         // By measuring each and updating it's column object data
         // reactively updating all the cloned verisons
-        this.headerColumns.forEach(row => {
+        this.headerRows.forEach(row => {
           row.height = `${ getElement(row).offsetHeight }px`;
           row.columns.forEach(column => {
             column.width = `${ getElement(column).offsetWidth }px`;
@@ -288,20 +301,27 @@
       tableReady() {
         this.setTableSizes();
         // Calculate header heights and column widths
+      },
+      setupWaypoint() {
+        const element = this.$refs.display;
+        const header = this.$refs.header.$el;
+        const offsetBottom = this.$refs.header.$el.offsetHeight;
+        // Note: Non-reactive property
+        this.elementWaypoint = new ElementWaypoint({ 
+          element,
+          context: this.scrollContext, 
+          handler: this.onWaypoint.bind(this),
+          offsetBottom() {
+            return header.offsetHeight;
+          }
+        });
+        // Get references from Waypoints instance
+        this.waypointTop = this.elementWaypoint.top;
+        this.waypointContext = this.waypointTop.context;
       }
     },
     mounted() {
-      const offsetBottom = this.$refs.header.$el.offsetHeight;
-      // Note: Non-reactive property
-      this.elementWaypoint = new ElementWaypoint({ 
-        element: this.$refs.display,
-        context: this.scrollContext, 
-        handler: this.onWaypoint.bind(this),
-        offsetBottom
-      });
-      // Get references from Waypoints instance
-      this.waypointTop = this.elementWaypoint.top;
-      this.waypointContext = this.waypointTop.context;
+      this.setupWaypoint();
       
       console.log('TABLE STICKY', this);
     },

@@ -6,10 +6,10 @@
   - cannot use functional component here, can't refs in parent component
  -->
 <template>
-  <table>
+  <table v-if="">
     <thead>
       <tr 
-        v-for="(row, rowIndex) in headerColumns"
+        v-for="(row, rowIndex) in headerRows"
         :key="`hr-${ rowIndex }`"
         :id="isActual && row.id"
         :style="{
@@ -53,7 +53,7 @@
   export default {
     name: 'TsTable',
     props: {
-      headerColumns: {
+      headerRows: {
         type: Array,
         required: true
       },
@@ -71,7 +71,7 @@
       }
     },
     mounted() {
-      console.log('this.headerColumns', this.headerColumns);
+      console.log('this.headerRows', this.headerRows);
     }
   }
 </script>
