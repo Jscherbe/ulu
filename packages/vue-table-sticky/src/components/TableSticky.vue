@@ -70,7 +70,6 @@
 <script>
   import TsTable from "./TsTable.vue";
   import ElementWaypoint from "../element-waypoint.js";
-  import throttleScroll from "../throttle-scroll.js";
 
   const cloneDeep = require('lodash/cloneDeep');
   const debounce = require('lodash/debounce');
@@ -223,6 +222,8 @@
           this.headerVisible = true;
           this.removeTableSizes();
           this.setTableSizes();
+          this.updateTranslateY();
+          this.updateTranslateX();
         }
       },
       idCreator(type) {
@@ -336,7 +337,7 @@
        * Handles vertical scroll when the table is
        * - Shifts the absolute header down (translate) as the user scrolls through the table
        */
-      onScrollY(event) {
+      updateTranslateY() {
         if (!this.headerVisible) return;
         // Offset the header by the difference of the trigger 
         // point and the current scroll position. 
@@ -348,7 +349,7 @@
        * Handles horizontal scroll
        * - Shifts the first column as the user scrolls
        */
-      onScrollX(event) {
+      updateTranslateX() {
         const display = this.$refs.display;
         if (this.firstColumnSticky) {
           this.translateX = display.scrollLeft
@@ -361,7 +362,7 @@
       listenScrollY(attach) {
         const element = this.scrollContext;
         if (attach) {
-          this.handlerScrollY = this.throttleScroll(this.onScrollY); // Note: Non-reactive property
+          this.handlerScrollY = this.throttleScroll(this.updateTranslateY); // Note: Non-reactive property
           element.addEventListener('scroll', this.handlerScrollY);
         } else if (this.handlerScrollY) {
           element.removeEventListener('scroll', this.handlerScrollY);
@@ -372,7 +373,7 @@
        */
       attachHandlers() {
         window.addEventListener('resize', this.resizeHandler);
-        this.handlerScrollX = this.throttleScroll(this.onScrollX); // Note: Non-reactive property
+        this.handlerScrollX = this.throttleScroll(this.updateTranslateX); // Note: Non-reactive property
         this.$refs.display.addEventListener('scroll', this.handlerScrollX );
       },
       /**
@@ -482,6 +483,7 @@
     position: absolute;
     top: 0;
     left: 0;
+    will-change: opacity, transform;
     // opacity: 0;
   }
   .TableSticky__table--header {
