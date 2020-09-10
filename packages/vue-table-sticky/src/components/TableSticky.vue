@@ -176,12 +176,12 @@
         const firstColumn = firstRow.columns[0] // Object.assign({}, firstRow.columns[0], { width: 'auto' });
         const columns = [ firstColumn ];
         // Offset height would be the combination of all the rows height's
-        const offsetHeight = this.headerRows.reduce((a, r) => a + r.offsetHeight, 0);
+        const boxHeight = this.headerRows.reduce((a, r) => a + r.boxHeight, 0);
         return [{ 
           ...firstRow, 
           columns,
-          offsetHeight,
-          height: `${ offsetHeight }px`
+          boxHeight,
+          height: `${ boxHeight }px`
         }];
       },
       /**
@@ -238,7 +238,7 @@
         const newId = this.idCreator('br');
         return this.rows.map(row => ({
           height: null,
-          offsetHeight: null,
+          boxHeight: null,
           data: row,
           id: newId()
         }));
@@ -258,7 +258,7 @@
           column.id = newId();
           column.parent = parent;
           column.width = 'auto';
-          column.offsetWidth = null;
+          column.boxWidth = null;
           let headers = [];
           // Add the column's headers for output to attribute
           if (parent) {
@@ -294,7 +294,7 @@
         const height = 'auto';
         const rows = new Array(count).fill(null).map(() => ({ 
           height, 
-          offsetHeight: null,
+          boxHeight: null,
           columns: [],
           id: newId()
         }));
@@ -387,11 +387,11 @@
       setTableSizes() {
         // Set the table and it's cloned header to the exact same width
         const table = this.$refs.table;
-        this.tableWidth = `${ table.$el.offsetWidth }px`;
-        const getElement = object => document.getElementById(object.id);
+        this.tableWidth = `${ table.$el.getBoundingClientRect().width }px`;
+        const size = (object, key) => document.getElementById(object.id).getBoundingClientRect()[key];
         const setRowHeight = row => {
-          row.offsetHeight = getElement(row).offsetHeight;
-          row.height = `${ row.offsetHeight }px`;
+          row.boxHeight = size(row, 'height');
+          row.height = `${ row.boxHeight }px`;
         };
         // Set the tables header <tr> and <th> to their rendered sizes
         // By measuring each and updating it's column object data
@@ -399,8 +399,8 @@
         this.headerRows.forEach(row => {
           setRowHeight(row);
           row.columns.forEach(column => {
-            column.offsetWidth = getElement(column).offsetWidth;
-            column.width = `${ column.offsetWidth }px`;
+            column.boxWidth = size(column, 'width');
+            column.width = `${ column.boxWidth }px`;
           });
         });
         // If first column sticky the plugin needs to set  
@@ -411,14 +411,14 @@
       },
       removeTableSizes() {
         const setRowHeight = row => {
-          row.offsetHeight = null;
+          row.boxHeight = null;
           row.height = 'auto';
         };
         this.tableWidth = 'auto';
         this.headerRows.forEach(row => {
           setRowHeight(row);
           row.columns.forEach(column => {
-            column.offsetWidth = null;
+            column.boxWidth = null;
             column.width = 'auto';
           });
         });
@@ -432,7 +432,6 @@
       setupWaypoint() {
         const element = this.$refs.display;
         const header = this.$refs.header.$el;
-        const offsetBottom = this.$refs.header.$el.offsetHeight;
         const config = { 
           element,
           context: this.scrollContext, 
