@@ -38,6 +38,7 @@
         :rowColumns="rowColumnsFirst"
         :style="{
           opacity: +headerVisible,
+          transform: `translateX(${ translateX }px)`,
         }"
       />
       <TsTable 
@@ -45,7 +46,7 @@
         class="TableSticky__table TableSticky__table--header"
         :style="{
           opacity: +headerVisible,
-          transform: `translateY(${ headerTransformY }px)`,
+          transform: `translateY(${ translateY }px)`,
           width: tableWidth
         }"
         :headerRows="headerRows" 
@@ -58,7 +59,7 @@
         :style="{
           height: firstColumnSize.height,
           opacity: +headerVisible,
-          transform: `translate(${ firstColumnTransformX }, ${ headerTransformY }px)`,
+          transform: `translate(${ translateX }px, ${ translateY }px)`,
         }"
       />
       
@@ -69,6 +70,7 @@
 <script>
   import TsTable from "./TsTable.vue";
   import ElementWaypoint from "../element-waypoint.js";
+  import throttleScroll from "../throttle-scroll.js";
 
   const cloneDeep = require('lodash/cloneDeep');
   const debounce = require('lodash/debounce');
@@ -143,9 +145,8 @@
         currentColumns,
         currentRows,
         headerVisible: false,
-        headerTransformY: 0,
-        firstColumnTransformX: 0,
-        scrollTicking: false,
+        translateY: 0,
+        translateX: 0,
         headerRows: this.createHeaderRows(currentColumns),
         tableWidth: 'auto',
         resizeHandler: debounce(this.onResize.bind(this), 500, { leading: true }),
@@ -197,6 +198,21 @@
       }
     },
     methods: {
+      /**
+       * Creates a new throttled scroll handler
+       */
+      throttleScroll(handler) {
+        return (event) => {
+          let ticking = false;
+          if (!ticking) {
+            window.requestAnimationFrame(() => {
+              ticking = false;
+              handler(event);
+            });
+            ticking = true;
+          }
+        }
+      },
       onResize() {
         // Called when the resize event is first fired (before change)
         if (!this.resizing) {
@@ -313,38 +329,59 @@
         this.listenScrollY(entered);
         this.headerVisible = entered;
         if (!entered && direction === "up") {
-          this.headerTransformY = 0;
+          this.translateY = 0;
         }
       },
       /**
-       * Scroll handler for vertical scroll
+       * Handles vertical scroll when the table is
+       * - Shifts the absolute header down (translate) as the user scrolls through the table
        */
       onScrollY(event) {
-        if (!this.scrollTicking) {
-          window.requestAnimationFrame(() => {
-            this.scrollTicking = false;
-            if (!this.headerVisible) return;
-            // Offset the header by the difference of the trigger 
-            // point and the current scroll position. 
-            const y = this.waypointContext.oldScroll.y;
-            const t = this.waypointTop.triggerPoint;
-            this.headerTransformY = y - t - 1;
-            
-          });
-          this.scrollTicking = true;
+        if (!this.headerVisible) return;
+        // Offset the header by the difference of the trigger 
+        // point and the current scroll position. 
+        const y = this.waypointContext.oldScroll.y;
+        const t = this.waypointTop.triggerPoint;
+        this.translateY = y - t - 1;
+      },
+      /**
+       * Handles horizontal scroll
+       * - Shifts the first column as the user scrolls
+       */
+      onScrollX(event) {
+        const display = this.$refs.display;
+        if (this.firstColumnSticky) {
+          this.translateX = display.scrollLeft
         }
       },
       /**
-       * Manages the adding and removing the scrollY handler
+       * Method to attach and remove scroll handler Y
+       * - Only attached when element waypoint is entered
        */
       listenScrollY(attach) {
-        this.scrollContext[(attach ? 'add' : 'remove') + 'EventListener']('scroll', this.onScrollY);
+        const element = this.scrollContext;
+        if (attach) {
+          this.handlerScrollY = this.throttleScroll(this.onScrollY); // Note: Non-reactive property
+          element.addEventListener('scroll', this.handlerScrollY);
+        } else if (this.handlerScrollY) {
+          element.removeEventListener('scroll', this.handlerScrollY);
+        }
+      },
+      /**
+       * Method to attach handlers needed after creation
+       */
+      attachHandlers() {
+        window.addEventListener('resize', this.resizeHandler);
+        this.handlerScrollX = this.throttleScroll(this.onScrollX); // Note: Non-reactive property
+        this.$refs.display.addEventListener('scroll', this.handlerScrollX );
       },
       /**
        * Cleanup function for when component is not in use
        */
       removeHandlers() {
         this.listenScrollY(false);
+        this.$refs.display.removeEventListener('scroll', this.handlerScrollX);
+        window.removeEventListener('resize', this.resizeHandler);
       },
       setTableSizes() {
         // Set the table and it's cloned header to the exact same width
@@ -410,12 +447,11 @@
     },
     mounted() {
       this.setupWaypoint();
-      window.addEventListener('resize', this.resizeHandler);
+      this.attachHandlers();
       console.log('TABLE STICKY', this);
     },
     beforeDestroy() {
       this.removeHandlers();
-      window.removeEventListener('resize', this.resizeHandler);
     }
   }
 </script>
