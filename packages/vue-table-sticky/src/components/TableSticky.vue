@@ -38,7 +38,6 @@
         :rowColumns="rowColumnsFirst"
         :style="{
           opacity: headerOpacity,
-          transform: `translateX(${ translateX }px)`,
         }"
       />
       <TsTable 
@@ -46,7 +45,6 @@
         class="TableSticky__table TableSticky__table--header"
         :style="{
           opacity: headerOpacity,
-          transform: `translateY(${ translateY }px)`,
           width: tableWidth
         }"
         :headerRows="headerRows" 
@@ -59,7 +57,6 @@
         :style="{
           height: firstColumnSize.height,
           opacity: headerOpacity,
-          transform: `translate(${ translateX }px, ${ translateY }px)`,
         }"
       />
       
@@ -143,7 +140,7 @@
       return  {
         currentColumns,
         currentRows,
-        headerVisible: false,
+        headerActive: false,
         translateY: 0,
         translateX: 0,
         headerRows: this.createHeaderRows(currentColumns),
@@ -155,7 +152,7 @@
     },
     computed: {
       headerOpacity() {
-        return +(this.headerVisible && this.sizesCalculated);
+        return +(this.headerActive && this.sizesCalculated);
       },
       /**
        * Used to output the body rows. This is an array of only the deepest child columns
@@ -205,25 +202,23 @@
        * Creates a new throttled scroll handler
        */
       throttleScroll(handler) {
+        let id = null;
+        // Old Fired after frame
         return (event) => {
-          let ticking = false;
-          if (!ticking) {
-            window.requestAnimationFrame(() => {
-              ticking = false;
-              handler(event);
-            });
-            ticking = true;
+          if (id) {
+            window.cancelAnimationFrame(id);
           }
-        }
+          id = window.requestAnimationFrame(() => handler(event));
+        };
       },
       onResize() {
         // Called when the resize event is first fired (before change)
         if (!this.resizing) {
           this.resizing = true;
-          this.headerVisible = false;
+          this.headerActive = false;
         } else {
           this.resizing = false;
-          this.headerVisible = true;
+          this.headerActive = true;
           this.removeTableSizes();
           this.setTableSizes();
           this.updateTranslateY();
@@ -328,26 +323,22 @@
         return d > m ? d : m;
       },
       /**
-       * Method is fired when scroll enters and leaves the table 
-       */
-      onWaypoint(entered, direction) {
-        this.listenScrollY(entered);
-        this.headerVisible = entered;
-        if (!entered && direction === "up") {
-          this.translateY = 0;
-        }
-      },
-      /**
        * Handles vertical scroll when the table is
        * - Shifts the absolute header down (translate) as the user scrolls through the table
        */
       updateTranslateY() {
-        if (!this.headerVisible) return;
+        if (!this.headerActive) return;
         // Offset the header by the difference of the trigger 
-        // point and the current scroll position. 
+        // point and the current scroll position.      
         const y = this.waypointContext.oldScroll.y;
         const t = this.waypointTop.triggerPoint;
-        this.translateY = y - t - 1;
+        const translateY = y - t - 1;
+        // Had to bypass reactive style management for smoother FPS
+        this.$refs.header.$el.style.transform = `translateY(${ translateY }px)`;
+        if (this.firstColumnSticky) {
+          this.$refs.firstColumnHeader.$el.style.transform = `translate(${ this.translateX }px ,${ translateY }px)`;
+        }
+        this.translateY = translateY;
       },
       /**
        * Handles horizontal scroll
@@ -356,36 +347,28 @@
       updateTranslateX() {
         const display = this.$refs.display;
         if (this.firstColumnSticky) {
-          this.translateX = display.scrollLeft
-        }
-      },
-      /**
-       * Method to attach and remove scroll handler Y
-       * - Only attached when element waypoint is entered
-       */
-      listenScrollY(attach) {
-        const element = this.scrollContext;
-        if (attach) {
-          this.handlerScrollY = this.throttleScroll(this.updateTranslateY); // Note: Non-reactive property
-          element.addEventListener('scroll', this.handlerScrollY);
-        } else if (this.handlerScrollY) {
-          element.removeEventListener('scroll', this.handlerScrollY);
+          const translateX = display.scrollLeft;
+          this.$refs.firstColumn.$el.style.transform = `translateX(${ translateX }px)`;
+          this.$refs.firstColumnHeader.$el.style.transform = `translate(${ translateX }px ,${ this.translateY }px)`;
+          this.translateX = translateX;
         }
       },
       /**
        * Method to attach handlers needed after creation
        */
       attachHandlers() {
-        window.addEventListener('resize', this.resizeHandler);
         this.handlerScrollX = this.throttleScroll(this.updateTranslateX); // Note: Non-reactive property
+        this.handlerScrollY = this.throttleScroll(this.updateTranslateY); // Note: Non-reactive property
         this.$refs.display.addEventListener('scroll', this.handlerScrollX );
+        this.scrollContext.addEventListener('scroll', this.handlerScrollY);
+        window.addEventListener('resize', this.resizeHandler);
       },
       /**
        * Cleanup function for when component is not in use
        */
       removeHandlers() {
-        this.listenScrollY(false);
         this.$refs.display.removeEventListener('scroll', this.handlerScrollX);
+        this.scrollContext.removeEventListener('scroll', this.handlerScrollY);
         window.removeEventListener('resize', this.resizeHandler);
       },
       setTableSizes() {
@@ -441,7 +424,7 @@
         const config = { 
           element,
           context: this.scrollContext, 
-          handler: this.onWaypoint.bind(this),
+          handler: entered => this.headerActive = entered,
           offsetBottom() {
             return header.offsetHeight;
           }
@@ -503,8 +486,9 @@
   .TableSticky__table--first-column,
   .TableSticky__table--first-column-header {
     width: auto;
-    // table-layout: fixed;
+    table-layout: fixed;
   }
   .TableSticky__table--first-column-header {
+    
   }
 </style>

@@ -20,9 +20,10 @@
   }
   table {
     border: $table-rule;
+    background-color: white;
   }
   tr {
-    border: $table-rule;
+    // border: $table-rule;
   }
   th,
   td {
@@ -37,7 +38,7 @@
     th {
       
       color: rgba(black, 80%);
-      border-left: $table-rule;
+      // border-left: $table-rule;
       font-size: small;
       text-align: center;
     }
@@ -57,7 +58,7 @@
     td {
       // background-color: rgb(247, 247, 247);
       text-align: left;
-      border-right: $table-rule;
+      // border-right: $table-rule;
     }
     tr {
       &:nth-child(odd) {
