@@ -37,7 +37,7 @@
         :rows="currentRows"
         :rowColumns="rowColumnsFirst"
         :style="{
-          opacity: +headerVisible,
+          opacity: headerOpacity,
           transform: `translateX(${ translateX }px)`,
         }"
       />
@@ -45,7 +45,7 @@
         ref="header"
         class="TableSticky__table TableSticky__table--header"
         :style="{
-          opacity: +headerVisible,
+          opacity: headerOpacity,
           transform: `translateY(${ translateY }px)`,
           width: tableWidth
         }"
@@ -58,7 +58,7 @@
         :headerRows="headerRowsFirst" 
         :style="{
           height: firstColumnSize.height,
-          opacity: +headerVisible,
+          opacity: headerOpacity,
           transform: `translate(${ translateX }px, ${ translateY }px)`,
         }"
       />
@@ -147,12 +147,16 @@
         translateY: 0,
         translateX: 0,
         headerRows: this.createHeaderRows(currentColumns),
+        sizesCalculated: false,
         tableWidth: 'auto',
         resizeHandler: debounce(this.onResize.bind(this), 500, { leading: true }),
         resizing: false
       };
     },
     computed: {
+      headerOpacity() {
+        return +(this.headerVisible && this.sizesCalculated);
+      },
       /**
        * Used to output the body rows. This is an array of only the deepest child columns
        * parent column information can be accessed by reference
@@ -408,8 +412,10 @@
         if (this.firstColumnSticky) {
           this.currentRows.forEach(row => setRowHeight(row));
         }
+        this.$nextTick(() => this.sizesCalculated = true);
       },
       removeTableSizes() {
+        this.sizesCalculated = false;
         const setRowHeight = row => {
           row.boxHeight = null;
           row.height = 'auto';
@@ -458,6 +464,7 @@
 
 <style lang="scss">
   $duration: 200ms;
+  $debug: true;
   .TableSticky {
     position: relative; // For controls
     * {
@@ -475,6 +482,7 @@
     margin: 0;
     padding: 0;
     width: 100%;
+    // border-width: 0;
   }
   .TableSticky__table--header,
   .TableSticky__table--first-column,
@@ -495,6 +503,8 @@
   .TableSticky__table--first-column,
   .TableSticky__table--first-column-header {
     width: auto;
-    table-layout: fixed;
+    // table-layout: fixed;
+  }
+  .TableSticky__table--first-column-header {
   }
 </style>

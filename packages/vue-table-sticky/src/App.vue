@@ -21,18 +21,21 @@
   table {
     border: $table-rule;
   }
+  tr {
+    border: $table-rule;
+  }
   th,
   td {
     padding: 0.15rem 0.25rem;
-    border-bottom: $table-rule;
-    background-color: white;
+    // background-color: white;
     font-weight: normal;
     vertical-align: middle;
   }
 
   thead {
+    // background-color: rgb(247, 247, 247);
     th {
-      background-color: rgb(247, 247, 247);
+      
       color: rgba(black, 80%);
       border-left: $table-rule;
       font-size: small;
@@ -49,18 +52,16 @@
   }
   tbody {
     th {
-      background-color: white;
+      // background-color: white;
     }
     td {
-      background-color: rgb(247, 247, 247);
+      // background-color: rgb(247, 247, 247);
       text-align: left;
       border-right: $table-rule;
     }
     tr {
       &:nth-child(odd) {
-        td {
-          background-color: rgb(235, 235, 235);
-        }
+        background-color: rgb(235, 235, 235);
       }
     }
   }
