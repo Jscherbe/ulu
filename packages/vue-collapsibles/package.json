@@ -4,6 +4,10 @@
   "version": "0.0.4",
   "license": "MIT",
   "homepage": "https://github.com/Jscherbe/ulu/tree/master/packages/vue-collapsibles",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jscherbe/ulu"
+  },
   "keywords": [
     "vue",
     "component",
@@ -30,10 +34,6 @@
     "build:umd": "rollup --config rollup.config.js --format umd --file dist/collapsible-region.umd.js",
     "build:es": "rollup --config rollup.config.js --format es --file dist/collapsible-region.esm.js",
     "build:unpkg": "rollup --config rollup.config.js --format iife --file dist/collapsible-region.min.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Jscherbe/ulu"
   },
   "publishConfig": {
     "access": "public"

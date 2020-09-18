@@ -22,11 +22,14 @@
           :id="isActual && column.id"
           :rowspan="column.rowspan"
           :colspan="column.colspan"
+          :class="column.class"
           :style="{
             width: column.width
           }"
         >
-          {{ column.name }}
+          <template v-if="column.title">
+            {{ column.title }}
+          </template>
         </th>
       </tr>
     </thead>
@@ -43,11 +46,22 @@
           v-for="(column, index) in rowColumns"
           :key="`bc-${ index }`"
           :headers="column.headers.join(' ')"
+          :class="column.classValue"
           :style="{
             width: columnWidth
           }"
         >
-          {{ row.data[column.key] }}
+          <template v-if="$scopedSlots[column.slot]">
+            <slot 
+              :name="column.slot" 
+              :row="row.data" 
+              :column="column"
+              :rowIndex="rowIndex"
+            />
+          </template>
+          <template v-else>
+            {{ value({ row, column, rowIndex }) }}
+          </template>
         </td>
       </tr>
     </tbody>
@@ -80,12 +94,11 @@
         type: String
       }
     },
-    mounted() {
-      // console.log('TsTable', this);
+    methods: {
+      value({ row, column, rowIndex }) {
+        const value = column.value;
+        return value ? value({ row: row.data, column, rowIndex }) : row.data[column.key];
+      }
     }
   }
 </script>
-
-<style lang="scss">
-
-</style>

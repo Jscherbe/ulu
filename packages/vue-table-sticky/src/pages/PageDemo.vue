@@ -18,7 +18,7 @@
 <script>
   import rows from "@/data/drink-specials/data.csv";
   import { columns } from "@/data/drink-specials/config.js";
-  import TableSticky from "@/components/TableSticky.vue";
+  import TableSticky from "@/TableSticky.vue";
 
   export default {
     name: 'PageTableDemo',

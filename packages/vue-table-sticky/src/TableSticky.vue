@@ -1,25 +1,16 @@
 <!-- 
-  Main component that creates the sticky table from data passed
-
-  Todo:
-    - [ ] Need to document the vue-waypoint dependency
-    - [ ] Need to go through and remove the stored instances waypoints, they don't need to be reactive
-    - [ ] Need to provide each row's height in header
-    - [ ] If they are using first column sticky need to set each body row's height
-      + Need to change row printout structure to array of objects with columns key or something 
-        so I can set the row's height reactivly
-    - [ ] Need to set the width on each <th> including the original table's
-      + This should be added to the column objects so it populates each element
-      + Needs to be after the orginal table has been plotted
-    - [ ] 
- -->
+  Todo: 
+    - Add scope attribute
+    - Print out caption
+    - Add pager <next><prev>
+-->
 <template>
   <div class="TableSticky">
     <div 
       ref="display" 
       class="TableSticky__display"
     >
-      <TsTable 
+      <TableStickyTable 
         ref="table"
         class="TableSticky__table TableSticky__table--actual"
         isActual
@@ -27,8 +18,15 @@
         :rows="currentRows"
         :rowColumns="rowColumns"
         @hook:mounted="tableReady"
-      />
-      <TsTable 
+      >
+        <template 
+          v-for="slot in Object.keys($scopedSlots)" 
+          v-slot:[slot]="scope"
+        >
+          <slot :name="slot" v-bind="scope"/>
+        </template>
+      </TableStickyTable>
+      <TableStickyTable 
         v-if="firstColumnSticky"
         ref="firstColumn"
         class="TableSticky__table TableSticky__table--first-column"
@@ -37,36 +35,55 @@
         :rows="currentRows"
         :rowColumns="rowColumnsFirst"
         :style="{
-          opacity: headerOpacity,
+          opacity: headerOpacityX,
         }"
-      />
-      <TsTable 
+      >
+        <template 
+          v-for="slot in Object.keys($scopedSlots)" 
+          v-slot:[slot]="scope"
+        >
+          <slot :name="slot" v-bind="scope"/>
+        </template>
+      </TableStickyTable>
+      <TableStickyTable 
         ref="header"
         class="TableSticky__table TableSticky__table--header"
         :style="{
-          opacity: headerOpacity,
+          opacity: headerOpacityY,
           width: tableWidth
         }"
         :headerRows="headerRows" 
-      />
-      <TsTable 
+      >
+        <template 
+          v-for="slot in Object.keys($scopedSlots)" 
+          v-slot:[slot]="scope"
+        >
+          <slot :name="slot" v-bind="scope"/>
+        </template>
+      </TableStickyTable>
+      <TableStickyTable 
         v-if="firstColumnSticky"
         ref="firstColumnHeader"
         class="TableSticky__table TableSticky__table--first-column-header"
         :headerRows="headerRowsFirst" 
         :style="{
-          height: firstColumnSize.height,
-          opacity: headerOpacity,
+          opacity: headerOpacityX,
         }"
-      />
-      
+      >
+        <template 
+          v-for="slot in Object.keys($scopedSlots)" 
+          v-slot:[slot]="scope"
+        >
+          <slot :name="slot" v-bind="scope"/>
+        </template>
+      </TableStickyTable>
     </div>
   </div>
 </template>
 
 <script>
-  import TsTable from "./TsTable.vue";
-  import ElementWaypoint from "../element-waypoint.js";
+  import TableStickyTable from "./TableStickyTable.vue";
+  import ElementWaypoint from "./element-waypoint.js";
 
   const cloneDeep = require('lodash/cloneDeep');
   const debounce = require('lodash/debounce');
@@ -76,7 +93,7 @@
   export default {
     name: 'TableSticky',
     components: {
-      TsTable
+      TableStickyTable
     },
     props: {
       /**
@@ -94,16 +111,17 @@
        */
       firstColumnSticky: Boolean,
       /**
-       * Array of tables columns
-       * - Each column is an object who's value will match rows
-       * - structure = [{ 
-       *      name: {String}, Displayed in cell
-       *      key: {String} or {Function}
-       *        * {String} - Used to get value from each row's object
-       *        * Function - What ever value is returned (not done)
-       *        * Note: Required for the deepest child column when using nested columns/headers. Parents don't need to provide a value
-       *      columns: Array of nested columns (creates nested header)
-       *    }]
+       * Array of column configurations to convert to list output
+       * 
+       * @property {Object} column A column config
+       * @property {String|Boolean} column.title The title to output for the column if set to a falsey value nothing will print
+       * @property {Array} column.columns Array of child columns
+       * @property {String} column.key The key that should be usec to grab column's value from rows
+       * @property {Function} column.value A function that returns the column's value used instead of key passed (row, column)
+       * @property {String} column.slot Register custom slot name to use as a template for this column. Passing a slot with this name will link them. The slot are passed the ({row, column}). Note this will disable output of the column's value
+       * @property {String} column.slotHeader Register custom slot name to use in the header
+       * @property {String} column.class Custom class(s) to be set to column <th>
+       * @property {String} column.classValue Custom class(s) to be set to column's value <td>       
        */
       columns: {
         type: Array,
@@ -147,12 +165,17 @@
         sizesCalculated: false,
         tableWidth: 'auto',
         resizeHandler: debounce(this.onResize.bind(this), 500, { leading: true }),
-        resizing: false
+        resizing: false,
+        // handlerScrollX: this.throttleScroll(this.calcTranslateX)
       };
     },
     computed: {
-      headerOpacity() {
+      headerOpacityY() {
         return +(this.headerActive && this.sizesCalculated);
+      },
+      headerOpacityX() {
+        // Only false (0) when transalte is 0
+        return +(this.sizesCalculated);
       },
       /**
        * Used to output the body rows. This is an array of only the deepest child columns
@@ -174,7 +197,7 @@
        */
       headerRowsFirst() {
         const firstRow = this.headerRows[0];
-        const firstColumn = firstRow.columns[0] // Object.assign({}, firstRow.columns[0], { width: 'auto' });
+        const firstColumn = Object.assign({}, firstRow.columns[0], { rowspan: 1, colspan: 1 });
         const columns = [ firstColumn ];
         // Offset height would be the combination of all the rows height's
         const boxHeight = this.headerRows.reduce((a, r) => a + r.boxHeight, 0);
@@ -221,8 +244,8 @@
           this.headerActive = true;
           this.removeTableSizes();
           this.setTableSizes();
-          this.updateTranslateY();
-          this.updateTranslateX();
+          this.calcTranslateY();
+          this.calcTranslateX();
         }
       },
       idCreator(type) {
@@ -273,8 +296,8 @@
           if (column.columns) {
             column.columns.forEach(c => prep(c, column));
           // Make sure column has a required property
-          } else if (!column.key) {
-            console.warn('TableSticky: Missing "key" in column configration for', column);
+          } else if (!column.key && !column.value) {
+            console.warn('TableSticky: Missing "key" or "value" in column configration for', column);
           }
         };
         columns.forEach(c => prep(c, null));
@@ -326,39 +349,50 @@
        * Handles vertical scroll when the table is
        * - Shifts the absolute header down (translate) as the user scrolls through the table
        */
-      updateTranslateY() {
+      calcTranslateY() {
         if (!this.headerActive) return;
         // Offset the header by the difference of the trigger 
         // point and the current scroll position.      
         const y = this.waypointContext.oldScroll.y;
         const t = this.waypointTop.triggerPoint;
-        const translateY = y - t - 1;
-        // Had to bypass reactive style management for smoother FPS
-        this.$refs.header.$el.style.transform = `translateY(${ translateY }px)`;
-        if (this.firstColumnSticky) {
-          this.$refs.firstColumnHeader.$el.style.transform = `translate(${ this.translateX }px ,${ translateY }px)`;
-        }
-        this.translateY = translateY;
+        this.setTranslateY(y - t - 1);
       },
       /**
        * Handles horizontal scroll
        * - Shifts the first column as the user scrolls
        */
-      updateTranslateX() {
-        const display = this.$refs.display;
+      calcTranslateX() {
         if (this.firstColumnSticky) {
-          const translateX = display.scrollLeft;
-          this.$refs.firstColumn.$el.style.transform = `translateX(${ translateX }px)`;
-          this.$refs.firstColumnHeader.$el.style.transform = `translate(${ translateX }px ,${ this.translateY }px)`;
-          this.translateX = translateX;
+          this.setTranslateX(this.$refs.display.scrollLeft);
         }
+      },
+      /**
+       * Sets the translation CSS (y axis) on header bypassing reactivity for smoother FPS
+       */
+      setTranslateY(y) {
+        console.log(y);
+        this.$refs.header.$el.style.transform = `translateY(${ y }px)`;
+        if (this.firstColumnSticky) {
+          this.$refs.firstColumnHeader.$el.style.transform = `translate(${ this.translateX }px ,${ y }px)`;
+        }
+        this.translateY = y;
+      },
+      /**
+       * Sets the translation CSS (x axis) on header bypassing reactivity for smoother FPS
+       */
+      setTranslateX(x) {
+        if (this.firstColumnSticky) {
+          this.$refs.firstColumn.$el.style.transform = `translateX(${ x }px)`;
+          this.$refs.firstColumnHeader.$el.style.transform = `translate(${ x }px ,${ this.translateY }px)`;
+        }
+        this.translateX = x;
       },
       /**
        * Method to attach handlers needed after creation
        */
       attachHandlers() {
-        this.handlerScrollX = this.throttleScroll(this.updateTranslateX); // Note: Non-reactive property
-        this.handlerScrollY = this.throttleScroll(this.updateTranslateY); // Note: Non-reactive property
+        this.handlerScrollX = this.throttleScroll(this.calcTranslateX); // Note: Non-reactive property
+        this.handlerScrollY = this.throttleScroll(this.calcTranslateY); // Note: Non-reactive property
         this.$refs.display.addEventListener('scroll', this.handlerScrollX );
         this.scrollContext.addEventListener('scroll', this.handlerScrollY);
         window.addEventListener('resize', this.resizeHandler);
@@ -373,11 +407,12 @@
       },
       setTableSizes() {
         // Set the table and it's cloned header to the exact same width
-        const table = this.$refs.table;
-        this.tableWidth = `${ table.$el.getBoundingClientRect().width }px`;
-        const size = (object, key) => document.getElementById(object.id).getBoundingClientRect()[key];
+        const size = (element, key) => Math.ceil(element.getBoundingClientRect()[key]);
+        this.tableWidth = `${ size(this.$refs.table.$el, 'width') }px`;
+        const getElement = object => document.getElementById(object.id);
+
         const setRowHeight = row => {
-          row.boxHeight = size(row, 'height');
+          row.boxHeight = size(getElement(row), 'height');
           row.height = `${ row.boxHeight }px`;
         };
         // Set the tables header <tr> and <th> to their rendered sizes
@@ -386,7 +421,7 @@
         this.headerRows.forEach(row => {
           setRowHeight(row);
           row.columns.forEach(column => {
-            column.boxWidth = size(column, 'width');
+            column.boxWidth = size(getElement(column), 'width');
             column.width = `${ column.boxWidth }px`;
           });
         });
@@ -418,13 +453,19 @@
       tableReady() {
         this.setTableSizes();
       },
+      onWaypoint(entered, direction) {
+        this.headerActive = entered;
+        if (!entered && direction === "up") {
+          this.setTranslateY(0);
+        }
+      },
       setupWaypoint() {
         const element = this.$refs.display;
         const header = this.$refs.header.$el;
         const config = { 
           element,
           context: this.scrollContext, 
-          handler: entered => this.headerActive = entered,
+          handler: this.onWaypoint,
           offsetBottom() {
             return header.offsetHeight;
           }
@@ -437,7 +478,6 @@
     mounted() {
       this.setupWaypoint();
       this.attachHandlers();
-      console.log('TABLE STICKY', this);
     },
     beforeDestroy() {
       this.removeHandlers();
@@ -447,7 +487,6 @@
 
 <style lang="scss">
   $duration: 200ms;
-  $debug: true;
   .TableSticky {
     position: relative; // For controls
     * {
@@ -458,14 +497,12 @@
     position: relative; // For sticky header
     overflow-x: auto;
     overflow-y: hidden;
-    // z-index: 1;
   }
   .TableSticky__table {
     border-collapse: collapse;
     margin: 0;
     padding: 0;
     width: 100%;
-    // border-width: 0;
   }
   .TableSticky__table--header,
   .TableSticky__table--first-column,
@@ -474,21 +511,10 @@
     top: 0;
     left: 0;
     will-change: opacity, transform;
-    // opacity: 0;
-  }
-  .TableSticky__table--header {
-    width: auto;
-    // z-index: 10;
-    width: 100%;
     transition: opacity $duration;
-    background-color: white;
   }
   .TableSticky__table--first-column,
   .TableSticky__table--first-column-header {
     width: auto;
-    table-layout: fixed;
-  }
-  .TableSticky__table--first-column-header {
-    
   }
 </style>

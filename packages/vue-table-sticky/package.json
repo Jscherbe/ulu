@@ -1,10 +1,42 @@
 {
-  "name": "vue-datatables",
+  "name": "vue-table-sticky",
+  "author": "Joe Scherben",
   "version": "0.1.0",
-  "private": true,
+  "license": "MIT",
+  "homepage": "https://github.com/Jscherbe/ulu/tree/master/packages/vue-table-sticky",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jscherbe/ulu"
+  },
+  "keywords": [
+    "vue",
+    "component",
+    "table",
+    "sticky",
+    "headers",
+    "fixed",
+    "columns",
+    "nested",
+    "rows",
+    "accessibility",
+    "WCAG",
+    "508"
+  ],
+  "main": "dist/table-sticky.umd.js",
+  "module": "dist/table-sticky.esm.js",
+  "unpkg": "dist/table-sticky.min.js",
+  "browser": {
+    "./sfc": "src/TableSticky.vue"
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "npm run build:umd & npm run build:es & npm run build:unpkg",
+    "build:umd": "rollup --config rollup.config.js --format umd --file dist/table-sticky.umd.js",
+    "build:es": "rollup --config rollup.config.js --format es --file dist/table-sticky.esm.js",
+    "build:unpkg": "rollup --config rollup.config.js --format iife --file dist/table-sticky.min.js"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "dependencies": {
     "core-js": "^3.6.5",
@@ -14,10 +46,18 @@
     "waypoints": "^4.0.1"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-router": "~4.5.0",
-    "@vue/cli-service": "~4.5.0",
+    "@rollup/plugin-buble": "^0.21.3",
+    "@rollup/plugin-commonjs": "^15.0.0",
+    "@vue/cli-plugin-babel": "^4.5.6",
+    "@vue/cli-plugin-router": "^4.5.6",
+    "@vue/cli-service": "^4.5.6",
+    "@vue/compiler-sfc": "^3.0.0-rc.10",
+    "@vue/test-utils": "^1.0.3",
     "csv-loader": "^3.0.3",
+    "rollup": "^2.26.4",
+    "rollup-plugin-css-only": "^2.1.0",
+    "rollup-plugin-sass": "^1.2.2",
+    "rollup-plugin-vue": "^6.0.0-beta.10",
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
     "vue-template-compiler": "^2.6.11"

@@ -19,16 +19,20 @@
     font-size: 90%;
   }
   table {
-    border: $table-rule;
+    border-top: $table-rule;
+    border-bottom: $table-rule;
     background-color: white;
   }
   tr {
-    // border: $table-rule;
+    border: $table-rule;
+    // border-top: $table-rule;
+    // border-bottom: $table-rule;
   }
   th,
   td {
     padding: 0.15rem 0.25rem;
-    // background-color: white;
+    border: $table-rule;
+    // border-right: $table-rule;
     font-weight: normal;
     vertical-align: middle;
   }
