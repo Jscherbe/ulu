@@ -1,7 +1,5 @@
 <!-- 
   Todo: 
-    - Add scope attribute
-    - Print out caption
     - Add pager <next><prev>
 -->
 <template>
@@ -17,6 +15,8 @@
         :headerRows="headerRows" 
         :rows="currentRows"
         :rowColumns="rowColumns"
+        :caption="caption"
+        :idPrefix="idPrefix"
         @hook:mounted="tableReady"
       >
         <template 
@@ -34,6 +34,7 @@
         :columnWidth="firstColumnSize.width"
         :rows="currentRows"
         :rowColumns="rowColumnsFirst"
+        :idPrefix="idPrefix"
         :style="{
           opacity: headerOpacityX,
         }"
@@ -48,6 +49,7 @@
       <TableStickyTable 
         ref="header"
         class="TableSticky__table TableSticky__table--header"
+        :idPrefix="idPrefix"
         :style="{
           opacity: headerOpacityY,
           width: tableWidth
@@ -65,6 +67,7 @@
         v-if="firstColumnSticky"
         ref="firstColumnHeader"
         class="TableSticky__table TableSticky__table--first-column-header"
+        :idPrefix="idPrefix"
         :headerRows="headerRowsFirst" 
         :style="{
           opacity: headerOpacityX,
@@ -96,6 +99,7 @@
       TableStickyTable
     },
     props: {
+      caption: String,
       /**
        * Scrollable context DOM Element, if the sticky element is within another
        * scrolling parent use this tochange the scroll activation handler to use a custom
@@ -122,6 +126,7 @@
        * @property {String} column.slotHeader Register custom slot name to use in the header
        * @property {String} column.class Custom class(s) to be set to column <th>
        * @property {String} column.classValue Custom class(s) to be set to column's value <td>       
+       * @property {String} column.rowHeader When this column is printed in the <tbody> it should be a header for the row. Note supports multiple row headers from left to right only. No rowspan support for rowHeaders. 
        */
       columns: {
         type: Array,
@@ -183,14 +188,31 @@
        */
       rowColumns() {
         const columns = this.currentColumns;
-        const all = [];
+        const rowHeaderId = this.idCreator('rh');
+        const rowColumns = [];
         const add = c => {
           if (c.columns) c.columns.forEach(add);
-          else all.push(c);
+          else rowColumns.push(c);
         };
         // Create array of actaul 
         columns.forEach(add);
-        return all;
+        // Iterate over all columns checking for rowHeader
+        // - If a column has row header create an id funciton passed current row's index
+        // - Store callbacks in an array to call on each rows cells
+        let rowHeaders = [];
+        rowColumns.forEach((c, columnIndex) => {
+          // Creating copy of array here so it doesn't include it's own ID and also 
+          // so there can be headers of headers going from left to right only
+          const thisRowsHeader = rowHeaders.slice();
+          c.getRowHeaders = rowIndex => thisRowsHeader.map(cb => cb(rowIndex)).join(' ');
+          // Now we add this columns row header function
+          // Which will be included in all columns after this iteration
+          if (c.rowHeader) {
+            c.getRowHeaderId = rowIndex => `${ this.idPrefix }-rh-${ rowIndex }-${ columnIndex }`;
+            rowHeaders.push(c.getRowHeaderId);
+          }
+        });
+        return rowColumns;
       },
       /**
        * Reduce the array of column header rows to the first row, first column
@@ -250,7 +272,7 @@
       },
       idCreator(type) {
         let id = 0;
-        return () => `${ this.idPrefix }-${ type }-${ ++id }`
+        return () => `${ this.idPrefix }-${ type }-${ ++id }`;
       },
       /**
        * Creates row array for internal use
@@ -478,6 +500,7 @@
     mounted() {
       this.setupWaypoint();
       this.attachHandlers();
+      console.log(this);
     },
     beforeDestroy() {
       this.removeHandlers();
@@ -516,5 +539,14 @@
   .TableSticky__table--first-column,
   .TableSticky__table--first-column-header {
     width: auto;
+  }
+  .TableSticky__hidden-visually {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
   }
 </style>

@@ -1,12 +1,11 @@
-<!-- 
-  Simple template component to print table the same in the different 
-  cloned versions needed to make the sticky elements
-
-  Note:
-  - cannot use functional component here, can't refs in parent component
- -->
 <template>
   <table>
+    <caption 
+      v-if="caption" 
+      class="TableSticky__hidden-visually"
+    >
+      {{ caption }}
+    </caption>
     <thead>
       <tr 
         v-for="(row, rowIndex) in headerRows"
@@ -26,6 +25,7 @@
           :style="{
             width: column.width
           }"
+          scope="col"
         >
           <template v-if="column.title">
             {{ column.title }}
@@ -42,10 +42,13 @@
           height: row.height
         }"
       >
-        <td
+        <component
           v-for="(column, index) in rowColumns"
+          :is="column.rowHeader ? 'th' : 'td'"
+          :id="column.rowHeader && column.getRowHeaderId(rowIndex)"
+          :scope="column.rowHeader && 'row'"
           :key="`bc-${ index }`"
-          :headers="column.headers.join(' ')"
+          :headers="getCellHeaders(column, rowIndex)"
           :class="column.classValue"
           :style="{
             width: columnWidth
@@ -62,7 +65,7 @@
           <template v-else>
             {{ value({ row, column, rowIndex }) }}
           </template>
-        </td>
+        </component>
       </tr>
     </tbody>
   </table>
@@ -74,6 +77,8 @@
   export default {
     name: 'TsTable',
     props: {
+      caption: String,
+      idPrefix: String,
       headerRows: {
         type: Array,
         required: true
@@ -98,6 +103,13 @@
       value({ row, column, rowIndex }) {
         const value = column.value;
         return value ? value({ row: row.data, column, rowIndex }) : row.data[column.key];
+      },
+      getCellHeaders(column, rowIndex) {
+        const headers = column.headers.join(' ');
+        console.log(column);
+        const rowHeaders = column.getRowHeaders(rowIndex);
+        const s = rowHeaders.length ? " " : "";
+        return `${ headers }${ s }${ rowHeaders }`;
       }
     }
   }

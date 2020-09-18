@@ -1,0 +1,8 @@
+Todos:
+  - [ ] Row headers
+    + Probably limited to single rows no rowspan
+  - [ ] Column Actions Accessibility Solution
+    + Can't  use aria hidden on focusable elements (clone headers) 
+    + Instead use focusable (keyboard) actions only in the actual table header
+      - Then make the table scroll up when the user focuses a column action?
+      - This avoids focusable elements in the duplicated headers
