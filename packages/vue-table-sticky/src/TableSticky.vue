@@ -34,7 +34,6 @@
         :columnWidth="firstColumnSize.width"
         :rows="currentRows"
         :rowColumns="rowColumnsFirst"
-        :caption="caption"
         :idPrefix="idPrefix"
         :style="{
           opacity: headerOpacityX,
@@ -71,7 +70,7 @@
         :idPrefix="idPrefix"
         :headerRows="headerRowsFirst" 
         :style="{
-          opacity: headerOpacityX,
+          opacity: +(headerOpacityX && headerActive),
         }"
       >
         <template 
