@@ -80,6 +80,40 @@
           <slot :name="slot" v-bind="scope"/>
         </template>
       </TableStickyTable>
+      <!-- Scroll Controls (optionally allow user templating via slot passed methods) -->
+      <div 
+        class="TableSticky__controls" 
+        ref="controls"
+        v-if="controlsShown"
+        aria-hidden="true"
+      >
+        <slot 
+          v-if="$slots.controls" 
+          name="controls" 
+          :scrollLeft="scrollLeft"
+          :scrollRight="scrollRight"
+          :canScrollLeft="canScrollLeft"
+          :canScrollRight="canScrollRight"
+        />
+        <div v-else class="TableSticky__controls-inner">
+          <button 
+            class="TableSticky__control TableSticky__control--scroll-left" 
+            @click="scrollLeft"
+            :disabled="!canScrollLeft"
+          >
+            Left
+            <!-- <img :src="scrollLeftIcon" alt="left"> -->
+          </button>
+          <button 
+            class="TableSticky__control TableSticky__control--scroll-right" 
+            @click="scrollRight"
+            :disabled="!canScrollRight"
+          >
+            Right
+            <!-- <img :src="scrollRightIcon" alt="right"> -->
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -99,21 +133,13 @@
       TableStickyTable
     },
     props: {
-      caption: String,
       /**
-       * Scrollable context DOM Element, if the sticky element is within another
-       * scrolling parent use this tochange the scroll activation handler to use a custom
-       * scrollable parent element
-       * 
+       * Hidden caption for accessibility
        */
-      scrollContext: {
-        default: () => window
-      },
-      /**
-       * Whether the first column of the table should be sticky
-       * - Requires that the table's first column header is nested
-       */
-      firstColumnSticky: Boolean,
+      caption: {
+        type: String,
+        required
+      },      
       /**
        * Array of column configurations to convert to list output
        * 
@@ -134,6 +160,18 @@
         required
       },
       /**
+       * Whether the first column of the table should be sticky
+       * - Requires that the table's first column header is nested
+       */
+      firstColumnSticky: Boolean,
+      /**
+       * Prefixed used for id generation
+       */
+      idPrefix: {
+        type: String,
+        default: 'DT'
+      },
+      /**
        * Array of tables rows
        * - Each row is an object who's value will matched to columns
        */
@@ -143,18 +181,28 @@
         // required
       },
       /**
-       * Hidden caption for accessibility
+       * Enables the visiblity of the scroll controls
+       * - Scroll controls shift the tables x-axis when the table has overflow-x
+       * - Can be templated manually using slot named "controlsButtons", slot needs to create layout and call methods 
+       *   + scope = { scrollLeft, scrollRight, canScrollLeft, canScrollRight }
+       * - Scroll controls are transformed with the header (move down as the user scrolls)
        */
-      caption: {
-        type: String,
-        // required
+      scrollControls: Boolean,
+      /**
+       * Scrollable context DOM Element, if the sticky element is within another
+       * scrolling parent use this tochange the scroll activation handler to use a custom
+       * scrollable parent element
+       * 
+       */
+      scrollContext: {
+        default: () => window
       },
       /**
-       * Prefixed used for id generation
+       * Amount to scroll when user uses scroll controls (pixels)
        */
-      idPrefix: {
-        type: String,
-        default: 'DT'
+      scrollControlAmount: {
+        type: Number,
+        default: 100
       }
     },
     data() {
@@ -171,16 +219,21 @@
         tableWidth: 'auto',
         resizeHandler: debounce(this.onResize.bind(this), 500, { leading: true }),
         resizing: false,
-        // handlerScrollX: this.throttleScroll(this.calcTranslateX)
+        overflownX: false,
+        canScrollLeft: false,
+        canScrollRight: false
       };
     },
     computed: {
+      controlsShown() {
+        return this.scrollControls && this.overflownX;
+      },
       headerOpacityY() {
         return +(this.headerActive && this.sizesCalculated);
       },
       headerOpacityX() {
         // Only false (0) when transalte is 0
-        return +(this.sizesCalculated);
+        return +(this.sizesCalculated && this.overflownX);
       },
       /**
        * Used to output the body rows. This is an array of only the deepest child columns
@@ -244,48 +297,50 @@
     },
     methods: {
       /**
-       * Creates a new throttled scroll handler
+       * Method to attach handlers needed after creation
        */
-      throttleScroll(handler) {
-        let id = null;
-        // Old Fired after frame
-        return (event) => {
-          if (id) {
-            window.cancelAnimationFrame(id);
-          }
-          id = window.requestAnimationFrame(() => handler(event));
-        };
-      },
-      onResize() {
-        // Called when the resize event is first fired (before change)
-        if (!this.resizing) {
-          this.resizing = true;
-          this.headerActive = false;
-        } else {
-          this.resizing = false;
-          this.headerActive = true;
-          this.removeTableSizes();
-          this.setTableSizes();
-          this.calcTranslateY();
-          this.calcTranslateX();
-        }
-      },
-      idCreator(type) {
-        let id = 0;
-        return () => `${ this.idPrefix }-${ type }-${ ++id }`;
+      attachHandlers() {
+        this.handlerScrollX = this.throttleScroll(this.onScrollX); // Note: Non-reactive property
+        this.handlerScrollY = this.throttleScroll(this.onScrollY); // Note: Non-reactive property
+        this.$refs.display.addEventListener('scroll', this.handlerScrollX );
+        this.scrollContext.addEventListener('scroll', this.handlerScrollY);
+        window.addEventListener('resize', this.resizeHandler);
       },
       /**
-       * Creates row array for internal use
-       * - Avoid mutating user's prop
+       * Handles vertical scroll when the table is
+       * - Shifts the absolute header down (translate) as the user scrolls through the table
        */
-      createRows() {
-        const newId = this.idCreator('br');
-        return this.rows.map(row => ({
-          height: null,
-          boxHeight: null,
-          data: row,
-          id: newId()
-        }));
+      calcTranslateY() {
+        if (!this.headerActive) return;
+        // Offset the header by the difference of the trigger 
+        // point and the current scroll position.      
+        const y = this.waypointContext.oldScroll.y;
+        const t = this.waypointTop.triggerPoint;
+        this.setTranslateY(y - t - 1);
+      },
+      /**
+       * Handles horizontal scroll
+       * - Shifts the first column as the user scrolls
+       */
+      calcTranslateX() {
+        if (this.firstColumnSticky) {
+          this.setTranslateX(this.$refs.display.scrollLeft);
+        }
+      },
+      /**
+       * Checks and sets state if the table is overflow horizontally
+       */
+      checkOverflowX() {
+        this.overflownX = this.$refs.display.scrollWidth > this.$refs.display.clientWidth;
+      },
+      /**
+       * Checks whether if the tables scroll position is at the start or end and updates state
+       */
+      checkScrollability() {
+        if (!this.overflownX) return;
+        const element = this.$refs.display;
+        this.canScrollLeft = element.scrollLeft > 0;
+        this.canScrollRight = element.clientWidth + element.scrollLeft < element.scrollWidth;
       },
       /**
        * Creates column array for internal use
@@ -359,6 +414,51 @@
         }
         currentColumns.forEach(c => setInRows(0, c));
         return rows;
+      },   
+      /**
+       * Creates row array for internal use
+       * - Avoid mutating user's prop
+       */
+      createRows() {
+        const newId = this.idCreator('br');
+        return this.rows.map(row => ({
+          height: null,
+          boxHeight: null,
+          data: row,
+          id: newId()
+        }));
+      },      
+      onResize() {
+        // Called when the resize event is first fired (before change)
+        if (!this.resizing) {
+          this.resizing = true;
+          this.headerActive = false;
+        } else {
+          this.resizing = false;
+          this.headerActive = true;
+          this.removeTableSizes();
+          this.setTableSizes();
+          this.calcTranslateY();
+          this.calcTranslateX();
+          this.checkOverflowX();
+        }
+      },
+      onScrollY() {
+        this.calcTranslateY();
+      },
+      onScrollX() {
+        this.calcTranslateX();
+        this.checkScrollability();
+      },
+      onWaypoint(entered, direction) {
+        this.headerActive = entered;
+        if (!entered && direction === "up") {
+          this.setTranslateY(0);
+        }
+      },      
+      idCreator(type) {
+        let id = 0;
+        return () => `${ this.idPrefix }-${ type }-${ ++id }`;
       },
       /**
        * Recursive function used as a reducer to return the deepest nested columns
@@ -367,66 +467,74 @@
         const m = c.columns ? c.columns.reduce(this.maxColumnChildren) + 1 : 1;
         return d > m ? d : m;
       },
-      /**
-       * Handles vertical scroll when the table is
-       * - Shifts the absolute header down (translate) as the user scrolls through the table
-       */
-      calcTranslateY() {
-        if (!this.headerActive) return;
-        // Offset the header by the difference of the trigger 
-        // point and the current scroll position.      
-        const y = this.waypointContext.oldScroll.y;
-        const t = this.waypointTop.triggerPoint;
-        this.setTranslateY(y - t - 1);
-      },
-      /**
-       * Handles horizontal scroll
-       * - Shifts the first column as the user scrolls
-       */
-      calcTranslateX() {
-        if (this.firstColumnSticky) {
-          this.setTranslateX(this.$refs.display.scrollLeft);
-        }
-      },
-      /**
-       * Sets the translation CSS (y axis) on header bypassing reactivity for smoother FPS
-       */
-      setTranslateY(y) {
-        console.log(y);
-        this.$refs.header.$el.style.transform = `translateY(${ y }px)`;
-        if (this.firstColumnSticky) {
-          this.$refs.firstColumnHeader.$el.style.transform = `translate(${ this.translateX }px ,${ y }px)`;
-        }
-        this.translateY = y;
-      },
-      /**
-       * Sets the translation CSS (x axis) on header bypassing reactivity for smoother FPS
-       */
-      setTranslateX(x) {
-        if (this.firstColumnSticky) {
-          this.$refs.firstColumn.$el.style.transform = `translateX(${ x }px)`;
-          this.$refs.firstColumnHeader.$el.style.transform = `translate(${ x }px ,${ this.translateY }px)`;
-        }
-        this.translateX = x;
-      },
-      /**
-       * Method to attach handlers needed after creation
-       */
-      attachHandlers() {
-        this.handlerScrollX = this.throttleScroll(this.calcTranslateX); // Note: Non-reactive property
-        this.handlerScrollY = this.throttleScroll(this.calcTranslateY); // Note: Non-reactive property
-        this.$refs.display.addEventListener('scroll', this.handlerScrollX );
-        this.scrollContext.addEventListener('scroll', this.handlerScrollY);
-        window.addEventListener('resize', this.resizeHandler);
-      },
-      /**
-       * Cleanup function for when component is not in use
-       */
       removeHandlers() {
         this.$refs.display.removeEventListener('scroll', this.handlerScrollX);
         this.scrollContext.removeEventListener('scroll', this.handlerScrollY);
         window.removeEventListener('resize', this.resizeHandler);
       },
+      removeTableSizes() {
+        this.sizesCalculated = false;
+        const setRowHeight = row => {
+          row.boxHeight = null;
+          row.height = 'auto';
+        };
+        this.tableWidth = 'auto';
+        this.headerRows.forEach(row => {
+          setRowHeight(row);
+          row.columns.forEach(column => {
+            column.boxWidth = null;
+            column.width = 'auto';
+          });
+        });
+        if (this.firstColumnSticky) {
+          this.currentRows.forEach(row => setRowHeight(row));
+        }
+      },
+      scrollLeft() {
+        const element = this.$refs.display;
+        const scrollLeft = element.scrollLeft;
+        const amount = this.scrollControlAmount;
+        const toScroll = scrollLeft - amount;
+
+        if (toScroll < 0) {
+          element.scrollLeft = 0;
+        } else {
+          element.scrollLeft = toScroll;
+        }
+      },
+      scrollRight() {
+        const element = this.$refs.display;
+        const scrollWidth = element.scrollWidth;
+        const width = element.clientWidth;
+        const scrollLeft = element.scrollLeft;
+        const amount = this.scrollControlAmount;
+        const toScroll = scrollLeft + amount;
+        // If amount would be greater than scrollable area
+        // scroll to end
+        if (toScroll > scrollWidth) {
+          element.scrollLeft = element.scrollWidth;
+        } else {
+          element.scrollLeft = toScroll;
+        }
+      },
+      setupWaypoint() {
+        const element = this.$refs.display;
+        const header = this.$refs.header.$el;
+        const config = { 
+          element,
+          context: this.scrollContext, 
+          handler: this.onWaypoint,
+          offsetBottom() {
+            return header.offsetHeight;
+          }
+        };
+        this.elementWaypoint = new ElementWaypoint(config); // Note: Non-reactive property
+        this.waypointTop = this.elementWaypoint.top;
+        this.waypointContext = this.waypointTop.context;
+      }, 
+      /**
+       * Cleanup function for when component is not in use
+       */
       setTableSizes() {
         // Set the table and it's cloned header to the exact same width
         const size = (element, key) => Math.ceil(element.getBoundingClientRect()[key]);
@@ -454,52 +562,52 @@
         }
         this.$nextTick(() => this.sizesCalculated = true);
       },
-      removeTableSizes() {
-        this.sizesCalculated = false;
-        const setRowHeight = row => {
-          row.boxHeight = null;
-          row.height = 'auto';
-        };
-        this.tableWidth = 'auto';
-        this.headerRows.forEach(row => {
-          setRowHeight(row);
-          row.columns.forEach(column => {
-            column.boxWidth = null;
-            column.width = 'auto';
-          });
-        });
+      /**
+       * Sets the translation CSS (y axis) on header bypassing reactivity for smoother FPS
+       */
+      setTranslateY(y) {
+        const cssTransY = `translateY(${ y }px)`;
+        this.$refs.header.$el.style.transform = cssTransY;
         if (this.firstColumnSticky) {
-          this.currentRows.forEach(row => setRowHeight(row));
+          this.$refs.firstColumnHeader.$el.style.transform = `translate(${ this.translateX }px ,${ y }px)`;
         }
+        if (this.controlsShown) {
+          this.$refs.controls.style.transform = cssTransY;
+        }
+        this.translateY = y;
       },
+      /**
+       * Sets the translation CSS (x axis) on header bypassing reactivity for smoother FPS
+       */
+      setTranslateX(x) {
+        if (this.firstColumnSticky) {
+          this.$refs.firstColumn.$el.style.transform = `translateX(${ x }px)`;
+          this.$refs.firstColumnHeader.$el.style.transform = `translate(${ x }px ,${ this.translateY }px)`;
+        }
+        this.translateX = x;
+      },
+      /**
+       * Creates a new throttled scroll handler
+       */
       tableReady() {
         this.setTableSizes();
       },
-      onWaypoint(entered, direction) {
-        this.headerActive = entered;
-        if (!entered && direction === "up") {
-          this.setTranslateY(0);
-        }
-      },
-      setupWaypoint() {
-        const element = this.$refs.display;
-        const header = this.$refs.header.$el;
-        const config = { 
-          element,
-          context: this.scrollContext, 
-          handler: this.onWaypoint,
-          offsetBottom() {
-            return header.offsetHeight;
+      throttleScroll(handler) {
+        let id = null;
+        // Old Fired after frame
+        return (event) => {
+          if (id) {
+            window.cancelAnimationFrame(id);
           }
+          id = window.requestAnimationFrame(() => handler(event));
         };
-        this.elementWaypoint = new ElementWaypoint(config); // Note: Non-reactive property
-        this.waypointTop = this.elementWaypoint.top;
-        this.waypointContext = this.waypointTop.context;
-      }
+      },
     },
     mounted() {
       this.setupWaypoint();
       this.attachHandlers();
+      this.checkOverflowX();
+      this.checkScrollability();
       console.log(this);
     },
     beforeDestroy() {
@@ -510,6 +618,7 @@
 
 <style lang="scss">
   $duration: 200ms;
+  $box-shadow: 0 1px 3px rgba(0,0,0,0.5);
   .TableSticky {
     position: relative; // For controls
     * {
@@ -520,6 +629,7 @@
     position: relative; // For sticky header
     overflow-x: auto;
     overflow-y: hidden;
+    scroll-behavior: smooth;
   }
   .TableSticky__table {
     border-collapse: collapse;
@@ -548,5 +658,32 @@
     position: absolute;
     white-space: nowrap;
     width: 1px;
+  }
+  .TableSticky__controls {
+    position: absolute;
+    top: 75vh;
+    right: 20px;
+  }
+  .TableSticky__controls-inner {
+    display: flex;
+  }
+  .TableSticky__control {
+    background-color: blue;
+    color: white;
+    border-radius: 3em;
+    border: none;
+    outline: none;
+    box-shadow: $box-shadow;
+    text-align: center;
+    padding: 0.25em 1em;
+    &--scroll-left {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      border-right: 1px solid darkblue;
+    }
+    &--scroll-right {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
   }
 </style>

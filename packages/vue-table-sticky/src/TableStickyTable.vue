@@ -106,7 +106,6 @@
       },
       getCellHeaders(column, rowIndex) {
         const headers = column.headers.join(' ');
-        console.log(column);
         const rowHeaders = column.getRowHeaders(rowIndex);
         const s = rowHeaders.length ? " " : "";
         return `${ headers }${ s }${ rowHeaders }`;
