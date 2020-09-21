@@ -34,6 +34,7 @@
         :columnWidth="firstColumnSize.width"
         :rows="currentRows"
         :rowColumns="rowColumnsFirst"
+        :caption="caption"
         :idPrefix="idPrefix"
         :style="{
           opacity: headerOpacityX,
@@ -567,12 +568,13 @@
        */
       setTranslateY(y) {
         const cssTransY = `translateY(${ y }px)`;
+        const cssTransBoth = `translate(${ this.translateX }px ,${ y }px)`;
         this.$refs.header.$el.style.transform = cssTransY;
         if (this.firstColumnSticky) {
-          this.$refs.firstColumnHeader.$el.style.transform = `translate(${ this.translateX }px ,${ y }px)`;
+          this.$refs.firstColumnHeader.$el.style.transform = cssTransBoth;
         }
         if (this.controlsShown) {
-          this.$refs.controls.style.transform = cssTransY;
+          this.$refs.controls.style.transform = cssTransBoth;
         }
         this.translateY = y;
       },
@@ -580,9 +582,14 @@
        * Sets the translation CSS (x axis) on header bypassing reactivity for smoother FPS
        */
       setTranslateX(x) {
+        const cssTransX = `translateX(${ x }px)`;
+        const cssTransBoth = `translate(${ x }px ,${ this.translateY }px)`;
         if (this.firstColumnSticky) {
-          this.$refs.firstColumn.$el.style.transform = `translateX(${ x }px)`;
-          this.$refs.firstColumnHeader.$el.style.transform = `translate(${ x }px ,${ this.translateY }px)`;
+          this.$refs.firstColumn.$el.style.transform = cssTransX;
+          this.$refs.firstColumnHeader.$el.style.transform = cssTransBoth;
+        }
+        if (this.controlsShown) {
+          this.$refs.controls.style.transform = cssTransBoth;
         }
         this.translateX = x;
       },
@@ -651,13 +658,25 @@
     width: auto;
   }
   .TableSticky__hidden-visually {
-    clip: rect(0 0 0 0);
-    clip-path: inset(50%);
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
     height: 1px;
     overflow: hidden;
-    position: absolute;
-    white-space: nowrap;
-    width: 1px;
+  }
+  // NOTE: The table caption needs to be positioned normally
+  // as display table-cell. Making absolute for hidden-visually 
+  // is causing chrome to add an anonoymous cell to the table resulting in a 1px
+  // cell under the header. Which is messing up alginments. The only solution
+  // without removing the <caption> (not good for WCAG) is to position it at the 
+  // of the table so it doesn't affect the header alignments. Then cropping it to 
+  // a pixel and using negative margin to remove it's pixel from the flow beneath 
+  .TableSticky__caption {
+    caption-side: bottom;
+    margin-bottom: -1px;
+    height: 1px;
+    overflow: hidden;
   }
   .TableSticky__controls {
     position: absolute;

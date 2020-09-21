@@ -1,11 +1,6 @@
 <template>
   <table>
-    <caption 
-      v-if="caption" 
-      class="TableSticky__hidden-visually"
-    >
-      {{ caption }}
-    </caption>
+    <caption v-if="caption" class="TableSticky__caption">{{ caption }}</caption>
     <thead>
       <tr 
         v-for="(row, rowIndex) in headerRows"
