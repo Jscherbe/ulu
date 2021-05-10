@@ -3,8 +3,8 @@
     <h1>Vue Collapsibles</h1>
     <h2>Without Transitions (closes on escape)</h2>
     <CollapsibleRegion close-on-escape>
-      <template #toggle>
-        Click Me
+      <template #toggle="{ isOpen }">
+        Click Me {{ isOpen }}
       </template>
       This is the hidden content
     </CollapsibleRegion>

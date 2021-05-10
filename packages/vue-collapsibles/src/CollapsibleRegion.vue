@@ -19,7 +19,7 @@
       :aria-expanded="isOpen"
       @click="toggle"
     >
-      <slot v-if="$slots.toggle" name="toggle" />
+      <slot name="toggle" :isOpen="isOpen" />
     </button>
     <div 
       class="CollapsibleRegion__content"
