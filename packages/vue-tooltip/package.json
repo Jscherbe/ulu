@@ -32,7 +32,8 @@
         "src/"
       ],
       "html": true,
-      "markdown": true
+      "markdown": true,
+      "syntax" : "js"
     }
   },
   "author": "Joe Scherben",

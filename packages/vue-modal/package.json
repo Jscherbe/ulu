@@ -4,7 +4,6 @@
   "description": "Accessible modal plugin and components for vue",
   "main": "index.js",
   "scripts": {
-    "test": "mocha ./tests/index.js",
     "docs": "node ./node_modules/@ulu/create-docs/index.js"
   },
   "repository": {
@@ -30,7 +29,8 @@
         "src/"
       ],
       "html": true,
-      "markdown": true
+      "markdown": true,
+      "syntax" : "js"
     }
   },
   "author": "Joe Scherben",

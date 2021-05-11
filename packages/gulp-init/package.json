@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha ./tests/index.js",
-    "docs": "node ./node_modules/@ulu/create-docs/index.js"
+    "//docs": "node ./node_modules/@ulu/create-docs/index.js"
   },
   "repository": {
     "type": "git",

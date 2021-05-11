@@ -92,6 +92,17 @@ _Will run every packages NPM > scripts > docs and report._
 - Update or add HTML version of documentation to global docs for the Ulu repository. Which is accessible via Git Pages here.
 - Update the list of links to each global docs child sites
 
+**Notes**
+
+- Configured using package's ulu.docs object API below
+    - `title` {String} Title for documentation of package
+    - `description` {String} Description to insert
+    - `includes` {Array} Local paths to parse 
+    - `html` {Boolean} Generate HTML documentation (placed into the ulu documentation pages area, .md version is the local)
+    - `markdown` {Boolean} Generate Markdown Documentation
+    - `markdownFilename` {String} Name of generated markdown documentation (inserted into the package root directory)
+    - `syntax` {String} Syntax for documentation, determines which parser to use in ulu/create-docs package
+
 ## Resources
 
 ### Vue JS Guides

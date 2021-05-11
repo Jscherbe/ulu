@@ -9,5 +9,5 @@ module.exports = function(string) {
   // Do the regex
   string = string.replace(/^[^-_a-zA-Z]+/, '').replace(/^-(?:[-0-9]+)/, '-');
   newString = string && string.replace(/[^-_a-zA-Z0-9]+/g, '-');
-  return newString;
+  return newString.toLowerCase();
 };

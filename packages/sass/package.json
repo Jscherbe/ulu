@@ -1,5 +1,5 @@
 {
-  "name": "@ulu/sass-library",
+  "name": "@ulu/sass",
   "version": "0.0.1",
   "private": true,
   "description": "Library of mixins, components and workflow related helpers for sass",
@@ -7,28 +7,18 @@
     "name": "Joseph Scherben"
   },
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "docs": "node ./node_modules/@ulu/create-docs/index.js",
+    "build" : "node ./build.js",
+    "develop" : "node ./develop.js"
   },
   "main": "index.js",
-  "dependencies": {
-    "core-js": "^3.6.5",
-    "sass": "^1.26.10",
-    "vue": "^2.6.11",
-    "vue-router": "^3.2.0",
-    "vuex": "^3.4.0"
-  },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-router": "~4.5.0",
-    "@vue/cli-plugin-vuex": "~4.5.0",
-    "@vue/cli-service": "~4.5.0",
-    "sass": "^1.26.5",
+    "@ulu/create-docs": "^0.0.3",
     "sass-loader": "^8.0.2",
-    "vue-template-compiler": "^2.6.11"
+    "chokidar" : "^3.5.1",
+    "sass": "^1.26.10"
   },
-  "_id": "@ulu/sass-library@0.0.1",
+  "_id": "@ulu/sass@0.0.1",
   "keywords": [
     "sass",
     "scss",
@@ -40,6 +30,17 @@
   "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "ulu": {
+    "docs": {
+      "title": "Sass Framework",
+      "includes": [
+        "scss/"
+      ],
+      "html": true,
+      "markdown": false,
+      "syntax": "scss"
+    }
   },
   "readme": "ERROR: No README data found!",
   "repository": {

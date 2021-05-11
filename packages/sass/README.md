@@ -1,4 +1,4 @@
-# @ulu/sass-library
+# @ulu/sass
 
 ## Project setup
 ```
