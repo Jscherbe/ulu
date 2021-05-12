@@ -9,7 +9,7 @@
 //                  
 // Reference:       https://github.com/documentationjs/documentation/blob/master/docs/NODE_API.md
 // 
-console.log('CREATING DOCS -----');
+
 const cwd = process.cwd();
 const parsers = require('./src/parsers/index');
 const debug = require('./src/debug.js');
