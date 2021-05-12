@@ -16,7 +16,8 @@
     "@ulu/create-docs": "^0.0.3",
     "sass-loader": "^8.0.2",
     "chokidar" : "^3.5.1",
-    "sass": "^1.26.10"
+    "sass": "^1.26.10",
+    "browser-sync" : "^2.26.14"
   },
   "_id": "@ulu/sass@0.0.1",
   "keywords": [

@@ -1,3 +1,7 @@
+// IMPORTANT NOTE: This file has been modified so that it will 
+// compile the custom sass for the documentation site, as this 
+// is a clone of the compiled: sassdoc-theme-default
+
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65,14 +69,71 @@ var shortcutIcon = function shortcutIcon(dest, ctx) {
 
 exports.default = function (dest, ctx) {
   ctx = applyDefaults(ctx);
-  (0, _sassdocExtras2.default)(ctx, 'description', 'markdown', 'display', 'groupName', 'shortcutIcon', 'sort', 'resolveVariables');
+  (0, _sassdocExtras2.default)(
+    ctx,
+    "description",
+    "markdown",
+    "display",
+    "groupName",
+    "shortcutIcon",
+    "sort",
+    "resolveVariables"
+  );
   ctx.data.byGroupAndType = _sassdocExtras2.default.byGroupAndType(ctx.data);
 
-  var index = _path2.default.resolve(__dirname, '../views/documentation/index.html.njk');
+  var index = _path2.default.resolve(
+    __dirname,
+    "../views/documentation/index.html.njk"
+  );
 
-  return _es6Promise.Promise.all([copy(_path2.default.resolve(__dirname, '../assets'), _path2.default.resolve(dest, 'assets')).then(shortcutIcon(dest, ctx)), renderFile(index, ctx).then(function (html) {
-    return (0, _htmlMinifier.minify)(html, { collapseWhitespace: true });
-  }).then(function (html) {
-    return writeFile(_path2.default.resolve(dest, 'index.html'), html);
-  })]);
+  compileSass();
+
+  return _es6Promise.Promise.all([
+    copy(
+      _path2.default.resolve(__dirname, "../assets"),
+      _path2.default.resolve(dest, "assets")
+    ).then(shortcutIcon(dest, ctx)),
+    renderFile(index, ctx)
+      .then(function (html) {
+        return (0, _htmlMinifier.minify)(html, { collapseWhitespace: true });
+      })
+      .then(function (html) {
+        return writeFile(_path2.default.resolve(dest, "index.html"), html);
+      }),
+  ]);
 };
+
+/**
+ * Compile latest version of sass
+ */
+function compileSass() {
+  const { writeFileSync } = require('fs');
+  const sass = require('sass');
+  const { join } = require('path');
+  const outputDir = join(__dirname, "../assets/css/");
+  // Two stylesheets (framework, sassdoc theme)
+  output(join(__dirname, "../assets/scss/framework.scss"), 'framework');
+  output(join(__dirname, "../assets/scss/theme.scss"), 'theme');
+  /**
+   * Compiles the sass
+   */
+  function output(entry, filename) {
+    const result = sass.renderSync({
+      file: entry,
+      sourceMap: true,
+      outFile: `${ filename }.css` // For source maps
+    });
+    // console.log(result.map);
+    if (result) {
+      writeFileSync(
+        join(outputDir, `${ filename }.css`), result.css.toString()
+      );
+      writeFileSync(
+        join(outputDir, `${ filename }.css.map`), result.map.toString()
+      );
+      console.error("Sass files built", entry);
+    } else {
+      console.error("Error parsing sass files", entry);
+    }
+  }
+}

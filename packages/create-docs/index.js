@@ -78,16 +78,18 @@ const paths = {
 
 // Initialization of documentation script runs once
 // user can use the parse function outside of initialization to re-parse
-parse();
+// Note: Forcing parse to return a promise,
+// it was needed for sassdocs (compile of theme using it's own styles)
+const firstParse = parse();
 
 /**
  * Wrapped so it can be used multiple times
  * - Example sass development the docs are regenerated on styles changes
  */
-function parse() {
-  parser(paths, options);
+async function parse() {
+  return await parser(paths, options);
 }
 
-exports.parse = parse;
+module.exports = { parse, paths, firstParse };
 
 
