@@ -1,6 +1,5 @@
 const debug = require('../debug.js');
 const templateMarkdown = require('../markdown-template.js');
-const updateGlobalIndex = require('../update-global-index.js');
 const documentation = require('documentation');
 const toc = require('markdown-toc');
 const streamArray = require('stream-array');
@@ -10,9 +9,9 @@ const parseOptions = {
   shallow: false
 };
 
-module.exports = function parser(paths, options) {
+module.exports = async function parser(paths, options) {
   if (options.markdown) {
-    documentation.build(paths.sources, parseOptions)
+    await documentation.build(paths.sources, parseOptions)
       .then(documentation.formats.md)
       .then(docs => {
         fs.writeFileSync(
@@ -27,7 +26,7 @@ module.exports = function parser(paths, options) {
   // somewhere other than the global documentation area. If thats
   // not the case we are going to make the path to the global folder
   if (options.html) {
-    documentation.build(paths.sources, parseOptions)
+    await documentation.build(paths.sources, parseOptions)
       .then(resp => {
         return documentation.formats.html(resp, { 
           theme: "node_modules/@ulu/create-docs/node_modules/documentation-theme-light"
@@ -40,7 +39,6 @@ module.exports = function parser(paths, options) {
         streamArray(docs).pipe(vfs.dest(paths.output.html));
         debug.message('Built HTML for ' + options.title);
         debug.message('Creating global docs index');
-        updateGlobalIndex(paths.docs);
       });
   }
 }

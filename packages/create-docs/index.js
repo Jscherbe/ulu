@@ -15,6 +15,7 @@ const parsers = require('./src/parsers/index');
 const debug = require('./src/debug.js');
 const urlize = require('./src/urlize.js');
 const { join } = require('path');
+const updateGlobalIndex = require('./src/update-global-index.js');
 let defaults = {
   "title" : "Docs",
   "description" : "Automatically generated documentation",
@@ -26,9 +27,13 @@ let defaults = {
 };
 const options = {};
 
+debug.message('Starting...');
+
 // Get the current package.json and see if there is settings
 // if not default to main entry point in package.
 const package = require(join(cwd, 'package.json'));
+
+
 
 if (package) {
   // Check for includes
@@ -87,7 +92,8 @@ const firstParse = parse();
  * - Example sass development the docs are regenerated on styles changes
  */
 async function parse() {
-  return await parser(paths, options);
+  await parser(paths, options);
+  updateGlobalIndex(paths.docs);
 }
 
 module.exports = { parse, paths, firstParse };

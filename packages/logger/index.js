@@ -12,7 +12,7 @@ const defaults = {
         devTitle: "dev log",  // <string>     Text to use when using the "developer" log output (for developers to see)
         devEnabled: true,     // <boolean|function>      Whether to output .dev()  logs
         colorTitle: "green",
-        colorSubtitle: "gray",
+        colorSubtitle: "green",
         colorError: "red",
         colorWarning: "yellow",
         colorDev: "magenata"
