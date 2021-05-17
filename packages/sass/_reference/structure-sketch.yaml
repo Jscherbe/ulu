@@ -1,0 +1,71 @@
+
+The thing I haven't figured out is where and how to ouptu styles for base and utiltities
+
+scss:
+  config: # The configuration of the libraries (framework defaults)
+    base
+    color
+    typograpahy
+    grid
+    section
+    ...
+  lib: # libraries always can be used indepently, configured by the config module, only supply mixins to create styles
+    base
+    color
+    typograpahy
+    grid
+    section
+    utilities
+    ...
+  generators: # 
+
+  components:
+    button
+    modal
+    ...
+  packages: # Entrance: Way to use the framework 
+    everything
+    minimal
+    required
+  themes: # Custom configurations
+    ...
+      
+@ulu/sass/scss/required
+@ulu/sass/scss/stylesheets/required
+@ulu/sass/scss/sets/required
+@ulu/sass/scss/packages/required
+
+@ulu/sass/scss/stylesheets
+@ulu/sass/scss/lib/grid
+
+strucutre:
+  config:
+  components:
+
+  generators:
+    - print styles / use core mixins
+
+Sass in Module Format:
+  - config 
+    - color
+    - typography
+    - spacing
+    - lists
+    - margins / max width
+    - 
+Sass Structure Order:
+  - configuration
+  - mixins
+  - functions
+  - normalize/reset
+  - base
+  - components
+  - layouts
+  - utilities
+
+Stylesheet:
+  - normalize/reset
+  - base
+  - components
+  - layouts
+  - utilities

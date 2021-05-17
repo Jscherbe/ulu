@@ -16,3 +16,8 @@ This is the sass library
      - Bigger barrier if someone else works into this
      - Probably important with certain components
      - If it's within a module/component (interpolation) it's probably not a huge deal
+
+## Rules
+
+- Modules should only be mixins or functions
+- Partials

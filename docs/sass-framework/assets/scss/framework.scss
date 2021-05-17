@@ -1,3 +1,10 @@
 // This is the import for the entire framework 
 // So we can demo it in the documentation
-@import "../../node_modules/@ulu/sass/scss/packages/everything";
+
+// Note: Why I'm writing this path directly to the other package
+// - Docs can cheat a little
+// - This module is run from the create-docs module which already needs
+//   access to the sass package. This module was loading it from there but
+//   dart-sass is loading this from this directory (which it doesn't include b/c cyclical dependencies)
+
+@import "../../../sass/scss/packages/everything";

@@ -49,6 +49,8 @@ Now link the packages for development using:
 
 ```
 $ lerna bootstrap
+# or to force use of all local dependencies
+$ lerna bootstrap --force-local
 ```
 
 ### About the packages

@@ -1,4 +1,4 @@
 # About Components
 
 - Components are reusable elements 
-- They are not required 
+- They contain styles (unlike libraries)

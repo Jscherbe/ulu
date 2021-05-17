@@ -1,0 +1,47 @@
+// @use "../config";
+@use "sass:map";
+
+// Colors
+// ------
+/// Used to get/set values from the global color palette
+///
+/// @type list | map {map} $colors The default color palette, can be extended or modified with setColors
+/// @group Colors
+$colors: (
+  "type": black,
+  "error": red
+) !default;
+
+// Set Colors
+// ------
+/// Used to override or extend the color palette
+///
+/// @param {map} $changes A map to merge into the color palette
+/// @group Colors
+/// @example scss Setting the error and type color
+///   @include ulu.setColors((
+///     "type" : #444,
+///     "error" : orange,
+///   ));
+@mixin setColors($changes) {
+  $colors: map.merge($colors, $changes) !global;
+}
+
+// Color
+// ------
+/// Get a color from the palette by name
+///
+/// @param {string} $name Name of color to get
+/// @return {color}
+/// @group Colors
+@function color($name) {
+  $color: map.get($colors, $name);
+  // body {
+    @debug $colors;
+  // }
+  @if ($color) {
+    @return $color;
+  } @else {
+    @error "Unable to find color named #{ $name }";
+  }
+}
