@@ -4,6 +4,16 @@ $backdrop-blur:               4px !default;
 
 $prefix:                      "" !default;       
 
-$box-shadow:                  0 1px 5px color('box-shadow') !default;
-$box-shadow--raised:          0 1px 12px color('box-shadow') !default;
-$box-shadow--above:           0 1px 20px color('box-shadow') !default;
+$box-shadow:                  0 1px 5px color.get('box-shadow') !default;
+$box-shadow--raised:          0 1px 12px color.get('box-shadow') !default;
+$box-shadow--above:           0 1px 20px color.get('box-shadow') !default;
+
+$rule:                        1px solid color.get('rule') !default;
+$rule-light:                  1px solid color.get('rule-light') !default;
+
+$page-margin:                 3rem !default;
+$element-margin:              1em !default;
+
+$ordered-list-type:          decimal outside !default;
+$ordered-list-type--level-2:        lower-alpha !default;
+$ordered-list-type--level-3:        lower-roman !default;

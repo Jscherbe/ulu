@@ -11,12 +11,6 @@ Document
 /**
 Use a better box model (opinionated).
 */
-*,
-::before,
-::after {
-  box-sizing: border-box;
-}
-
 /**
 Use a more readable tab size (opinionated).
 */
@@ -29,13 +23,6 @@ html {
 1. Correct the line height in all browsers.
 2. Prevent adjustments of font size after orientation changes in iOS.
 */
-html {
-  line-height: 1.15;
-  /* 1 */
-  -webkit-text-size-adjust: 100%;
-  /* 2 */
-}
-
 /*
 Sections
 ========
@@ -43,17 +30,9 @@ Sections
 /**
 Remove the margin in all browsers.
 */
-body {
-  margin: 0;
-}
-
 /**
 Improve consistency of default fonts in all browsers. (https://github.com/sindresorhus/modern-normalize/issues/3)
 */
-body {
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-}
-
 /*
 Grouping content
 ================
@@ -62,13 +41,6 @@ Grouping content
 1. Add the correct height in Firefox.
 2. Correct the inheritance of border color in Firefox. (https://bugzilla.mozilla.org/show_bug.cgi?id=190655)
 */
-hr {
-  height: 0;
-  /* 1 */
-  color: inherit;
-  /* 2 */
-}
-
 /*
 Text-level semantics
 ====================
@@ -83,51 +55,16 @@ abbr[title] {
 /**
 Add the correct font weight in Edge and Safari.
 */
-b,
-strong {
-  font-weight: bolder;
-}
-
 /**
 1. Improve consistency of default fonts in all browsers. (https://github.com/sindresorhus/modern-normalize/issues/3)
 2. Correct the odd 'em' font sizing in all browsers.
 */
-code,
-kbd,
-samp,
-pre {
-  font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
-  /* 1 */
-  font-size: 1em;
-  /* 2 */
-}
-
 /**
 Add the correct font size in all browsers.
 */
-small {
-  font-size: 80%;
-}
-
 /**
 Prevent 'sub' and 'sup' elements from affecting the line height in all browsers.
 */
-sub,
-sup {
-  font-size: 75%;
-  line-height: 0;
-  position: relative;
-  vertical-align: baseline;
-}
-
-sub {
-  bottom: -0.25em;
-}
-
-sup {
-  top: -0.5em;
-}
-
 /*
 Tabular data
 ============
@@ -139,8 +76,6 @@ Tabular data
 table {
   text-indent: 0;
   /* 1 */
-  border-color: inherit;
-  /* 2 */
 }
 
 /*
@@ -158,10 +93,8 @@ select,
 textarea {
   font-family: inherit;
   /* 1 */
-  font-size: 100%;
-  /* 1 */
-  line-height: 1.15;
-  /* 1 */
+  line-height: inherit;
+  font-size: 1rem;
   margin: 0;
   /* 2 */
 }
@@ -276,6 +209,15 @@ summary {
 base - elements
 ============================================================================= 
 */
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
 @media (prefers-reduced-motion: no-preference) {
   html {
     scroll-behavior: smooth;
@@ -285,8 +227,107 @@ base - elements
 body {
   color: black;
   background-color: white;
+  font-family: ui-sans-serif, "Open Sans", Helvetica, Arial, sans-serif;
   font-size: 1rem;
+  font-size: calc(1rem + 0.2vw);
   line-height: 1.5;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ul,
+ol,
+li,
+pre,
+code,
+p {
+  margin: 0;
+  padding: 0;
+  font-size: inherit;
+  font-family: inherit;
+  border-width: 0;
+  border-style: solid;
+  font-weight: inherit;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 0.75em;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+small {
+  font-size: 0.85rem;
+  font-size: calc(0.85rem + 0.2vw);
+  line-height: 1.2;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+b,
+strong {
+  font-weight: bold;
+}
+
+code,
+kbd,
+samp,
+pre {
+  font-family: ui-monospace, SFMono-Regular, Consolas, Menlo, monospace;
+}
+
+hr {
+  height: 0;
+  border: 0;
+  box-sizing: content-box;
+  overflow: visible;
+  margin: 1em 0;
+  border-bottom: 1px solid gray;
+}
+
+iframe {
+  border: 0;
+  outline: 0;
+}
+
+img {
+  width: auto;
+  height: auto;
+  border-style: none;
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+ul {
+  list-style: none;
+}
+
+ol {
+  margin-bottom: 1em;
+  list-style: decimal outside;
+}
+ol ol {
+  list-style: lower-alpha;
+}
+ol ol ol {
+  list-style-type: lower-roman;
 }
 
 /* 
@@ -296,37 +337,147 @@ base - keyframes
 */
 .type-small-x {
   font-size: 0.7rem;
+  font-size: calc(0.7rem + 0.2vw);
   line-height: 1.5;
 }
 
 .type-small {
   font-size: 0.85rem;
+  font-size: calc(0.85rem + 0.2vw);
   line-height: 1.5;
 }
 
 .type-base {
   font-size: 1rem;
+  font-size: calc(1rem + 0.2vw);
   line-height: 1.5;
 }
 
 .type-large {
   font-size: 1.3rem;
+  font-size: calc(1.3rem + 0.2vw);
   line-height: 1.5;
 }
 
 .type-large-x {
   font-size: 1.9rem;
+  font-size: calc(1.9rem + 0.2vw);
   line-height: 1.5;
 }
 
 .type-large-xx {
   font-size: 2.2rem;
+  font-size: calc(2.2rem + 0.2vw);
   line-height: 1.5;
 }
 
 .type-large-xxx {
   font-size: 2.5rem;
+  font-size: calc(2.5rem + 0.2vw);
   line-height: 1.5;
+}
+
+.hidden-visually,
+.hide-v {
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+.hidden-visually--focusable:active, .hidden-visually--focusable:focus,
+.hide-v--focusable:active,
+.hide-v--focusable:focus {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  width: auto;
+}
+
+.cf,
+.clearfix {
+  *zoom: 1;
+}
+.cf:before, .cf:after,
+.clearfix:before,
+.clearfix:after {
+  content: "";
+  display: table;
+  flex-basis: 0;
+  order: 1;
+}
+.cf:after,
+.clearfix:after {
+  clear: both;
+}
+
+.hidden {
+  display: none;
+}
+
+.no-scroll-y {
+  overflow-y: hidden;
+}
+
+.no-scroll-x {
+  overflow-x: hidden;
+}
+
+@media (print) {
+  .no-print {
+    display: none;
+  }
+
+  * {
+    background: transparent !important;
+    color: black !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    filter: none !important;
+  }
+
+  /* Black prints faster: h5bp.com/s */
+  a,
+a:visited {
+    text-decoration: underline;
+  }
+
+  /* Don't show links for images, or javascript/internal links */
+  pre,
+blockquote {
+    border: 1px solid #999;
+    page-break-inside: avoid;
+  }
+
+  /*thead {
+    display: table-header-group;
+  }*/
+  /* h5bp.com/t */
+  tr, img {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  p,
+h2,
+h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2,
+h3 {
+    page-break-after: avoid;
+  }
 }
 
 /*# sourceMappingURL=framework.css.map */

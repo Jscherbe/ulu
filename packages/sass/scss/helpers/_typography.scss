@@ -1,20 +1,40 @@
 @use "sass:map";
+@use "../lib/utils";
 @use "../lib/global";
 @use "../lib/typography";
 
 /// Default Size Class Name 
 /// @group Helpers:Typography
-
-$classSizes: "#{ global.$prefix }type-" !default;
+/// @type String
+$class: "#{ global.$prefix }type" !default;
 
 /// Prints Typography Sizes
 /// @group Helpers:Typography
 
 @mixin styles {
-  // Print out the typography helper classes
+
+  // @include utils.fileHeader('helpers', 'typography');
+
+  // Size Classes
   @each $size, $values in typography.$sizes {
-    .#{ $classSizes }#{$size} {
+    .#{ $class }-#{$size} {
       @include typography.size($size);
     }
   }
+
+  // Utility Classes
+  // .#{ $class }-light    { font-weight: 300; }
+  // .#{ $class }-normal   { font-weight: normal; }
+  // .#{ $class }-semibold { font-weight: 600; }
+  // .#{ $class }-italic   { font-style: italic; }
+  // .#{ $class }-bold     { font-weight: bold; }
+  // .#{ $class }-center   { text-align: center; }
+  // .#{ $class }-left     { text-align: left; }
+  // .#{ $class }-right    { text-align: right; }
+  // .#{ $class }-upper    { text-transform: uppercase; }
+  // .#{ $class }-lower    { text-transform: lowercase; }
+  // .#{ $class }-title    { text-transform: capitalize; }
+  // .#{ $class }-word-break { @include typography.word-break(); }
+  // .#{ $class }-word-break-all { @include typography.word-break(true); }
+
 }

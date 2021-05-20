@@ -22,7 +22,9 @@ $palette: (
   "white" : $white,
   "type": $black,
   "error": red,
-  "box-shadow" : black
+  "box-shadow" : black,
+  "rule" : gray,
+  "rule-light" : lightgray
 ) !default;
 
 /// Used to override or extend the color palette

@@ -3,29 +3,53 @@
 @use "utils";
 
 /// Base line height
-/// @group Lib:Typography
+/// @group Library:Typography
 /// @type Number
 /// @link https://developer.mozilla.org/en-US/docs/Web/CSS/line-height MDN 1.5 is best for low vision, Dyslexia
 
 $line-height: 1.5 !default; 
 
 /// Base dense line height
-/// @group Lib:Typography
+/// @group Library:Typography
 /// @type Number
 
 $line-height-dense: 1.2 !default;
 
 /// Base font-size set in rem's
-/// @group Lib:Typography
+/// @group Library:Typography
 /// @type Number
 
 $font-size: 16px !default;
 
+/// Base font-family
+/// @group Library:Typography
+/// @type Number
+
+$font-family: ui-sans-serif, "Open Sans", Helvetica, Arial, sans-serif !default;
+
+/// Base font-family for monospace
+/// @group Library:Typography
+/// @type String
+
+$font-family-monospace: ui-monospace, SFMono-Regular, Consolas, Menlo, monospace !default;
+
 /// Base font-size multiplier (used for presets if they are unaltered)
-/// @group Lib:Typography
+/// @group Library:Typography
 /// @type Number
 
 $size-multiplier: 0.15 !default; // Each size would be increased/decreased by 25% from the base
+
+/// Responsive Typography Viewport Percentage (use vw units)
+/// @group Library:Typography
+/// @type Number
+
+$responsive-change: 0.2vw !default; // Each size would be increased/decreased by 25% from the base
+
+/// Default Margin (bottom only)
+/// @group Library:Typography
+/// @type Number
+
+$margin: 0.75em !default;
 
 /// Get scale of the base font-size
 /// @group Library:Typography
@@ -37,43 +61,44 @@ $size-multiplier: 0.15 !default; // Each size would be increased/decreased by 25
 }
 
 /// Default size presets
-/// @group Lib:Typography
+/// @group Library:Typography
 /// @type Map
 
 $sizes: (
   "small-x" : (
     "font-size": font-size-scale(-2),
     "line-height": $line-height,
-    // "breakpoints" : (
-    //   "small" : (
-    //     "font-size": font-size-scale(0),
-    //     "line-height": $line-height,
-    //   )
-    // )
+    "responsive" : true
   ),
   "small" : (
     "font-size": font-size-scale(-1),
-    "line-height": $line-height
+    "line-height": $line-height,
+    "responsive" : true
   ),
   "base" : (
     "font-size": font-size-scale(0),
-    "line-height": $line-height
+    "line-height": $line-height,
+    "responsive" : true
   ),
   "large" : (
     "font-size": font-size-scale(2),
-    "line-height": $line-height
+    "line-height": $line-height,
+    "responsive" : true
   ),
   "large-x" : (
     "font-size": font-size-scale(6),
-    "line-height": $line-height
+    "line-height": $line-height,
+    "responsive" : true
   ),
   "large-xx" : (
     "font-size": font-size-scale(8),
-    "line-height": $line-height
+    "line-height": $line-height,
+    "responsive" : true
   ),
   "large-xxx" : (
     "font-size": font-size-scale(10),
-    "line-height": $line-height
+    "line-height": $line-height,
+    "responsive" : true
   )
 ) !default;
 
@@ -104,7 +129,16 @@ $sizes: (
 
 @mixin size($name, $line-height: true) {
   $size: utils.map-get-required($sizes, $name, 'typography');
-  font-size: map.get($size, "font-size");
+  $fs: map.get($size, "font-size");
+  $responsive: map.get($size, "responsive");
+
+  font-size: $fs;
+
+  @if ($responsive) {
+    $r: if(meta.type-of($responsive) == number, $responsive, $responsive-change);
+    font-size: calc(#{ $fs } + #{ $r });
+  }
+
   @if $line-height {
     @if (meta.type-of($line-height) == number) {
       line-height: $line-height;
@@ -119,6 +153,16 @@ $sizes: (
 /// @param {Number} $pixels Pixel value to convert from
 /// @return {Number} Rem value
 
-@function pixelsToRem($pixels) {
+@function to-rem($pixels) {
   @return ($pixels / $font-size) + rem;
+}
+
+/// Break word stradegy
+/// @group Library:Typography
+/// @param {Boolean} $force Force words to break (will have unusual breaks)
+
+@mixin word-break($force: false) {
+  word-break: if($force, break-all, normal);
+  word-break: break-word;
+  hyphens: auto;
 }

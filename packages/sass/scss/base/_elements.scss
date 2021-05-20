@@ -1,3 +1,4 @@
+@use "../lib/global";
 @use "../lib/color";
 @use "../lib/typography";
 @use "../lib/utils";
@@ -8,8 +9,13 @@
 
   @include utils.fileHeader('base', 'elements');
 
+  *,
+  ::before,
+  ::after {
+    box-sizing: border-box;
+  }
   html {
-    
+    -webkit-text-size-adjust: 100%;
     @media (prefers-reduced-motion: no-preference) {
       scroll-behavior: smooth;
     }
@@ -17,6 +23,96 @@
   body {
     color: color.get('type');
     background-color: white;
+    font-family: typography.$font-family;
     @include typography.size("base");
+  }
+  h1, 
+  h2, 
+  h3, 
+  h4, 
+  h5, 
+  h6, 
+  ul, 
+  ol, 
+  li,
+  pre, 
+  code,
+  p { 
+    margin: 0;
+    padding: 0;
+    font-size: inherit;
+    font-family: inherit;
+    border-width: 0;
+    border-style: solid;
+    font-weight: inherit;
+  }
+  p {
+    margin-top: 0;
+    margin-bottom: typography.$margin; 
+  }
+  sub, sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+  }
+  small { 
+    @include typography.size("small", typography.$line-height-dense); 
+  }
+  sub { 
+    bottom: -0.25em; 
+  }
+  sup { 
+    top: -0.5em; 
+  }
+  b, 
+  strong { 
+    font-weight: bold; 
+  }
+  code,
+  kbd,
+  samp,
+  pre {
+    font-family: typography.$font-family-monospace;
+  }
+  hr {
+    height: 0;
+    border: 0;
+    box-sizing: content-box;
+    overflow: visible;
+    margin: global.$element-margin 0;
+    border-bottom: global.$rule;
+  }
+  iframe {
+    border: 0;
+    outline: 0;
+  }
+  img {
+    width: auto;
+    height: auto;
+    border-style: none;
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+  // Not styling ordered lists because they are used in navigation and other UI components
+  ul { 
+    list-style: none; 
+  }
+  // Style ordered lists since we don't use them much in the UI components
+  ol {
+    margin-bottom: global.$element-margin;
+    list-style: global.$ordered-list-type;
+    li {
+      // margin-bottom: @base-small;
+      // margin-left: @t-base + 1px;
+    }
+    ol {
+      // margin: @base-small 0 0 @base-small;
+      list-style: global.$ordered-list-type--level-2;
+      ol { 
+        list-style-type: global.$ordered-list-type--level-3;
+      }
+    }
   }
 }

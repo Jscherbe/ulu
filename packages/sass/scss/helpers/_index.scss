@@ -1,8 +1,14 @@
 @use "typography";
+@use "accessibility";
+@use "utilities";
+@use "print";
 
 /// Prints all helper styles
 /// @group Helpers
 @mixin styles() {
   @include typography.styles;
+  @include accessibility.styles;
+  @include utilities.styles;
+  @include print.styles;
 }
 
