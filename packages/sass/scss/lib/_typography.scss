@@ -1,0 +1,124 @@
+@use "sass:map";
+@use "sass:meta";
+@use "utils";
+
+/// Base line height
+/// @group Lib:Typography
+/// @type Number
+/// @link https://developer.mozilla.org/en-US/docs/Web/CSS/line-height MDN 1.5 is best for low vision, Dyslexia
+
+$line-height: 1.5 !default; 
+
+/// Base dense line height
+/// @group Lib:Typography
+/// @type Number
+
+$line-height-dense: 1.2 !default;
+
+/// Base font-size set in rem's
+/// @group Lib:Typography
+/// @type Number
+
+$font-size: 16px !default;
+
+/// Base font-size multiplier (used for presets if they are unaltered)
+/// @group Lib:Typography
+/// @type Number
+
+$size-multiplier: 0.15 !default; // Each size would be increased/decreased by 25% from the base
+
+/// Get scale of the base font-size
+/// @group Library:Typography
+/// @param {Number} $scale Scale to get
+/// @return {Number} Base font-size scaled
+
+@function font-size-scale($scale) {
+  @return utils.calculate-scale-percentage(1rem, $size-multiplier, $scale);
+}
+
+/// Default size presets
+/// @group Lib:Typography
+/// @type Map
+
+$sizes: (
+  "small-x" : (
+    "font-size": font-size-scale(-2),
+    "line-height": $line-height,
+    // "breakpoints" : (
+    //   "small" : (
+    //     "font-size": font-size-scale(0),
+    //     "line-height": $line-height,
+    //   )
+    // )
+  ),
+  "small" : (
+    "font-size": font-size-scale(-1),
+    "line-height": $line-height
+  ),
+  "base" : (
+    "font-size": font-size-scale(0),
+    "line-height": $line-height
+  ),
+  "large" : (
+    "font-size": font-size-scale(2),
+    "line-height": $line-height
+  ),
+  "large-x" : (
+    "font-size": font-size-scale(6),
+    "line-height": $line-height
+  ),
+  "large-xx" : (
+    "font-size": font-size-scale(8),
+    "line-height": $line-height
+  ),
+  "large-xxx" : (
+    "font-size": font-size-scale(10),
+    "line-height": $line-height
+  )
+) !default;
+
+/// Update the typography presets map
+/// @group Library:Typography
+/// @param {Map} $changes A map to merge into the color palette
+/// @param {Map} $deep Use deep merge
+/// @param {Map} $overwrite Overwrite the presets completly (cannot be used with deep)
+/// @example scss Setting the error and type color
+///   @include typography.set((
+///     "small" : 0.8rem
+///   ));
+
+@mixin set-sizes($changes, $deep: false, $overwrite: false) {
+  @if $deep {
+    $presets: map.deep-merge($presets, $changes) !global;
+  } @else if $overwrite {
+    $presets: $changes !global;
+  } @else {
+    $presets: map.merge($presets, $changes) !global;
+  }
+}
+
+/// Print a typography size (font-size, line-height)
+/// @group Library:Typography
+/// @param {String} $name Name to lookup 
+/// @param {String} $line-height Print out size's line-height, or override it, pass false to not include
+
+@mixin size($name, $line-height: true) {
+  $size: utils.map-get-required($sizes, $name, 'typography');
+  font-size: map.get($size, "font-size");
+  @if $line-height {
+    @if (meta.type-of($line-height) == number) {
+      line-height: $line-height;
+    } @else {
+      line-height: map.get($size, "line-height");
+    }
+  }
+}
+
+/// Convert pixel value to rem value based on typography $font-size
+/// @group Library:Typography
+/// @param {Number} $pixels Pixel value to convert from
+/// @return {Number} Rem value
+
+@function pixelsToRem($pixels) {
+  @return ($pixels / $font-size) + rem;
+}

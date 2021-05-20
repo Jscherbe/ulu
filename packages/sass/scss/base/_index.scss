@@ -1,0 +1,12 @@
+@use "normalize";
+@use "elements";
+@use "keyframes";
+
+/// Prints all Base styles
+/// @group Base
+@mixin styles() {
+  @include normalize.styles;
+  @include elements.styles;
+  @include keyframes.styles;
+}
+

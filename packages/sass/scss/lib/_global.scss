@@ -1,0 +1,9 @@
+@use "color";
+
+$backdrop-blur:               4px !default;
+
+$prefix:                      "" !default;       
+
+$box-shadow:                  0 1px 5px color('box-shadow') !default;
+$box-shadow--raised:          0 1px 12px color('box-shadow') !default;
+$box-shadow--above:           0 1px 20px color('box-shadow') !default;

@@ -1,3 +1,27 @@
+scss:
+  base: Top of stylesheet
+    - normalize
+    - general element styling
+  components: Ui Components
+    - section
+    - button
+    - modal
+    - ...
+  utitlites: Utility classes / Overriding / atomic (bottom of stylesheet)
+    - hidden-visually
+    - leading
+    - background color
+    - type colors
+  lib: The actual core library(s)
+    - color
+    - units
+    - globals
+  packages: Precanned imports for bootstrapping
+    - Everything
+    - Minimal
+
+
+
 
 The thing I haven't figured out is where and how to ouptu styles for base and utiltities
 

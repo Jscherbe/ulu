@@ -1,0 +1,7 @@
+@use "../lib/utils";
+
+/// Prints CSS keyframes
+/// @group Base:Keyframes
+@mixin styles {
+  @include utils.fileHeader('base', 'keyframes');
+}

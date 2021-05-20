@@ -1,0 +1,20 @@
+@use "sass:map";
+@use "../lib/global";
+@use "../lib/typography";
+
+/// Default Size Class Name 
+/// @group Helpers:Typography
+
+$classSizes: "#{ global.$prefix }type-" !default;
+
+/// Prints Typography Sizes
+/// @group Helpers:Typography
+
+@mixin styles {
+  // Print out the typography helper classes
+  @each $size, $values in typography.$sizes {
+    .#{ $classSizes }#{$size} {
+      @include typography.size($size);
+    }
+  }
+}

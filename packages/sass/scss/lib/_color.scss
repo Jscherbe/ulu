@@ -1,47 +1,73 @@
-// @use "../config";
 @use "sass:map";
+@use "utils";
 
-// Colors
-// ------
-/// Used to get/set values from the global color palette
-///
-/// @type list | map {map} $colors The default color palette, can be extended or modified with setColors
-/// @group Colors
-$colors: (
-  "type": black,
-  "error": red
+/// The defualt black value, can be tinted and other users of the color
+/// @group Library:Color
+/// @type Color
+
+$black: black !default;
+
+/// The defualt black value, can be tinted and other users of the color
+/// @group Library:Color
+/// @type Color
+
+$white: white !default;
+
+/// The color palette map, can be extended or modified with set() and accessed with get()
+/// @group Library:Color
+/// @type map  
+
+$palette: (
+  "black" : $black,
+  "white" : $white,
+  "type": $black,
+  "error": red,
+  "box-shadow" : black
 ) !default;
 
-// Set Colors
-// ------
 /// Used to override or extend the color palette
-///
-/// @param {map} $changes A map to merge into the color palette
-/// @group Colors
+/// @group Library:Color
+/// @param {Map} $changes A map to merge into the color palette
 /// @example scss Setting the error and type color
-///   @include ulu.setColors((
+///   @include color.set((
 ///     "type" : #444,
 ///     "error" : orange,
 ///   ));
-@mixin setColors($changes) {
-  $colors: map.merge($colors, $changes) !global;
+
+@mixin set($changes) {
+  $palette: map.merge($palette, $changes) !global;
 }
 
-// Color
-// ------
 /// Get a color from the palette by name
-///
-/// @param {string} $name Name of color to get
-/// @return {color}
-/// @group Colors
-@function color($name) {
-  $color: map.get($colors, $name);
-  // body {
-    @debug $colors;
-  // }
-  @if ($color) {
-    @return $color;
-  } @else {
-    @error "Unable to find color named #{ $name }";
-  }
+/// @group Library:Color
+/// @param {String} $name Name of color to get
+/// @return {Color}
+
+@function get($name) {
+  @return utils.map-get-required($palette, $name, 'color');;
+}
+
+
+/// Lighten a color using the default white by a percentage
+/// @group Library:Color
+/// @param {Color} $color Color to apply to tint
+/// @param {Number} $percentage Percentage
+/// @return {Color}
+/// @author 
+/// @link https://css-tricks.com/snippets/sass/tint-shade-functions/ Modified from source (CSS Tricks, Kitty Giraudel)
+
+@function tint($color, $percentage) {
+  @return mix($white, $color, $percentage);
+}
+
+/// Darken a color with the default black by a percentage
+/// @group Library:Color
+/// @param {Color} $color Color to shade
+/// @param {Number} $percentage Percentage to shade
+/// @return {Color}
+/// @author Kitty Giraudel
+/// @link https://css-tricks.com/snippets/sass/tint-shade-functions/ Modified from source (CSS Tricks, Kitty Giraudel)
+
+@function shade($color, $percentage) {
+  @return mix($black, $color, $percentage);
 }

@@ -5,7 +5,7 @@
   {% if item.type == "*" %}
     Any
   {% else %}
-    <code>{{ item.type | display_as_type }}</code>
+    <code>{{ item.type | display_as_type | safe }}</code>
   {% endif %}
   </p>
 {% endif %}

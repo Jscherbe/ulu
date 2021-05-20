@@ -1,0 +1,47 @@
+@use "sass:map";
+
+/// Get a value from a map, throw an error if not found
+/// @group library:utils
+/// @param {map} $map The map to get the value from
+/// @param {string} $key The key in the map to get value from
+/// @param {string} $type The type of value you were trying to get, for debugging to let the user know we couldn't get a 'unit' for example
+/// @return {*} The value from the map
+
+@function map-get-required($map, $key, $type: "map value") {
+  $value: map.get($map, $key);
+  @if ($value != null) {
+    @return $value;
+  } @else {
+    @error "ULU: Unable to find #{ $type } named #{ $key }, in .";
+  }
+}
+
+/// Calculate the size of something at a given scale (percentage/exponential)
+/// @group library:utils
+/// @param {Number} $start The number the scale starts at (ie. 1 for example)
+/// @param {Number} $percentage The percentage the scale gets scaled by
+/// @param {Number} $scale The current value in the scale you want to get 
+/// @return {Number}
+
+@function calculate-scale-percentage($start, $percentage, $scale) {
+  @return ($scale * $percentage) + $start;
+}
+
+/// Calculate the size of something at a given scale (linear)
+/// @group library:utils
+/// @param {Number} $start The number the scale starts at (ie. 1 for example)
+/// @param {Number} $distance The amount to change between each scale
+/// @param {Number} $scale The current value in the scale you want to get 
+/// @return {Number}
+
+@function calculate-scale-linear($start, $distance, $scale) {
+  @return ($by * $scale) + $start;
+}
+
+@mixin fileHeader($context, $name) {
+/* 
+=============================================================================
+#{ $context } - #{ $name }
+============================================================================= 
+*/
+}

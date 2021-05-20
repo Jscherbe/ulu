@@ -7,4 +7,7 @@
 //   access to the sass package. This module was loading it from there but
 //   dart-sass is loading this from this directory (which it doesn't include b/c cyclical dependencies)
 
-@import "../../../sass/scss/packages/everything";
+@use "../../../sass/scss/packages/minimal" as ulu;
+
+@include ulu.base-styles();
+@include ulu.helper-styles();

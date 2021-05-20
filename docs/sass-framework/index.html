@@ -1,20 +1,437 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><title>@ulu/sass - v0.0.1</title><link rel="stylesheet" href="assets/css/framework.css"><link rel="stylesheet" href="assets/css/theme.css"><link href="https://fonts.googleapis.com/css?family=Open+Sans:400,500,700" rel="stylesheet" type="text/css"><meta name="viewport" content="width=device-width"><meta content="IE=edge, chrome=1" http-equiv="X-UA-Compatible"><!-- Open Graph tags --><meta property="og:title" content="@ulu/sass - SassDoc"><meta property="og:type" content="website"><meta property="og:description" content="<p>Library of mixins, components and workflow related helpers for sass</p>
-"><!-- Thanks to Sass-lang.com for the icons --><link href="assets/images/favicon.png" rel="shortcut icon"></head><body><aside class="sidebar" role="nav"><div class="sidebar__header"><h1 class="sidebar__title">@ulu/sass - 0.0.1</h1></div><div class="sidebar__body"><button type="button" class="btn-toggle js-btn-toggle" data-alt="Open all">Close all</button><p class="sidebar__item sidebar__item--heading" data-slug="colors"><a href="#colors">colors</a></p><div><p class="sidebar__item sidebar__item--sub-heading" data-slug="colors-variable"><a href="#colors-variable">variables</a></p><ul class="list-unstyled"><li class="sidebar__item sassdoc__item" data-group="colors" data-name="colors" data-type="variable"><a href="#colors-variable-colors">colors</a></li></ul><p class="sidebar__item sidebar__item--sub-heading" data-slug="colors-mixin"><a href="#colors-mixin">mixins</a></p><ul class="list-unstyled"><li class="sidebar__item sassdoc__item" data-group="colors" data-name="setColors" data-type="mixin"><a href="#colors-mixin-setColors">setColors</a></li></ul><p class="sidebar__item sidebar__item--sub-heading" data-slug="colors-function"><a href="#colors-function">functions</a></p><ul class="list-unstyled"><li class="sidebar__item sassdoc__item" data-group="colors" data-name="color" data-type="function"><a href="#colors-function-color">color</a></li></ul></div></div></aside><article class="main" role="main"><header class="header" role="banner"><div class="container"><div class="sassdoc__searchbar searchbar"><label for="js-search-input" class="visually-hidden">Search</label><div class="searchbar__form" id="js-search"><input name="search" type="search" class="searchbar__field" autocomplete="off" autofocus id="js-search-input" placeholder="Search"><ul class="searchbar__suggestions" id="js-search-suggestions"></ul></div></div></div></header><section class="main__section"><h1 class="main__heading" id="colors"><div class="container">colors</div></h1><section class="main__sub-section" id="colors-variable"><h2 class="main__heading--secondary"><div class="container">variables</div></h2><section class="main__item container item" id="colors-variable-colors"><h3 class="item__heading"><a class="item__name" href="#variable-colors">colors</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$colors: (
-  &quot;type&quot;: black,
-  &quot;error&quot;: red
-) !default;</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Used to get/set values from the global color palette</p></div><h3 class="item__sub-heading">Type</h3><p><code>List&lt;/code&gt; or &lt;code&gt;Map {map} $colors the default color palette, can be extended or modified with setcolors</code></p><h3 class="item__sub-heading">Used by</h3><ul class="list-unstyled"><li><span class="item__cross-type">[mixin]</span> <a href="#colors-mixin-setColors"><code>setColors</code></a></li><li><span class="item__cross-type">[mixin]</span> <a href="#colors-mixin-setColors"><code>setColors</code></a></li><li><span class="item__cross-type">[function]</span> <a href="#colors-function-color"><code>color</code></a></li><li><span class="item__cross-type">[function]</span> <a href="#colors-function-color"><code>color</code></a></li></ul></section></section><section class="main__sub-section" id="colors-mixin"><h2 class="main__heading--secondary"><div class="container">mixins</div></h2><section class="main__item container item" id="colors-mixin-setColors"><h3 class="item__heading"><a class="item__name" href="#mixin-setColors">setColors</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@mixin setColors($changes) { 
-  $colors: map.merge($colors, $changes) !global;
- }" data-collapsed="@mixin setColors($changes) { ... }"><code>@mixin setColors($changes) { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Used to override or extend the color palette</p></div><h3 class="item__sub-heading">Parameters</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">parameter </span>Name</th><th scope="col"><span class="visually-hidden">parameter </span>Description</th><th scope="col"><span class="visually-hidden">parameter </span>Type</th><th scope="col"><span class="visually-hidden">parameter </span>Default value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>$changes</code></th><td data-label="desc"><p>A map to merge into the color palette</p></td><td data-label="type"><code>Map</code></td><td data-label="default">&mdash;<span class="visually-hidden"> none</span></td></tr></tbody></table><h3 class="item__sub-heading">Example</h3><div class="item__example example"><div class="example__description"><p>Setting the error and type color</p></div><pre class="example__code language-scss"><code>@include ulu.setColors((
+"><!-- Thanks to Sass-lang.com for the icons --><link href="assets/images/favicon.png" rel="shortcut icon"></head><body><aside class="sidebar" role="nav"><div class="sidebar__header"><h1 class="sidebar__title">@ulu/sass - 0.0.1</h1></div><div class="sidebar__body"><button type="button" class="btn-toggle js-btn-toggle" data-alt="Open all">Close all</button><p class="sidebar__item sidebar__item--heading" data-slug="base"><a href="#base">base</a></p><div><p class="sidebar__item sidebar__item--sub-heading" data-slug="base-mixin"><a href="#base-mixin">mixins</a></p><ul class="list-unstyled"><li class="sidebar__item sassdoc__item" data-group="base" data-name="styles" data-type="mixin"><a href="#base-mixin-styles">styles</a></li></ul></div><p class="sidebar__item sidebar__item--heading" data-slug="base:elements"><a href="#base:elements">base:elements</a></p><div><p class="sidebar__item sidebar__item--sub-heading" data-slug="base:elements-mixin"><a href="#base:elements-mixin">mixins</a></p><ul class="list-unstyled"><li class="sidebar__item sassdoc__item" data-group="base:elements" data-name="styles" data-type="mixin"><a href="#base:elements-mixin-styles">styles</a></li></ul></div><p class="sidebar__item sidebar__item--heading" data-slug="base:keyframes"><a href="#base:keyframes">base:keyframes</a></p><div><p class="sidebar__item sidebar__item--sub-heading" data-slug="base:keyframes-mixin"><a href="#base:keyframes-mixin">mixins</a></p><ul class="list-unstyled"><li class="sidebar__item sassdoc__item" data-group="base:keyframes" data-name="styles" data-type="mixin"><a href="#base:keyframes-mixin-styles">styles</a></li></ul></div><p class="sidebar__item sidebar__item--heading" data-slug="base:normalize"><a href="#base:normalize">base:normalize</a></p><div><p class="sidebar__item sidebar__item--sub-heading" data-slug="base:normalize-mixin"><a href="#base:normalize-mixin">mixins</a></p><ul class="list-unstyled"><li class="sidebar__item sassdoc__item" data-group="base:normalize" data-name="styles" data-type="mixin"><a href="#base:normalize-mixin-styles">styles</a></li></ul></div><p class="sidebar__item sidebar__item--heading" data-slug="helpers"><a href="#helpers">helpers</a></p><div><p class="sidebar__item sidebar__item--sub-heading" data-slug="helpers-mixin"><a href="#helpers-mixin">mixins</a></p><ul class="list-unstyled"><li class="sidebar__item sassdoc__item" data-group="helpers" data-name="styles" data-type="mixin"><a href="#helpers-mixin-styles">styles</a></li></ul></div><p class="sidebar__item sidebar__item--heading" data-slug="helpers:typography"><a href="#helpers:typography">helpers:typography</a></p><div><p class="sidebar__item sidebar__item--sub-heading" data-slug="helpers:typography-variable"><a href="#helpers:typography-variable">variables</a></p><ul class="list-unstyled"><li class="sidebar__item sassdoc__item" data-group="helpers:typography" data-name="classSizes" data-type="variable"><a href="#helpers:typography-variable-classSizes">classSizes</a></li></ul><p class="sidebar__item sidebar__item--sub-heading" data-slug="helpers:typography-mixin"><a href="#helpers:typography-mixin">mixins</a></p><ul class="list-unstyled"><li class="sidebar__item sassdoc__item" data-group="helpers:typography" data-name="styles" data-type="mixin"><a href="#helpers:typography-mixin-styles">styles</a></li></ul></div><p class="sidebar__item sidebar__item--heading" data-slug="lib:typography"><a href="#lib:typography">lib:typography</a></p><div><p class="sidebar__item sidebar__item--sub-heading" data-slug="lib:typography-variable"><a href="#lib:typography-variable">variables</a></p><ul class="list-unstyled"><li class="sidebar__item sassdoc__item" data-group="lib:typography" data-name="line-height" data-type="variable"><a href="#lib:typography-variable-line-height">line-height</a></li><li class="sidebar__item sassdoc__item" data-group="lib:typography" data-name="line-height-dense" data-type="variable"><a href="#lib:typography-variable-line-height-dense">line-height-dense</a></li><li class="sidebar__item sassdoc__item" data-group="lib:typography" data-name="font-size" data-type="variable"><a href="#lib:typography-variable-font-size">font-size</a></li><li class="sidebar__item sassdoc__item" data-group="lib:typography" data-name="size-multiplier" data-type="variable"><a href="#lib:typography-variable-size-multiplier">size-multiplier</a></li><li class="sidebar__item sassdoc__item" data-group="lib:typography" data-name="sizes" data-type="variable"><a href="#lib:typography-variable-sizes">sizes</a></li></ul></div><p class="sidebar__item sidebar__item--heading" data-slug="library:color"><a href="#library:color">library:color</a></p><div><p class="sidebar__item sidebar__item--sub-heading" data-slug="library:color-variable"><a href="#library:color-variable">variables</a></p><ul class="list-unstyled"><li class="sidebar__item sassdoc__item" data-group="library:color" data-name="black" data-type="variable"><a href="#library:color-variable-black">black</a></li><li class="sidebar__item sassdoc__item" data-group="library:color" data-name="white" data-type="variable"><a href="#library:color-variable-white">white</a></li><li class="sidebar__item sassdoc__item" data-group="library:color" data-name="palette" data-type="variable"><a href="#library:color-variable-palette">palette</a></li></ul><p class="sidebar__item sidebar__item--sub-heading" data-slug="library:color-mixin"><a href="#library:color-mixin">mixins</a></p><ul class="list-unstyled"><li class="sidebar__item sassdoc__item" data-group="library:color" data-name="set" data-type="mixin"><a href="#library:color-mixin-set">set</a></li></ul><p class="sidebar__item sidebar__item--sub-heading" data-slug="library:color-function"><a href="#library:color-function">functions</a></p><ul class="list-unstyled"><li class="sidebar__item sassdoc__item" data-group="library:color" data-name="get" data-type="function"><a href="#library:color-function-get">get</a></li><li class="sidebar__item sassdoc__item" data-group="library:color" data-name="tint" data-type="function"><a href="#library:color-function-tint">tint</a></li><li class="sidebar__item sassdoc__item" data-group="library:color" data-name="shade" data-type="function"><a href="#library:color-function-shade">shade</a></li></ul></div><p class="sidebar__item sidebar__item--heading" data-slug="library:typography"><a href="#library:typography">library:typography</a></p><div><p class="sidebar__item sidebar__item--sub-heading" data-slug="library:typography-function"><a href="#library:typography-function">functions</a></p><ul class="list-unstyled"><li class="sidebar__item sassdoc__item" data-group="library:typography" data-name="font-size-scale" data-type="function"><a href="#library:typography-function-font-size-scale">font-size-scale</a></li><li class="sidebar__item sassdoc__item" data-group="library:typography" data-name="pixelsToRem" data-type="function"><a href="#library:typography-function-pixelsToRem">pixelsToRem</a></li></ul><p class="sidebar__item sidebar__item--sub-heading" data-slug="library:typography-mixin"><a href="#library:typography-mixin">mixins</a></p><ul class="list-unstyled"><li class="sidebar__item sassdoc__item" data-group="library:typography" data-name="set-sizes" data-type="mixin"><a href="#library:typography-mixin-set-sizes">set-sizes</a></li><li class="sidebar__item sassdoc__item" data-group="library:typography" data-name="size" data-type="mixin"><a href="#library:typography-mixin-size">size</a></li></ul></div><p class="sidebar__item sidebar__item--heading" data-slug="library:units"><a href="#library:units">library:units</a></p><div><p class="sidebar__item sidebar__item--sub-heading" data-slug="library:units-variable"><a href="#library:units-variable">variables</a></p><ul class="list-unstyled"><li class="sidebar__item sassdoc__item" data-group="library:units" data-name="base" data-type="variable"><a href="#library:units-variable-base">base</a></li><li class="sidebar__item sassdoc__item" data-group="library:units" data-name="presets" data-type="variable"><a href="#library:units-variable-presets">presets</a></li></ul><p class="sidebar__item sidebar__item--sub-heading" data-slug="library:units-mixin"><a href="#library:units-mixin">mixins</a></p><ul class="list-unstyled"><li class="sidebar__item sassdoc__item" data-group="library:units" data-name="set-base" data-type="mixin"><a href="#library:units-mixin-set-base">set-base</a></li><li class="sidebar__item sassdoc__item" data-group="library:units" data-name="set" data-type="mixin"><a href="#library:units-mixin-set">set</a></li></ul><p class="sidebar__item sidebar__item--sub-heading" data-slug="library:units-function"><a href="#library:units-function">functions</a></p><ul class="list-unstyled"><li class="sidebar__item sassdoc__item" data-group="library:units" data-name="get" data-type="function"><a href="#library:units-function-get">get</a></li><li class="sidebar__item sassdoc__item" data-group="library:units" data-name="get-preset" data-type="function"><a href="#library:units-function-get-preset">get-preset</a></li></ul></div><p class="sidebar__item sidebar__item--heading" data-slug="library:utils"><a href="#library:utils">library:utils</a></p><div><p class="sidebar__item sidebar__item--sub-heading" data-slug="library:utils-function"><a href="#library:utils-function">functions</a></p><ul class="list-unstyled"><li class="sidebar__item sassdoc__item" data-group="library:utils" data-name="map-get-required" data-type="function"><a href="#library:utils-function-map-get-required">map-get-required</a></li><li class="sidebar__item sassdoc__item" data-group="library:utils" data-name="calculate-scale-percentage" data-type="function"><a href="#library:utils-function-calculate-scale-percentage">calculate-scale-percentage</a></li><li class="sidebar__item sassdoc__item" data-group="library:utils" data-name="calculate-scale-linear" data-type="function"><a href="#library:utils-function-calculate-scale-linear">calculate-scale-linear</a></li></ul></div></div></aside><article class="main" role="main"><header class="header" role="banner"><div class="container"><div class="sassdoc__searchbar searchbar"><label for="js-search-input" class="visually-hidden">Search</label><div class="searchbar__form" id="js-search"><input name="search" type="search" class="searchbar__field" autocomplete="off" autofocus id="js-search-input" placeholder="Search"><ul class="searchbar__suggestions" id="js-search-suggestions"></ul></div></div></div></header><section class="main__section"><h1 class="main__heading" id="base"><div class="container">base</div></h1><div class="group-notes container"><strong>Note:</strong> When importing ulu as package or using the `lib` module directly each library is prefixed with it's name, so color.set() becomes ulu.color-set().</div><section class="main__sub-section" id="base-mixin"><h2 class="main__heading--secondary"><div class="container">mixins</div></h2><section class="main__item container item" id="base-mixin-styles"><h3 class="item__heading"><a class="item__name" href="#mixin-styles">styles</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@mixin styles() { 
+  @include normalize.styles;
+  @include elements.styles;
+  @include keyframes.styles;
+ }" data-collapsed="@mixin styles() { ... }"><code>@mixin styles() { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Prints all Base styles</p></div><h3 class="item__sub-heading">Parameters</h3><p>None.</p></section></section></section><section class="main__section"><h1 class="main__heading" id="base:elements"><div class="container">base:elements</div></h1><div class="group-notes container"><strong>Note:</strong> When importing ulu as package or using the `lib` module directly each library is prefixed with it's name, so color.set() becomes ulu.color-set().</div><section class="main__sub-section" id="base:elements-mixin"><h2 class="main__heading--secondary"><div class="container">mixins</div></h2><section class="main__item container item" id="base:elements-mixin-styles"><h3 class="item__heading"><a class="item__name" href="#mixin-styles">styles</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@mixin styles() { 
+
+  @include utils.fileHeader(&#39;base&#39;, &#39;elements&#39;);
+
+  html {
+    
+    @media (prefers-reduced-motion: no-preference) {
+      scroll-behavior: smooth;
+    }
+  }
+  body {
+    color: color.get(&#39;type&#39;);
+    background-color: white;
+    @include typography.size(&quot;base&quot;);
+  }
+ }" data-collapsed="@mixin styles() { ... }"><code>@mixin styles() { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Prints elements styles</p></div><h3 class="item__sub-heading">Parameters</h3><p>None.</p><h3 class="item__sub-heading">Requires</h3><ul class="list-unstyled"><li class="item__description item__description--inline"><span class="item__cross-type">[function]</span> <a href="#library:color-function-get"><code>get</code></a></li></ul></section></section></section><section class="main__section"><h1 class="main__heading" id="base:keyframes"><div class="container">base:keyframes</div></h1><div class="group-notes container"><strong>Note:</strong> When importing ulu as package or using the `lib` module directly each library is prefixed with it's name, so color.set() becomes ulu.color-set().</div><section class="main__sub-section" id="base:keyframes-mixin"><h2 class="main__heading--secondary"><div class="container">mixins</div></h2><section class="main__item container item" id="base:keyframes-mixin-styles"><h3 class="item__heading"><a class="item__name" href="#mixin-styles">styles</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@mixin styles() { 
+  @include utils.fileHeader(&#39;base&#39;, &#39;keyframes&#39;);
+ }" data-collapsed="@mixin styles() { ... }"><code>@mixin styles() { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Prints CSS keyframes</p></div><h3 class="item__sub-heading">Parameters</h3><p>None.</p></section></section></section><section class="main__section"><h1 class="main__heading" id="base:normalize"><div class="container">base:normalize</div></h1><div class="group-notes container"><strong>Note:</strong> When importing ulu as package or using the `lib` module directly each library is prefixed with it's name, so color.set() becomes ulu.color-set().</div><section class="main__sub-section" id="base:normalize-mixin"><h2 class="main__heading--secondary"><div class="container">mixins</div></h2><section class="main__item container item" id="base:normalize-mixin-styles"><h3 class="item__heading"><a class="item__name" href="#mixin-styles">styles</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@mixin styles() { 
+
+  @include utils.fileHeader(&#39;base&#39;, &#39;normalize&#39;);
+  
+  /*! modern-normalize v1.1.0 | MIT License | https://github.com/sindresorhus/modern-normalize */
+
+  /*
+  Document
+  ========
+  */
+
+  /**
+  Use a better box model (opinionated).
+  */
+
+  *,
+  ::before,
+  ::after {
+    box-sizing: border-box;
+  }
+
+  /**
+  Use a more readable tab size (opinionated).
+  */
+
+  html {
+    -moz-tab-size: 4;
+    tab-size: 4;
+  }
+
+  /**
+  1. Correct the line height in all browsers.
+  2. Prevent adjustments of font size after orientation changes in iOS.
+  */
+
+  html {
+    line-height: 1.15; /* 1 */
+    -webkit-text-size-adjust: 100%; /* 2 */
+  }
+
+  /*
+  Sections
+  ========
+  */
+
+  /**
+  Remove the margin in all browsers.
+  */
+
+  body {
+    margin: 0;
+  }
+
+  /**
+  Improve consistency of default fonts in all browsers. (https://github.com/sindresorhus/modern-normalize/issues/3)
+  */
+
+  body {
+    font-family:
+      system-ui,
+      -apple-system, /* Firefox supports this but not yet `system-ui` */
+      &#39;Segoe UI&#39;,
+      Roboto,
+      Helvetica,
+      Arial,
+      sans-serif,
+      &#39;Apple Color Emoji&#39;,
+      &#39;Segoe UI Emoji&#39;;
+  }
+
+  /*
+  Grouping content
+  ================
+  */
+
+  /**
+  1. Add the correct height in Firefox.
+  2. Correct the inheritance of border color in Firefox. (https://bugzilla.mozilla.org/show_bug.cgi?id=190655)
+  */
+
+  hr {
+    height: 0; /* 1 */
+    color: inherit; /* 2 */
+  }
+
+  /*
+  Text-level semantics
+  ====================
+  */
+
+  /**
+  Add the correct text decoration in Chrome, Edge, and Safari.
+  */
+
+  abbr[title] {
+    text-decoration: underline dotted;
+  }
+
+  /**
+  Add the correct font weight in Edge and Safari.
+  */
+
+  b,
+  strong {
+    font-weight: bolder;
+  }
+
+  /**
+  1. Improve consistency of default fonts in all browsers. (https://github.com/sindresorhus/modern-normalize/issues/3)
+  2. Correct the odd &#39;em&#39; font sizing in all browsers.
+  */
+
+  code,
+  kbd,
+  samp,
+  pre {
+    font-family:
+      ui-monospace,
+      SFMono-Regular,
+      Consolas,
+      &#39;Liberation Mono&#39;,
+      Menlo,
+      monospace; /* 1 */
+    font-size: 1em; /* 2 */
+  }
+
+  /**
+  Add the correct font size in all browsers.
+  */
+
+  small {
+    font-size: 80%;
+  }
+
+  /**
+  Prevent &#39;sub&#39; and &#39;sup&#39; elements from affecting the line height in all browsers.
+  */
+
+  sub,
+  sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+  }
+
+  sub {
+    bottom: -0.25em;
+  }
+
+  sup {
+    top: -0.5em;
+  }
+
+  /*
+  Tabular data
+  ============
+  */
+
+  /**
+  1. Remove text indentation from table contents in Chrome and Safari. (https://bugs.chromium.org/p/chromium/issues/detail?id=999088, https://bugs.webkit.org/show_bug.cgi?id=201297)
+  2. Correct table border color inheritance in all Chrome and Safari. (https://bugs.chromium.org/p/chromium/issues/detail?id=935729, https://bugs.webkit.org/show_bug.cgi?id=195016)
+  */
+
+  table {
+    text-indent: 0; /* 1 */
+    border-color: inherit; /* 2 */
+  }
+
+  /*
+  Forms
+  =====
+  */
+
+  /**
+  1. Change the font styles in all browsers.
+  2. Remove the margin in Firefox and Safari.
+  */
+
+  button,
+  input,
+  optgroup,
+  select,
+  textarea {
+    font-family: inherit; /* 1 */
+    font-size: 100%; /* 1 */
+    line-height: 1.15; /* 1 */
+    margin: 0; /* 2 */
+  }
+
+  /**
+  Remove the inheritance of text transform in Edge and Firefox.
+  1. Remove the inheritance of text transform in Firefox.
+  */
+
+  button,
+  select { /* 1 */
+    text-transform: none;
+  }
+
+  /**
+  Correct the inability to style clickable types in iOS and Safari.
+  */
+
+  button,
+  [type=&#39;button&#39;],
+  [type=&#39;reset&#39;],
+  [type=&#39;submit&#39;] {
+    -webkit-appearance: button;
+  }
+
+  /**
+  Remove the inner border and padding in Firefox.
+  */
+
+  ::-moz-focus-inner {
+    border-style: none;
+    padding: 0;
+  }
+
+  /**
+  Restore the focus styles unset by the previous rule.
+  */
+
+  :-moz-focusring {
+    outline: 1px dotted ButtonText;
+  }
+
+  /**
+  Remove the additional &#39;:invalid&#39; styles in Firefox.
+  See: https://github.com/mozilla/gecko-dev/blob/2f9eacd9d3d995c937b4251a5557d95d494c9be1/layout/style/res/forms.css#L728-L737
+  */
+
+  :-moz-ui-invalid {
+    box-shadow: none;
+  }
+
+  /**
+  Remove the padding so developers are not caught out when they zero out &#39;fieldset&#39; elements in all browsers.
+  */
+
+  legend {
+    padding: 0;
+  }
+
+  /**
+  Add the correct vertical alignment in Chrome and Firefox.
+  */
+
+  progress {
+    vertical-align: baseline;
+  }
+
+  /**
+  Correct the cursor style of increment and decrement buttons in Safari.
+  */
+
+  ::-webkit-inner-spin-button,
+  ::-webkit-outer-spin-button {
+    height: auto;
+  }
+
+  /**
+  1. Correct the odd appearance in Chrome and Safari.
+  2. Correct the outline style in Safari.
+  */
+
+  [type=&#39;search&#39;] {
+    -webkit-appearance: textfield; /* 1 */
+    outline-offset: -2px; /* 2 */
+  }
+
+  /**
+  Remove the inner padding in Chrome and Safari on macOS.
+  */
+
+  ::-webkit-search-decoration {
+    -webkit-appearance: none;
+  }
+
+  /**
+  1. Correct the inability to style clickable types in iOS and Safari.
+  2. Change font properties to &#39;inherit&#39; in Safari.
+  */
+
+  ::-webkit-file-upload-button {
+    -webkit-appearance: button; /* 1 */
+    font: inherit; /* 2 */
+  }
+
+  /*
+  Interactive
+  ===========
+  */
+
+  /*
+  Add the correct display in Chrome and Safari.
+  */
+
+  summary {
+    display: list-item;
+  }
+ }" data-collapsed="@mixin styles() { ... }"><code>@mixin styles() { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Prints the normalize stylesheet. We are using modern-normalize 1.1.0</p></div><h3 class="item__sub-heading">Parameters</h3><p>None.</p><h3 class="item__sub-heading">Links</h3><ul class="list-unstyled"><li><a href="https://www.npmjs.com/package/modern-normalize">Modern Normalize (NPM)</a></li></ul></section></section></section><section class="main__section"><h1 class="main__heading" id="helpers"><div class="container">helpers</div></h1><div class="group-notes container"><strong>Note:</strong> When importing ulu as package or using the `lib` module directly each library is prefixed with it's name, so color.set() becomes ulu.color-set().</div><section class="main__sub-section" id="helpers-mixin"><h2 class="main__heading--secondary"><div class="container">mixins</div></h2><section class="main__item container item" id="helpers-mixin-styles"><h3 class="item__heading"><a class="item__name" href="#mixin-styles">styles</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@mixin styles() { 
+  @include typography.styles;
+ }" data-collapsed="@mixin styles() { ... }"><code>@mixin styles() { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Prints all helper styles</p></div><h3 class="item__sub-heading">Parameters</h3><p>None.</p></section></section></section><section class="main__section"><h1 class="main__heading" id="helpers:typography"><div class="container">helpers:typography</div></h1><div class="group-notes container"><strong>Note:</strong> When importing ulu as package or using the `lib` module directly each library is prefixed with it's name, so color.set() becomes ulu.color-set().</div><section class="main__sub-section" id="helpers:typography-variable"><h2 class="main__heading--secondary"><div class="container">variables</div></h2><section class="main__item container item" id="helpers:typography-variable-classSizes"><h3 class="item__heading"><a class="item__name" href="#variable-classSizes">classSizes</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$classSizes: &quot;#{ global.$prefix }type-&quot; !default;</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Default Size Class Name</p></div><h3 class="item__sub-heading">Used by</h3><ul class="list-unstyled"><li><span class="item__cross-type">[mixin]</span> <a href="#helpers:typography-mixin-styles"><code>styles</code></a></li></ul></section></section><section class="main__sub-section" id="helpers:typography-mixin"><h2 class="main__heading--secondary"><div class="container">mixins</div></h2><section class="main__item container item" id="helpers:typography-mixin-styles"><h3 class="item__heading"><a class="item__name" href="#mixin-styles">styles</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@mixin styles() { 
+  // Print out the typography helper classes
+  @each $size, $values in typography.$sizes {
+    .#{ $classSizes }#{$size} {
+      @include typography.size($size);
+    }
+  }
+ }" data-collapsed="@mixin styles() { ... }"><code>@mixin styles() { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Prints Typography Sizes</p></div><h3 class="item__sub-heading">Parameters</h3><p>None.</p><h3 class="item__sub-heading">Requires</h3><ul class="list-unstyled"><li class="item__description item__description--inline"><span class="item__cross-type">[variable]</span> <a href="#lib:typography-variable-sizes"><code>sizes</code></a></li><li class="item__description item__description--inline"><span class="item__cross-type">[variable]</span> <a href="#helpers:typography-variable-classSizes"><code>classSizes</code></a></li></ul></section></section></section><section class="main__section"><h1 class="main__heading" id="lib:typography"><div class="container">lib:typography</div></h1><div class="group-notes container"><strong>Note:</strong> When importing ulu as package or using the `lib` module directly each library is prefixed with it's name, so color.set() becomes ulu.color-set().</div><section class="main__sub-section" id="lib:typography-variable"><h2 class="main__heading--secondary"><div class="container">variables</div></h2><section class="main__item container item" id="lib:typography-variable-line-height"><h3 class="item__heading"><a class="item__name" href="#variable-line-height">line-height</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$line-height: 1.5 !default;</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Base line height</p></div><h3 class="item__sub-heading">Type</h3><p><code>Number</code></p><h3 class="item__sub-heading">Used by</h3><ul class="list-unstyled"><li><span class="item__cross-type">[mixin]</span> <a href="#library:typography-mixin-size"><code>size</code></a></li><li><span class="item__cross-type">[mixin]</span> <a href="#library:typography-mixin-size"><code>size</code></a></li><li><span class="item__cross-type">[mixin]</span> <a href="#library:typography-mixin-size"><code>size</code></a></li></ul><h3 class="item__sub-heading">Links</h3><ul class="list-unstyled"><li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/line-height">MDN 1.5 is best for low vision, Dyslexia</a></li></ul></section><section class="main__item container item" id="lib:typography-variable-line-height-dense"><h3 class="item__heading"><a class="item__name" href="#variable-line-height-dense">line-height-dense</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$line-height-dense: 1.2 !default;</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Base dense line height</p></div><h3 class="item__sub-heading">Type</h3><p><code>Number</code></p></section><section class="main__item container item" id="lib:typography-variable-font-size"><h3 class="item__heading"><a class="item__name" href="#variable-font-size">font-size</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$font-size: 16px !default;</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Base font-size set in rem&#39;s</p></div><h3 class="item__sub-heading">Type</h3><p><code>Number</code></p><h3 class="item__sub-heading">Used by</h3><ul class="list-unstyled"><li><span class="item__cross-type">[function]</span> <a href="#library:typography-function-pixelsToRem"><code>pixelsToRem</code></a></li></ul></section><section class="main__item container item" id="lib:typography-variable-size-multiplier"><h3 class="item__heading"><a class="item__name" href="#variable-size-multiplier">size-multiplier</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$size-multiplier: 0.15 !default;</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Base font-size multiplier (used for presets if they are unaltered)</p></div><h3 class="item__sub-heading">Type</h3><p><code>Number</code></p><h3 class="item__sub-heading">Used by</h3><ul class="list-unstyled"><li><span class="item__cross-type">[function]</span> <a href="#library:typography-function-font-size-scale"><code>font-size-scale</code></a></li></ul></section><section class="main__item container item" id="lib:typography-variable-sizes"><h3 class="item__heading"><a class="item__name" href="#variable-sizes">sizes</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$sizes: (
+  &quot;small-x&quot; : (
+    &quot;font-size&quot;: font-size-scale(-2),
+    &quot;line-height&quot;: $line-height,
+    // &quot;breakpoints&quot; : (
+    //   &quot;small&quot; : (
+    //     &quot;font-size&quot;: font-size-scale(0),
+    //     &quot;line-height&quot;: $line-height,
+    //   )
+    // )
+  ),
+  &quot;small&quot; : (
+    &quot;font-size&quot;: font-size-scale(-1),
+    &quot;line-height&quot;: $line-height
+  ),
+  &quot;base&quot; : (
+    &quot;font-size&quot;: font-size-scale(0),
+    &quot;line-height&quot;: $line-height
+  ),
+  &quot;large&quot; : (
+    &quot;font-size&quot;: font-size-scale(2),
+    &quot;line-height&quot;: $line-height
+  ),
+  &quot;large-x&quot; : (
+    &quot;font-size&quot;: font-size-scale(6),
+    &quot;line-height&quot;: $line-height
+  ),
+  &quot;large-xx&quot; : (
+    &quot;font-size&quot;: font-size-scale(8),
+    &quot;line-height&quot;: $line-height
+  ),
+  &quot;large-xxx&quot; : (
+    &quot;font-size&quot;: font-size-scale(10),
+    &quot;line-height&quot;: $line-height
+  )
+) !default;</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Default size presets</p></div><h3 class="item__sub-heading">Type</h3><p><code>Map</code></p><h3 class="item__sub-heading">Used by</h3><ul class="list-unstyled"><li><span class="item__cross-type">[mixin]</span> <a href="#helpers:typography-mixin-styles"><code>styles</code></a></li><li><span class="item__cross-type">[mixin]</span> <a href="#library:typography-mixin-size"><code>size</code></a></li></ul></section></section></section><section class="main__section"><h1 class="main__heading" id="library:color"><div class="container">library:color</div></h1><div class="group-notes container"><strong>Note:</strong> When importing ulu as package or using the `lib` module directly each library is prefixed with it's name, so color.set() becomes ulu.color-set().</div><section class="main__sub-section" id="library:color-variable"><h2 class="main__heading--secondary"><div class="container">variables</div></h2><section class="main__item container item" id="library:color-variable-black"><h3 class="item__heading"><a class="item__name" href="#variable-black">black</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$black: black !default;</code></pre><span class="color-preview--block" style="background: black;"></span></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>The defualt black value, can be tinted and other users of the color</p></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p><h3 class="item__sub-heading">Used by</h3><ul class="list-unstyled"><li><span class="item__cross-type">[function]</span> <a href="#library:color-function-shade"><code>shade</code></a></li></ul></section><section class="main__item container item" id="library:color-variable-white"><h3 class="item__heading"><a class="item__name" href="#variable-white">white</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$white: white !default;</code></pre><span class="color-preview--block" style="background: white;"></span></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>The defualt black value, can be tinted and other users of the color</p></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p><h3 class="item__sub-heading">Used by</h3><ul class="list-unstyled"><li><span class="item__cross-type">[function]</span> <a href="#library:color-function-tint"><code>tint</code></a></li></ul></section><section class="main__item container item" id="library:color-variable-palette"><h3 class="item__heading"><a class="item__name" href="#variable-palette">palette</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$palette: (
+  &quot;black&quot; : $black,
+  &quot;white&quot; : $white,
+  &quot;type&quot;: $black,
+  &quot;error&quot;: red,
+  &quot;box-shadow&quot; : black
+) !default;</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>The color palette map, can be extended or modified with set() and accessed with get()</p></div><h3 class="item__sub-heading">Type</h3><p><code>Map</code></p><h3 class="item__sub-heading">Used by</h3><ul class="list-unstyled"><li><span class="item__cross-type">[mixin]</span> <a href="#library:color-mixin-set"><code>set</code></a></li><li><span class="item__cross-type">[mixin]</span> <a href="#library:color-mixin-set"><code>set</code></a></li><li><span class="item__cross-type">[function]</span> <a href="#library:color-function-get"><code>get</code></a></li></ul></section></section><section class="main__sub-section" id="library:color-mixin"><h2 class="main__heading--secondary"><div class="container">mixins</div></h2><section class="main__item container item" id="library:color-mixin-set"><h3 class="item__heading"><a class="item__name" href="#mixin-set">set</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@mixin set($changes) { 
+  $palette: map.merge($palette, $changes) !global;
+ }" data-collapsed="@mixin set($changes) { ... }"><code>@mixin set($changes) { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Used to override or extend the color palette</p></div><h3 class="item__sub-heading">Parameters</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">parameter </span>Name</th><th scope="col"><span class="visually-hidden">parameter </span>Description</th><th scope="col"><span class="visually-hidden">parameter </span>Type</th><th scope="col"><span class="visually-hidden">parameter </span>Default value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>$changes</code></th><td data-label="desc"><p>A map to merge into the color palette</p></td><td data-label="type"><code>Map</code></td><td data-label="default">&mdash;<span class="visually-hidden"> none</span></td></tr></tbody></table><h3 class="item__sub-heading">Example</h3><div class="item__example example"><div class="example__description"><p>Setting the error and type color</p></div><pre class="example__code language-scss"><code>@include color.set((
   &quot;type&quot; : #444,
   &quot;error&quot; : orange,
-));</code></pre></div><h3 class="item__sub-heading">Requires</h3><ul class="list-unstyled"><li class="item__description item__description--inline"><span class="item__cross-type">[variable]</span> <a href="#colors-variable-colors"><code>colors</code></a></li><li class="item__description item__description--inline"><span class="item__cross-type">[variable]</span> <a href="#colors-variable-colors"><code>colors</code></a></li></ul></section></section><section class="main__sub-section" id="colors-function"><h2 class="main__heading--secondary"><div class="container">functions</div></h2><section class="main__item container item" id="colors-function-color"><h3 class="item__heading"><a class="item__name" href="#function-color">color</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@function color($name) { 
-  $color: map.get($colors, $name);
-  // body {
-    @debug $colors;
-  // }
-  @if ($color) {
-    @return $color;
+));</code></pre></div><h3 class="item__sub-heading">Requires</h3><ul class="list-unstyled"><li class="item__description item__description--inline"><span class="item__cross-type">[variable]</span> <a href="#library:color-variable-palette"><code>palette</code></a></li><li class="item__description item__description--inline"><span class="item__cross-type">[variable]</span> <a href="#library:color-variable-palette"><code>palette</code></a></li></ul></section></section><section class="main__sub-section" id="library:color-function"><h2 class="main__heading--secondary"><div class="container">functions</div></h2><section class="main__item container item" id="library:color-function-get"><h3 class="item__heading"><a class="item__name" href="#function-get">get</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@function get($name) { 
+  @return utils.map-get-required($palette, $name, &#39;color&#39;);;
+ }" data-collapsed="@function get($name) { ... }"><code>@function get($name) { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Get a color from the palette by name</p></div><h3 class="item__sub-heading">Parameters</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">parameter </span>Name</th><th scope="col"><span class="visually-hidden">parameter </span>Description</th><th scope="col"><span class="visually-hidden">parameter </span>Type</th><th scope="col"><span class="visually-hidden">parameter </span>Default value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>$name</code></th><td data-label="desc"><p>Name of color to get</p></td><td data-label="type"><code>String</code></td><td data-label="default">&mdash;<span class="visually-hidden"> none</span></td></tr></tbody></table><h3 class="item__sub-heading">Returns</h3><div class="item__description item__description--inline"><code>Color</code></div><h3 class="item__sub-heading">Requires</h3><ul class="list-unstyled"><li class="item__description item__description--inline"><span class="item__cross-type">[function]</span> <a href="#library:utils-function-map-get-required"><code>map-get-required</code></a></li><li class="item__description item__description--inline"><span class="item__cross-type">[variable]</span> <a href="#library:color-variable-palette"><code>palette</code></a></li></ul><h3 class="item__sub-heading">Used by</h3><ul class="list-unstyled"><li><span class="item__cross-type">[mixin]</span> <a href="#base:elements-mixin-styles"><code>styles</code></a></li><li><span class="item__cross-type">[mixin]</span> <a href="#library:typography-mixin-size"><code>size</code></a></li><li><span class="item__cross-type">[mixin]</span> <a href="#library:typography-mixin-size"><code>size</code></a></li><li><span class="item__cross-type">[function]</span> <a href="#library:utils-function-map-get-required"><code>map-get-required</code></a></li></ul></section><section class="main__item container item" id="library:color-function-tint"><h3 class="item__heading"><a class="item__name" href="#function-tint">tint</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@function tint($color, $percentage) { 
+  @return mix($white, $color, $percentage);
+ }" data-collapsed="@function tint($color, $percentage) { ... }"><code>@function tint($color, $percentage) { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Lighten a color using the default white by a percentage</p></div><h3 class="item__sub-heading">Parameters</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">parameter </span>Name</th><th scope="col"><span class="visually-hidden">parameter </span>Description</th><th scope="col"><span class="visually-hidden">parameter </span>Type</th><th scope="col"><span class="visually-hidden">parameter </span>Default value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>$color</code></th><td data-label="desc"><p>Color to apply to tint</p></td><td data-label="type"><code>Color</code></td><td data-label="default">&mdash;<span class="visually-hidden"> none</span></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>$percentage</code></th><td data-label="desc"><p>Percentage</p></td><td data-label="type"><code>Number</code></td><td data-label="default">&mdash;<span class="visually-hidden"> none</span></td></tr></tbody></table><h3 class="item__sub-heading">Returns</h3><div class="item__description item__description--inline"><code>Color</code></div><h3 class="item__sub-heading">Requires</h3><ul class="list-unstyled"><li class="item__description item__description--inline"><span class="item__cross-type">[variable]</span> <a href="#library:color-variable-white"><code>white</code></a></li></ul><h3 class="item__sub-heading">Links</h3><ul class="list-unstyled"><li><a href="https://css-tricks.com/snippets/sass/tint-shade-functions/">Modified from source (CSS Tricks, Kitty Giraudel)</a></li></ul><h3 class="item__sub-heading">Author</h3><ul class="list-unstyled"><li></li></ul></section><section class="main__item container item" id="library:color-function-shade"><h3 class="item__heading"><a class="item__name" href="#function-shade">shade</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@function shade($color, $percentage) { 
+  @return mix($black, $color, $percentage);
+ }" data-collapsed="@function shade($color, $percentage) { ... }"><code>@function shade($color, $percentage) { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Darken a color with the default black by a percentage</p></div><h3 class="item__sub-heading">Parameters</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">parameter </span>Name</th><th scope="col"><span class="visually-hidden">parameter </span>Description</th><th scope="col"><span class="visually-hidden">parameter </span>Type</th><th scope="col"><span class="visually-hidden">parameter </span>Default value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>$color</code></th><td data-label="desc"><p>Color to shade</p></td><td data-label="type"><code>Color</code></td><td data-label="default">&mdash;<span class="visually-hidden"> none</span></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>$percentage</code></th><td data-label="desc"><p>Percentage to shade</p></td><td data-label="type"><code>Number</code></td><td data-label="default">&mdash;<span class="visually-hidden"> none</span></td></tr></tbody></table><h3 class="item__sub-heading">Returns</h3><div class="item__description item__description--inline"><code>Color</code></div><h3 class="item__sub-heading">Requires</h3><ul class="list-unstyled"><li class="item__description item__description--inline"><span class="item__cross-type">[variable]</span> <a href="#library:color-variable-black"><code>black</code></a></li></ul><h3 class="item__sub-heading">Links</h3><ul class="list-unstyled"><li><a href="https://css-tricks.com/snippets/sass/tint-shade-functions/">Modified from source (CSS Tricks, Kitty Giraudel)</a></li></ul><h3 class="item__sub-heading">Author</h3><ul class="list-unstyled"><li><p>Kitty Giraudel</p></li></ul></section></section></section><section class="main__section"><h1 class="main__heading" id="library:typography"><div class="container">library:typography</div></h1><div class="group-notes container"><strong>Note:</strong> When importing ulu as package or using the `lib` module directly each library is prefixed with it's name, so color.set() becomes ulu.color-set().</div><section class="main__sub-section" id="library:typography-function"><h2 class="main__heading--secondary"><div class="container">functions</div></h2><section class="main__item container item" id="library:typography-function-font-size-scale"><h3 class="item__heading"><a class="item__name" href="#function-font-size-scale">font-size-scale</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@function font-size-scale($scale) { 
+  @return utils.calculate-scale-percentage(1rem, $size-multiplier, $scale);
+ }" data-collapsed="@function font-size-scale($scale) { ... }"><code>@function font-size-scale($scale) { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Get scale of the base font-size</p></div><h3 class="item__sub-heading">Parameters</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">parameter </span>Name</th><th scope="col"><span class="visually-hidden">parameter </span>Description</th><th scope="col"><span class="visually-hidden">parameter </span>Type</th><th scope="col"><span class="visually-hidden">parameter </span>Default value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>$scale</code></th><td data-label="desc"><p>Scale to get</p></td><td data-label="type"><code>Number</code></td><td data-label="default">&mdash;<span class="visually-hidden"> none</span></td></tr></tbody></table><h3 class="item__sub-heading">Returns</h3><div class="item__description item__description--inline"><code>Number</code> &mdash;<p>Base font-size scaled</p></div><h3 class="item__sub-heading">Requires</h3><ul class="list-unstyled"><li class="item__description item__description--inline"><span class="item__cross-type">[function]</span> <a href="#library:utils-function-calculate-scale-percentage"><code>calculate-scale-percentage</code></a></li><li class="item__description item__description--inline"><span class="item__cross-type">[variable]</span> <a href="#lib:typography-variable-size-multiplier"><code>size-multiplier</code></a></li></ul></section><section class="main__item container item" id="library:typography-function-pixelsToRem"><h3 class="item__heading"><a class="item__name" href="#function-pixelsToRem">pixelsToRem</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@function pixelsToRem($pixels) { 
+  @return ($pixels / $font-size) + rem;
+ }" data-collapsed="@function pixelsToRem($pixels) { ... }"><code>@function pixelsToRem($pixels) { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Convert pixel value to rem value based on typography $font-size</p></div><h3 class="item__sub-heading">Parameters</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">parameter </span>Name</th><th scope="col"><span class="visually-hidden">parameter </span>Description</th><th scope="col"><span class="visually-hidden">parameter </span>Type</th><th scope="col"><span class="visually-hidden">parameter </span>Default value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>$pixels</code></th><td data-label="desc"><p>Pixel value to convert from</p></td><td data-label="type"><code>Number</code></td><td data-label="default">&mdash;<span class="visually-hidden"> none</span></td></tr></tbody></table><h3 class="item__sub-heading">Returns</h3><div class="item__description item__description--inline"><code>Number</code> &mdash;<p>Rem value</p></div><h3 class="item__sub-heading">Requires</h3><ul class="list-unstyled"><li class="item__description item__description--inline"><span class="item__cross-type">[variable]</span> <a href="#lib:typography-variable-font-size"><code>font-size</code></a></li></ul></section></section><section class="main__sub-section" id="library:typography-mixin"><h2 class="main__heading--secondary"><div class="container">mixins</div></h2><section class="main__item container item" id="library:typography-mixin-set-sizes"><h3 class="item__heading"><a class="item__name" href="#mixin-set-sizes">set-sizes</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@mixin set-sizes($changes, $deep, $overwrite) { 
+  @if $deep {
+    $presets: map.deep-merge($presets, $changes) !global;
+  } @else if $overwrite {
+    $presets: $changes !global;
   } @else {
-    @error &quot;Unable to find color named #{ $name }&quot;;
+    $presets: map.merge($presets, $changes) !global;
   }
- }" data-collapsed="@function color($name) { ... }"><code>@function color($name) { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Get a color from the palette by name</p></div><h3 class="item__sub-heading">Parameters</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">parameter </span>Name</th><th scope="col"><span class="visually-hidden">parameter </span>Description</th><th scope="col"><span class="visually-hidden">parameter </span>Type</th><th scope="col"><span class="visually-hidden">parameter </span>Default value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>$name</code></th><td data-label="desc"><p>Name of color to get</p></td><td data-label="type"><code>String</code></td><td data-label="default">&mdash;<span class="visually-hidden"> none</span></td></tr></tbody></table><h3 class="item__sub-heading">Returns</h3><div class="item__description item__description--inline"><code>Color</code></div><h3 class="item__sub-heading">Throws</h3><ul class="list-unstyled"><li><p>Unable to find color named #{ $name }</p></li></ul><h3 class="item__sub-heading">Requires</h3><ul class="list-unstyled"><li class="item__description item__description--inline"><span class="item__cross-type">[variable]</span> <a href="#colors-variable-colors"><code>colors</code></a></li><li class="item__description item__description--inline"><span class="item__cross-type">[variable]</span> <a href="#colors-variable-colors"><code>colors</code></a></li></ul></section></section></section><footer class="footer" role="contentinfo"><div class="container"><div class="footer__project-info project-info"><!-- Name and URL --> <span class="project-info__name">@ulu/sass</span><!-- Version --> <span class="project-info__version">- v0.0.1</span><!-- License --> <span class="project-info__license">, under MIT</span></div><a class="footer__watermark" href="http://sassdoc.com"><img src="assets/images/logo_light_inline.svg" alt="SassDoc Logo"></a></div></footer></article><script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script><script>window.jQuery || document.write('<script src="assets/js/vendor/jquery.min.js"><\/script>')</script><script src="assets/js/main.min.js"></script></body></html>
+ }" data-collapsed="@mixin set-sizes($changes, $deep, $overwrite) { ... }"><code>@mixin set-sizes($changes, $deep, $overwrite) { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Update the typography presets map</p></div><h3 class="item__sub-heading">Parameters</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">parameter </span>Name</th><th scope="col"><span class="visually-hidden">parameter </span>Description</th><th scope="col"><span class="visually-hidden">parameter </span>Type</th><th scope="col"><span class="visually-hidden">parameter </span>Default value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>$changes</code></th><td data-label="desc"><p>A map to merge into the color palette</p></td><td data-label="type"><code>Map</code></td><td data-label="default">&mdash;<span class="visually-hidden"> none</span></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>$deep</code></th><td data-label="desc"><p>Use deep merge</p></td><td data-label="type"><code>Map</code></td><td data-label="default">&mdash;<span class="visually-hidden"> none</span></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>$overwrite</code></th><td data-label="desc"><p>Overwrite the presets completly (cannot be used with deep)</p></td><td data-label="type"><code>Map</code></td><td data-label="default">&mdash;<span class="visually-hidden"> none</span></td></tr></tbody></table><h3 class="item__sub-heading">Example</h3><div class="item__example example"><div class="example__description"><p>Setting the error and type color</p></div><pre class="example__code language-scss"><code>@include typography.set((
+  &quot;small&quot; : 0.8rem
+));</code></pre></div><h3 class="item__sub-heading">Requires</h3><ul class="list-unstyled"><li class="item__description item__description--inline"><span class="item__cross-type">[variable]</span> <a href="#library:units-variable-presets"><code>presets</code></a></li><li class="item__description item__description--inline"><span class="item__cross-type">[variable]</span> <a href="#library:units-variable-presets"><code>presets</code></a></li><li class="item__description item__description--inline"><span class="item__cross-type">[variable]</span> <a href="#library:units-variable-presets"><code>presets</code></a></li><li class="item__description item__description--inline"><span class="item__cross-type">[variable]</span> <a href="#library:units-variable-presets"><code>presets</code></a></li><li class="item__description item__description--inline"><span class="item__cross-type">[variable]</span> <a href="#library:units-variable-presets"><code>presets</code></a></li></ul></section><section class="main__item container item" id="library:typography-mixin-size"><h3 class="item__heading"><a class="item__name" href="#mixin-size">size</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@mixin size($name, $line-height) { 
+  $size: utils.map-get-required($sizes, $name, &#39;typography&#39;);
+  font-size: map.get($size, &quot;font-size&quot;);
+  @if $line-height {
+    @if (meta.type-of($line-height) == number) {
+      line-height: $line-height;
+    } @else {
+      line-height: map.get($size, &quot;line-height&quot;);
+    }
+  }
+ }" data-collapsed="@mixin size($name, $line-height) { ... }"><code>@mixin size($name, $line-height) { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Print a typography size (font-size, line-height)</p></div><h3 class="item__sub-heading">Parameters</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">parameter </span>Name</th><th scope="col"><span class="visually-hidden">parameter </span>Description</th><th scope="col"><span class="visually-hidden">parameter </span>Type</th><th scope="col"><span class="visually-hidden">parameter </span>Default value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>$name</code></th><td data-label="desc"><p>Name to lookup</p></td><td data-label="type"><code>String</code></td><td data-label="default">&mdash;<span class="visually-hidden"> none</span></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>$line-height</code></th><td data-label="desc"><p>Print out size&#39;s line-height, or override it, pass false to not include</p></td><td data-label="type"><code>String</code></td><td data-label="default">&mdash;<span class="visually-hidden"> none</span></td></tr></tbody></table><h3 class="item__sub-heading">Requires</h3><ul class="list-unstyled"><li class="item__description item__description--inline"><span class="item__cross-type">[function]</span> <a href="#library:utils-function-map-get-required"><code>map-get-required</code></a></li><li class="item__description item__description--inline"><span class="item__cross-type">[function]</span> <a href="#library:color-function-get"><code>get</code></a></li><li class="item__description item__description--inline"><span class="item__cross-type">[function]</span> <a href="#library:color-function-get"><code>get</code></a></li><li class="item__description item__description--inline"><span class="item__cross-type">[variable]</span> <a href="#lib:typography-variable-sizes"><code>sizes</code></a></li><li class="item__description item__description--inline"><span class="item__cross-type">[variable]</span> <a href="#lib:typography-variable-line-height"><code>line-height</code></a></li><li class="item__description item__description--inline"><span class="item__cross-type">[variable]</span> <a href="#lib:typography-variable-line-height"><code>line-height</code></a></li><li class="item__description item__description--inline"><span class="item__cross-type">[variable]</span> <a href="#lib:typography-variable-line-height"><code>line-height</code></a></li></ul></section></section></section><section class="main__section"><h1 class="main__heading" id="library:units"><div class="container">library:units</div></h1><div class="group-notes container"><strong>Note:</strong> When importing ulu as package or using the `lib` module directly each library is prefixed with it's name, so color.set() becomes ulu.color-set().</div><section class="main__sub-section" id="library:units-variable"><h2 class="main__heading--secondary"><div class="container">variables</div></h2><section class="main__item container item" id="library:units-variable-base"><h3 class="item__heading"><a class="item__name" href="#variable-base">base</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$base: 1rem;</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Base unit of measurent, can be modified to change scale</p></div><h3 class="item__sub-heading">Type</h3><p><code>Number</code></p><h3 class="item__sub-heading">Used by</h3><ul class="list-unstyled"><li><span class="item__cross-type">[mixin]</span> <a href="#library:units-mixin-set-base"><code>set-base</code></a></li><li><span class="item__cross-type">[function]</span> <a href="#library:units-function-get"><code>get</code></a></li></ul></section><section class="main__item container item" id="library:units-variable-presets"><h3 class="item__heading"><a class="item__name" href="#variable-presets">presets</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$presets: (
+  &quot;margin&quot; : $base,
+  &quot;padding&quot; : $base,
+) !default;</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>The base value for a unit (common padding/margin)</p></div><h3 class="item__sub-heading">Type</h3><p><code>Map</code></p><h3 class="item__sub-heading">Used by</h3><ul class="list-unstyled"><li><span class="item__cross-type">[mixin]</span> <a href="#library:typography-mixin-set-sizes"><code>set-sizes</code></a></li><li><span class="item__cross-type">[mixin]</span> <a href="#library:typography-mixin-set-sizes"><code>set-sizes</code></a></li><li><span class="item__cross-type">[mixin]</span> <a href="#library:typography-mixin-set-sizes"><code>set-sizes</code></a></li><li><span class="item__cross-type">[mixin]</span> <a href="#library:typography-mixin-set-sizes"><code>set-sizes</code></a></li><li><span class="item__cross-type">[mixin]</span> <a href="#library:typography-mixin-set-sizes"><code>set-sizes</code></a></li><li><span class="item__cross-type">[mixin]</span> <a href="#library:units-mixin-set"><code>set</code></a></li><li><span class="item__cross-type">[mixin]</span> <a href="#library:units-mixin-set"><code>set</code></a></li><li><span class="item__cross-type">[function]</span> <a href="#library:units-function-get-preset"><code>get-preset</code></a></li></ul></section></section><section class="main__sub-section" id="library:units-mixin"><h2 class="main__heading--secondary"><div class="container">mixins</div></h2><section class="main__item container item" id="library:units-mixin-set-base"><h3 class="item__heading"><a class="item__name" href="#mixin-set-base">set-base</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@mixin set-base($value) { 
+  $base: $value !global;
+ }" data-collapsed="@mixin set-base($value) { ... }"><code>@mixin set-base($value) { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Change the base unit of measurement</p></div><h3 class="item__sub-heading">Parameters</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">parameter </span>Name</th><th scope="col"><span class="visually-hidden">parameter </span>Description</th><th scope="col"><span class="visually-hidden">parameter </span>Type</th><th scope="col"><span class="visually-hidden">parameter </span>Default value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>$value</code></th><td data-label="desc"><p>The value for the base unit</p></td><td data-label="type"><code>Number</code></td><td data-label="default">&mdash;<span class="visually-hidden"> none</span></td></tr></tbody></table><h3 class="item__sub-heading">Example</h3><div class="item__example example"><pre class="example__code language-scss"><code>@include units.set-base(1.45rem);</code></pre></div><h3 class="item__sub-heading">Requires</h3><ul class="list-unstyled"><li class="item__description item__description--inline"><span class="item__cross-type">[variable]</span> <a href="#library:units-variable-base"><code>base</code></a></li></ul></section><section class="main__item container item" id="library:units-mixin-set"><h3 class="item__heading"><a class="item__name" href="#mixin-set">set</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@mixin set($changes) { 
+  $presets: map.merge($presets, $changes) !global;
+ }" data-collapsed="@mixin set($changes) { ... }"><code>@mixin set($changes) { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Update the units preset map</p></div><h3 class="item__sub-heading">Parameters</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">parameter </span>Name</th><th scope="col"><span class="visually-hidden">parameter </span>Description</th><th scope="col"><span class="visually-hidden">parameter </span>Type</th><th scope="col"><span class="visually-hidden">parameter </span>Default value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>$changes</code></th><td data-label="desc"><p>A map to merge into the color palette</p></td><td data-label="type"><code>Map</code></td><td data-label="default">&mdash;<span class="visually-hidden"> none</span></td></tr></tbody></table><h3 class="item__sub-heading">Example</h3><div class="item__example example"><div class="example__description"><p>Setting the error and type color</p></div><pre class="example__code language-scss"><code>@include units.set((
+  &quot;margin&quot; : 2.5em
+));</code></pre></div><h3 class="item__sub-heading">Requires</h3><ul class="list-unstyled"><li class="item__description item__description--inline"><span class="item__cross-type">[variable]</span> <a href="#library:units-variable-presets"><code>presets</code></a></li><li class="item__description item__description--inline"><span class="item__cross-type">[variable]</span> <a href="#library:units-variable-presets"><code>presets</code></a></li></ul></section></section><section class="main__sub-section" id="library:units-function"><h2 class="main__heading--secondary"><div class="container">functions</div></h2><section class="main__item container item" id="library:units-function-get"><h3 class="item__heading"><a class="item__name" href="#function-get">get</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@function get($value) { 
+  @if (meta.type-of($value) == string) {
+    @return get-preset($value);
+  }
+  @return $base * $value;
+ }" data-collapsed="@function get($value) { ... }"><code>@function get($value) { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Get a unit by name (preset) or number (multiplier of base)</p></div><h3 class="item__sub-heading">Parameters</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">parameter </span>Name</th><th scope="col"><span class="visually-hidden">parameter </span>Description</th><th scope="col"><span class="visually-hidden">parameter </span>Type</th><th scope="col"><span class="visually-hidden">parameter </span>Default value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>$value</code></th><td data-label="desc"><p>if a number is passed it is used as a multiplier of the base, if a string is passed it is used to lookup a value from unit presets @see $presets</p></td><td data-label="type"><code>Number</code> or <code>String</code></td><td data-label="default">&mdash;<span class="visually-hidden"> none</span></td></tr></tbody></table><h3 class="item__sub-heading">Returns</h3><div class="item__description item__description--inline"><code>Number</code></div><h3 class="item__sub-heading">Requires</h3><ul class="list-unstyled"><li class="item__description item__description--inline"><span class="item__cross-type">[function]</span> <a href="#library:units-function-get-preset"><code>get-preset</code></a></li><li class="item__description item__description--inline"><span class="item__cross-type">[variable]</span> <a href="#library:units-variable-base"><code>base</code></a></li></ul></section><section class="main__item container item" id="library:units-function-get-preset"><h3 class="item__heading"><a class="item__name" href="#function-get-preset">get-preset</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@function get-preset($name) { 
+  @return utils.map-get-required($presets, $name, &#39;unit&#39;);
+ }" data-collapsed="@function get-preset($name) { ... }"><code>@function get-preset($name) { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Get a unit by name (preset) or number (multiplier of base)</p></div><h3 class="item__sub-heading">Parameters</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">parameter </span>Name</th><th scope="col"><span class="visually-hidden">parameter </span>Description</th><th scope="col"><span class="visually-hidden">parameter </span>Type</th><th scope="col"><span class="visually-hidden">parameter </span>Default value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>$name</code></th><td data-label="desc"><p>Name to lookup from unit presets @see $presets</p></td><td data-label="type"><code>Number</code> or <code>String</code></td><td data-label="default">&mdash;<span class="visually-hidden"> none</span></td></tr></tbody></table><h3 class="item__sub-heading">Returns</h3><div class="item__description item__description--inline"><code>Number</code></div><h3 class="item__sub-heading">Requires</h3><ul class="list-unstyled"><li class="item__description item__description--inline"><span class="item__cross-type">[function]</span> <a href="#library:utils-function-map-get-required"><code>map-get-required</code></a></li><li class="item__description item__description--inline"><span class="item__cross-type">[variable]</span> <a href="#library:units-variable-presets"><code>presets</code></a></li></ul><h3 class="item__sub-heading">Used by</h3><ul class="list-unstyled"><li><span class="item__cross-type">[function]</span> <a href="#library:units-function-get"><code>get</code></a></li></ul></section></section></section><section class="main__section"><h1 class="main__heading" id="library:utils"><div class="container">library:utils</div></h1><div class="group-notes container"><strong>Note:</strong> When importing ulu as package or using the `lib` module directly each library is prefixed with it's name, so color.set() becomes ulu.color-set().</div><section class="main__sub-section" id="library:utils-function"><h2 class="main__heading--secondary"><div class="container">functions</div></h2><section class="main__item container item" id="library:utils-function-map-get-required"><h3 class="item__heading"><a class="item__name" href="#function-map-get-required">map-get-required</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@function map-get-required($map, $key, $type) { 
+  $value: map.get($map, $key);
+  @if ($value != null) {
+    @return $value;
+  } @else {
+    @error &quot;ULU: Unable to find #{ $type } named #{ $key }, in .&quot;;
+  }
+ }" data-collapsed="@function map-get-required($map, $key, $type) { ... }"><code>@function map-get-required($map, $key, $type) { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Get a value from a map, throw an error if not found</p></div><h3 class="item__sub-heading">Parameters</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">parameter </span>Name</th><th scope="col"><span class="visually-hidden">parameter </span>Description</th><th scope="col"><span class="visually-hidden">parameter </span>Type</th><th scope="col"><span class="visually-hidden">parameter </span>Default value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>$map</code></th><td data-label="desc"><p>The map to get the value from</p></td><td data-label="type"><code>Map</code></td><td data-label="default">&mdash;<span class="visually-hidden"> none</span></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>$key</code></th><td data-label="desc"><p>The key in the map to get value from</p></td><td data-label="type"><code>String</code></td><td data-label="default">&mdash;<span class="visually-hidden"> none</span></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>$type</code></th><td data-label="desc"><p>The type of value you were trying to get, for debugging to let the user know we couldn&#39;t get a &#39;unit&#39; for example</p></td><td data-label="type"><code>String</code></td><td data-label="default">&mdash;<span class="visually-hidden"> none</span></td></tr></tbody></table><h3 class="item__sub-heading">Returns</h3><div class="item__description item__description--inline">Any type &mdash;<p>The value from the map</p></div><h3 class="item__sub-heading">Throws</h3><ul class="list-unstyled"><li><p>ULU: Unable to find #{ $type } named #{ $key }, in .</p></li></ul><h3 class="item__sub-heading">Requires</h3><ul class="list-unstyled"><li class="item__description item__description--inline"><span class="item__cross-type">[function]</span> <a href="#library:color-function-get"><code>get</code></a></li></ul><h3 class="item__sub-heading">Used by</h3><ul class="list-unstyled"><li><span class="item__cross-type">[function]</span> <a href="#library:color-function-get"><code>get</code></a></li><li><span class="item__cross-type">[mixin]</span> <a href="#library:typography-mixin-size"><code>size</code></a></li><li><span class="item__cross-type">[function]</span> <a href="#library:units-function-get-preset"><code>get-preset</code></a></li></ul></section><section class="main__item container item" id="library:utils-function-calculate-scale-percentage"><h3 class="item__heading"><a class="item__name" href="#function-calculate-scale-percentage">calculate-scale-percentage</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@function calculate-scale-percentage($start, $percentage, $scale) { 
+  @return ($scale * $percentage) + $start;
+ }" data-collapsed="@function calculate-scale-percentage($start, $percentage, $scale) { ... }"><code>@function calculate-scale-percentage($start, $percentage, $scale) { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Calculate the size of something at a given scale (percentage/exponential)</p></div><h3 class="item__sub-heading">Parameters</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">parameter </span>Name</th><th scope="col"><span class="visually-hidden">parameter </span>Description</th><th scope="col"><span class="visually-hidden">parameter </span>Type</th><th scope="col"><span class="visually-hidden">parameter </span>Default value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>$start</code></th><td data-label="desc"><p>The number the scale starts at (ie. 1 for example)</p></td><td data-label="type"><code>Number</code></td><td data-label="default">&mdash;<span class="visually-hidden"> none</span></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>$percentage</code></th><td data-label="desc"><p>The percentage the scale gets scaled by</p></td><td data-label="type"><code>Number</code></td><td data-label="default">&mdash;<span class="visually-hidden"> none</span></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>$scale</code></th><td data-label="desc"><p>The current value in the scale you want to get</p></td><td data-label="type"><code>Number</code></td><td data-label="default">&mdash;<span class="visually-hidden"> none</span></td></tr></tbody></table><h3 class="item__sub-heading">Returns</h3><div class="item__description item__description--inline"><code>Number</code></div><h3 class="item__sub-heading">Used by</h3><ul class="list-unstyled"><li><span class="item__cross-type">[function]</span> <a href="#library:typography-function-font-size-scale"><code>font-size-scale</code></a></li></ul></section><section class="main__item container item" id="library:utils-function-calculate-scale-linear"><h3 class="item__heading"><a class="item__name" href="#function-calculate-scale-linear">calculate-scale-linear</a></h3><div class="item__code-wrapper"><pre class="item__code item__code--togglable language-scss" data-current-state="collapsed" data-expanded="@function calculate-scale-linear($start, $distance, $scale) { 
+  @return ($by * $scale) + $start;
+ }" data-collapsed="@function calculate-scale-linear($start, $distance, $scale) { ... }"><code>@function calculate-scale-linear($start, $distance, $scale) { ... }</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Calculate the size of something at a given scale (linear)</p></div><h3 class="item__sub-heading">Parameters</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">parameter </span>Name</th><th scope="col"><span class="visually-hidden">parameter </span>Description</th><th scope="col"><span class="visually-hidden">parameter </span>Type</th><th scope="col"><span class="visually-hidden">parameter </span>Default value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>$start</code></th><td data-label="desc"><p>The number the scale starts at (ie. 1 for example)</p></td><td data-label="type"><code>Number</code></td><td data-label="default">&mdash;<span class="visually-hidden"> none</span></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>$distance</code></th><td data-label="desc"><p>The amount to change between each scale</p></td><td data-label="type"><code>Number</code></td><td data-label="default">&mdash;<span class="visually-hidden"> none</span></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>$scale</code></th><td data-label="desc"><p>The current value in the scale you want to get</p></td><td data-label="type"><code>Number</code></td><td data-label="default">&mdash;<span class="visually-hidden"> none</span></td></tr></tbody></table><h3 class="item__sub-heading">Returns</h3><div class="item__description item__description--inline"><code>Number</code></div></section></section></section><footer class="footer" role="contentinfo"><div class="container"><div class="footer__project-info project-info"><!-- Name and URL --> <span class="project-info__name">@ulu/sass</span><!-- Version --> <span class="project-info__version">- v0.0.1</span><!-- License --> <span class="project-info__license">, under MIT</span></div><a class="footer__watermark" href="http://sassdoc.com"><img src="assets/images/logo_light_inline.svg" alt="SassDoc Logo"></a></div></footer></article><script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script><script>window.jQuery || document.write('<script src="assets/js/vendor/jquery.min.js"><\/script>')</script><script src="assets/js/main.min.js"></script></body></html>

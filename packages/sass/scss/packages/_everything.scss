@@ -2,4 +2,10 @@
 ///
 /// @group Packages
 
-// @forward "../lib";
+// Allow configuration before output
+@forward "../lib";
+@forward "../components";
+// Output all stylesheet parts
+@use "../base";
+@use "../components";
+@use "../utils";

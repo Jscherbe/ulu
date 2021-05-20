@@ -1,0 +1,22 @@
+@use "../lib/color";
+@use "../lib/typography";
+@use "../lib/utils";
+
+/// Prints elements styles
+/// @group Base:Elements
+@mixin styles {
+
+  @include utils.fileHeader('base', 'elements');
+
+  html {
+    
+    @media (prefers-reduced-motion: no-preference) {
+      scroll-behavior: smooth;
+    }
+  }
+  body {
+    color: color.get('type');
+    background-color: white;
+    @include typography.size("base");
+  }
+}

@@ -1,6 +1,7 @@
 {% extends '../layouts/base.html.njk' %}
 
 {% block content %}
+  
 
   {# No item documented #}
   {% if data.length == 0 %}
@@ -10,7 +11,7 @@
 
   {# Some items documented #}
   {% else %}
-
+    
     {# Loop over the groups #}
     {% for group_name, group in data.byGroupAndType %}
       <section class="main__section">
@@ -19,6 +20,9 @@
             {{ groups[group_name] }}
           </div>
         </h1>
+        <div class="group-notes container">
+          <strong>Note:</strong> When importing ulu as package or using the `lib` module directly each library is prefixed with it's name, so color.set() becomes ulu.color-set().
+        </div>
 
         {% if group_name in groupDescriptions %}
           <div class="main__description">
