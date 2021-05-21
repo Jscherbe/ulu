@@ -1,0 +1,13 @@
+@use "sass:math";
+
+/// Calculate the size of something at a given scale (percentage/exponential)
+/// @group library:Calculate
+/// @param {Number} $base The number the scale starts at
+/// @param {Number} $ratio The amount the scale changes over one set
+/// @param {Number} $sizes The number of steps in the scale
+/// @param {Number} $size The step you are trying to calculate
+/// @return {Number}
+
+@function ratio-scale-size($base, $ratio, $sizes, $size) {
+  @return $base * math.pow($ratio, $size / $sizes);
+}

@@ -16,27 +16,6 @@
   }
 }
 
-/// Calculate the size of something at a given scale (percentage/exponential)
-/// @group library:utils
-/// @param {Number} $start The number the scale starts at (ie. 1 for example)
-/// @param {Number} $percentage The percentage the scale gets scaled by
-/// @param {Number} $scale The current value in the scale you want to get 
-/// @return {Number}
-
-@function calculate-scale-percentage($start, $percentage, $scale) {
-  @return ($scale * $percentage) + $start;
-}
-
-/// Calculate the size of something at a given scale (linear)
-/// @group library:utils
-/// @param {Number} $start The number the scale starts at (ie. 1 for example)
-/// @param {Number} $distance The amount to change between each scale
-/// @param {Number} $scale The current value in the scale you want to get 
-/// @return {Number}
-
-@function calculate-scale-linear($start, $distance, $scale) {
-  @return ($by * $scale) + $start;
-}
 
 @mixin fileHeader($context, $name) {
 /* 

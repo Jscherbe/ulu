@@ -1,6 +1,7 @@
 @use "sass:map";
 @use "sass:meta";
 @use "utils";
+@use "calculate";
 
 /// Base line height
 /// @group Library:Typography
@@ -33,11 +34,23 @@ $font-family: ui-sans-serif, "Open Sans", Helvetica, Arial, sans-serif !default;
 
 $font-family-monospace: ui-monospace, SFMono-Regular, Consolas, Menlo, monospace !default;
 
-/// Base font-size multiplier (used for presets if they are unaltered)
+/// Base font-size ratio 
 /// @group Library:Typography
 /// @type Number
 
-$size-multiplier: 0.15 !default; // Each size would be increased/decreased by 25% from the base
+$size-ratio: 2 !default;
+
+/// Base line-height ratio 
+/// @group Library:Typography
+/// @type Number
+
+$size-line-height-ratio: 0.95 !default;
+
+/// Base font-size scale steps (used in presets scaling) 
+/// @group Library:Typography
+/// @type Number
+
+$scale-steps: 5 !default;
 
 /// Responsive Typography Viewport Percentage (use vw units)
 /// @group Library:Typography
@@ -53,11 +66,21 @@ $margin: 0.75em !default;
 
 /// Get scale of the base font-size
 /// @group Library:Typography
-/// @param {Number} $scale Scale to get
+/// @param {Number} $step Current size in the scale you want to calculate
 /// @return {Number} Base font-size scaled
 
-@function font-size-scale($scale) {
-  @return utils.calculate-scale-percentage(1rem, $size-multiplier, $scale);
+@function font-size-scale($step) {
+  @return calculate.ratio-scale-size(1rem, $size-ratio, $scale-steps, $step);
+}
+
+/// Get scale of the base font-size
+/// @group Library:Typography
+/// @param {Number} $step Current size in the scale you want to calculate
+/// @return {Number} Base font-size scaled
+
+@function line-height-scale($step) {
+  // @return $line-height;
+  @return calculate.ratio-scale-size($line-height, $size-line-height-ratio, $scale-steps, $step);
 }
 
 /// Default size presets
@@ -76,28 +99,28 @@ $sizes: (
     "responsive" : true
   ),
   "base" : (
-    "font-size": font-size-scale(0),
+    "font-size": font-size-scale(1),
     "line-height": $line-height,
     "responsive" : true
   ),
   "large" : (
     "font-size": font-size-scale(2),
-    "line-height": $line-height,
+    "line-height": line-height-scale(1),
     "responsive" : true
   ),
   "large-x" : (
-    "font-size": font-size-scale(6),
-    "line-height": $line-height,
+    "font-size": font-size-scale(3),
+    "line-height": line-height-scale(2),
     "responsive" : true
   ),
   "large-xx" : (
-    "font-size": font-size-scale(8),
-    "line-height": $line-height,
+    "font-size": font-size-scale(4),
+    "line-height": line-height-scale(3),
     "responsive" : true
   ),
   "large-xxx" : (
-    "font-size": font-size-scale(10),
-    "line-height": $line-height,
+    "font-size": font-size-scale(5),
+    "line-height": line-height-scale(4),
     "responsive" : true
   )
 ) !default;
