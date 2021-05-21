@@ -1,12 +1,12 @@
 @use "sass:map";
 @use "../lib/utils";
-@use "../lib/global";
+@use "../lib/selector";
 @use "../lib/typography";
 
 /// Default Size Class Name 
 /// @group Helpers:Typography
 /// @type String
-$class: "#{ global.$prefix }type" !default;
+$class: "#{ selector.$prefix }type" !default;
 
 /// Prints Typography Sizes
 /// @group Helpers:Typography

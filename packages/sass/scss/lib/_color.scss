@@ -24,7 +24,11 @@ $palette: (
   "error": red,
   "box-shadow" : black,
   "rule" : gray,
-  "rule-light" : lightgray
+  "rule-light" : lightgray,
+  "link" : blue,
+  "link:hover" : darkblue,
+  "link:active" : darkblue,
+  "link:visited" : purple
 ) !default;
 
 /// Used to override or extend the color palette

@@ -34,7 +34,7 @@
   },
   "ulu": {
     "docs": {
-      "title": "Sass Framework",
+      "title": "Sass",
       "includes": [
         "scss/"
       ],

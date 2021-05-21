@@ -1,0 +1,84 @@
+@use "color";
+
+/// Backdrop blur amount used on elements/components
+/// @group Library:Elements
+/// @type Number
+
+$backdrop-blur: 4px !default;     
+
+/// Box-shadow definition for elements that are on top of page 
+/// @group Library:Elements
+/// @type Number
+
+$box-shadow: 0 1px 5px color.get('box-shadow') !default;
+
+/// Box-shadow definition for elements that are raised off of the page (dropdowns, etc)
+/// @group Library:Elements
+
+$box-shadow--raised: 0 1px 12px color.get('box-shadow') !default;
+
+/// Box-shadow definition for elements that are above the page (fixed items, etc)
+/// @group Library:Elements
+
+$box-shadow--above: 0 1px 20px color.get('box-shadow') !default;
+
+/// Border definition for elements that use a rule (divider), 
+/// to change color set it in color module's palette
+/// @group Library:Elements
+
+$rule: 1px solid color.get('rule') !default;
+
+/// Border definition for elements that use a light weight rule (divider), 
+/// to change color set it in color module's palette
+/// @group Library:Elements
+
+$rule-light: 1px solid color.get('rule-light') !default;
+
+/// Common element margin (small)
+/// @group Library:Elements
+
+$margin-small: 0.65em !default;
+
+/// Common element margin
+/// @group Library:Elements
+
+$margin: 1em !default;
+
+/// Common element margin (large)
+/// @group Library:Elements
+
+$margin-large: 2em !default;
+
+/// Ordered list type (level 1)
+/// @group Library:Elements
+
+$ol-list-type-style: decimal !default;
+
+/// Ordered list type (level 2)
+/// @group Library:Elements
+
+$ol-list-type-style--2: lower-alpha !default;
+
+/// Ordered list type (level 3)
+/// @group Library:Elements
+
+$ol-list-type-style--3: lower-roman !default;
+
+
+
+@mixin link($visited: false, $active: false) {
+  color: color.get("link");
+  &:hover {
+    color: color.get("link:hover");
+  }
+  @if ($visited) {
+    &:visited {
+      color: color.get("link:visited");
+    }
+  }
+  @if ($active) {
+    &:active {
+      color: color.get("link:active");
+    }
+  }
+}

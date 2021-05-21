@@ -1,5 +1,0 @@
-@use "../base";
-
-@mixin base($includes) {
-  @include base.output($includes);
-}

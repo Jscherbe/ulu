@@ -28,8 +28,9 @@ This is the sass library. Set up for packaged use (under on namespace) and al-a-
 
 ## Rules
 
-- kabab case will be used @see "Module Prefixes" below, works better with kabab case
-- Modules use simple variable, mixins and function names
+- Kabab case will be used for everything, @see "Module Prefixes" below, works better with kabab case
+- Modules use simple variable, mixins and function names relative to their module
+- Forwards will make namespacing in the overall ulu packaged module
 - **Module Prefixes:** Modules all get prefixed by parent module ie lib will transform color.set() to color-set(), adding the modules namespace for users that are importing the whole library. It also matches the core modules `map-get()` and when @used `map.get()`
 
 ## Writing Docs

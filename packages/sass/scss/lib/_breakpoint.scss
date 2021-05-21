@@ -29,9 +29,9 @@ $default: "medium" !default;
 /// @type Map
 
 $sizes: (
-  "small" : calculate.pixel-to-em(480px, $base),
+  "small"  : calculate.pixel-to-em(480px, $base),
   "medium" : calculate.pixel-to-em(1200px, $base),
-  "large" : calculate.pixel-to-em(1500px, $base)
+  "large"  : calculate.pixel-to-em(1500px, $base)
 ) !default;
 
 /// Change the base pixel size used to setup defaults
@@ -97,10 +97,10 @@ $sizes: (
 ///     // Your styles
 ///   }
 
-@mixin min-max($sizeMin, $sizeMax) {
+@mixin min-max($size-min, $size-max) {
   // Adding the small fraction to prevent overlap
-  $min: utils.map-get-required($sizes, $sizeMin, "breakpoints"); 
-  $max: utils.map-get-required($sizes, $sizeMax, "breakpoints") - $gap; 
+  $min: utils.map-get-required($sizes, $size-min, "breakpoints"); 
+  $max: utils.map-get-required($sizes, $size-max, "breakpoints") - $gap; 
   @media screen and (min-width: $min) and (max-width: $max) {
     @content;
   }

@@ -15,9 +15,9 @@
 /// Convert from pixel to em
 /// @group library:Calculate
 /// @param {Number} $pixels The number the scale starts at
-/// @param {Number} $basePixels How many pixels equal 1em
+/// @param {Number} $base How many pixels equal 1em
 /// @return {Number} Em Conversion
 
-@function pixel-to-em($pixels, $basePixels: 16px) {
-  @return ($pixels / $basePixels) + 1em;
+@function pixel-to-em($pixels, $base: 16px) {
+  @return ($pixels / $base) + 1em;
 }

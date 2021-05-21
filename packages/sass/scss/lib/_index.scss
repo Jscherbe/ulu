@@ -1,4 +1,5 @@
+@forward "selector" as selector-*;
 @forward "color" as color-*;
-@forward "output" as output-*;
 @forward "typography" as typography-*;
-@forward "breakpoints" as breakpoint-*;
+@forward "breakpoint" as breakpoint-*;
+@forward "accessibility" as accessibility-*;

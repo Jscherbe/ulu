@@ -323,11 +323,23 @@ ol {
   margin-bottom: 1em;
   list-style: decimal outside;
 }
+ol li {
+  margin-bottom: 0.65em;
+  margin-left: 1rem;
+}
 ol ol {
+  margin: 0.65em 0 0 0.65em;
   list-style: lower-alpha;
 }
 ol ol ol {
   list-style-type: lower-roman;
+}
+
+a {
+  color: blue;
+}
+a:hover {
+  color: darkblue;
 }
 
 /* 
@@ -356,47 +368,47 @@ base - keyframes
 .type-large {
   font-size: 1.148698355rem;
   font-size: calc(1.148698355rem + 0.2vw);
-  line-height: 1.4846906725;
+  line-height: 1.4908900142;
 }
 
 .type-large-x {
   font-size: 1.3195079108rem;
   font-size: calc(1.3195079108rem + 0.2vw);
-  line-height: 1.4695375954;
+  line-height: 1.4818353563;
 }
 
 .type-large-xx {
   font-size: 1.5157165665rem;
   font-size: calc(1.5157165665rem + 0.2vw);
-  line-height: 1.4545391739;
+  line-height: 1.4728356903;
 }
 
 .type-large-xxx {
   font-size: 1.7411011266rem;
   font-size: calc(1.7411011266rem + 0.2vw);
-  line-height: 1.4396938295;
+  line-height: 1.4638906822;
 }
 
 .hidden-visually,
 .hide-v {
-  border: 0;
-  clip: rect(0, 0, 0, 0);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute;
-  width: 1px;
+  clip: auto;
+  clip-path: none;
+  height: auto;
+  overflow: visible;
+  position: static;
+  white-space: normal;
+  width: auto;
 }
 
 .hidden-visually--focusable:active, .hidden-visually--focusable:focus,
 .hide-v--focusable:active,
 .hide-v--focusable:focus {
   clip: auto;
+  clip-path: none;
   height: auto;
-  margin: 0;
   overflow: visible;
   position: static;
+  white-space: normal;
   width: auto;
 }
 
@@ -477,21 +489,6 @@ h3 {
   h2,
 h3 {
     page-break-after: avoid;
-  }
-}
-@media screen and (min-width: 31em) {
-  body {
-    color: red;
-  }
-}
-@media screen and (max-width: 30.99em) {
-  body {
-    color: blue;
-  }
-}
-@media screen and (min-width: 31em) and (max-width: 75.99em) {
-  body {
-    color: blue;
   }
 }
 
