@@ -6,7 +6,7 @@
 /// Base line height
 /// @group Library:Typography
 /// @type Number
-/// @link https://developer.mozilla.org/en-US/docs/Web/CSS/line-height MDN 1.5 is best for low vision, Dyslexia
+/// @link https://developer.mozilla.org/en-US/docs/Web/CSS/line-height MDN 1.5 is minimum for low vision, Dyslexia
 
 $line-height: 1.5 !default; 
 
@@ -99,27 +99,27 @@ $sizes: (
     "responsive" : true
   ),
   "base" : (
-    "font-size": font-size-scale(1),
+    "font-size": font-size-scale(0),
     "line-height": $line-height,
     "responsive" : true
   ),
   "large" : (
-    "font-size": font-size-scale(2),
+    "font-size": font-size-scale(1),
     "line-height": line-height-scale(1),
     "responsive" : true
   ),
   "large-x" : (
-    "font-size": font-size-scale(3),
+    "font-size": font-size-scale(2),
     "line-height": line-height-scale(2),
     "responsive" : true
   ),
   "large-xx" : (
-    "font-size": font-size-scale(4),
+    "font-size": font-size-scale(3),
     "line-height": line-height-scale(3),
     "responsive" : true
   ),
   "large-xxx" : (
-    "font-size": font-size-scale(5),
+    "font-size": font-size-scale(4),
     "line-height": line-height-scale(4),
     "responsive" : true
   )

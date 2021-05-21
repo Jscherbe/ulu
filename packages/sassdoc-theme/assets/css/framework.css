@@ -228,8 +228,8 @@ body {
   color: black;
   background-color: white;
   font-family: ui-sans-serif, "Open Sans", Helvetica, Arial, sans-serif;
-  font-size: 1.148698355rem;
-  font-size: calc(1.148698355rem + 0.2vw);
+  font-size: 1rem;
+  font-size: calc(1rem + 0.2vw);
   line-height: 1.5;
 }
 
@@ -348,32 +348,32 @@ base - keyframes
 }
 
 .type-base {
-  font-size: 1.148698355rem;
-  font-size: calc(1.148698355rem + 0.2vw);
+  font-size: 1rem;
+  font-size: calc(1rem + 0.2vw);
   line-height: 1.5;
 }
 
 .type-large {
-  font-size: 1.3195079108rem;
-  font-size: calc(1.3195079108rem + 0.2vw);
+  font-size: 1.148698355rem;
+  font-size: calc(1.148698355rem + 0.2vw);
   line-height: 1.4846906725;
 }
 
 .type-large-x {
-  font-size: 1.5157165665rem;
-  font-size: calc(1.5157165665rem + 0.2vw);
+  font-size: 1.3195079108rem;
+  font-size: calc(1.3195079108rem + 0.2vw);
   line-height: 1.4695375954;
 }
 
 .type-large-xx {
-  font-size: 1.7411011266rem;
-  font-size: calc(1.7411011266rem + 0.2vw);
+  font-size: 1.5157165665rem;
+  font-size: calc(1.5157165665rem + 0.2vw);
   line-height: 1.4545391739;
 }
 
 .type-large-xxx {
-  font-size: 2rem;
-  font-size: calc(2rem + 0.2vw);
+  font-size: 1.7411011266rem;
+  font-size: calc(1.7411011266rem + 0.2vw);
   line-height: 1.4396938295;
 }
 
@@ -477,6 +477,21 @@ h3 {
   h2,
 h3 {
     page-break-after: avoid;
+  }
+}
+@media screen and (min-width: 31em) {
+  body {
+    color: red;
+  }
+}
+@media screen and (max-width: 30.99em) {
+  body {
+    color: blue;
+  }
+}
+@media screen and (min-width: 31em) and (max-width: 75.99em) {
+  body {
+    color: blue;
   }
 }
 

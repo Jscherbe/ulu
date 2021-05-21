@@ -24,6 +24,10 @@
     color: color.get('type');
     background-color: white;
     font-family: typography.$font-family;
+    // Note we are using relative units here instead of setting a 
+    // pixel base like we use to on the HTML
+    // This will allow the user preference in font size
+    // Useful for accessibility
     @include typography.size("base");
   }
   h1, 
