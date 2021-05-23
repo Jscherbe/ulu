@@ -1,5 +1,8 @@
-/// Hide text for assistive devices
+////
 /// @group Library:Accessibility
+////
+
+/// Hide text for assistive devices
 /// @param {Boolean} $hidden Defaults to true, pass false to override the hidden css (ie. on focus)
 /// @example scss
 ///   @include accessibility.hidden-visually()

@@ -1,20 +1,21 @@
+////
+/// @group Library:Color
+////
+
 @use "sass:map";
 @use "utils";
 
 /// The defualt black value, can be tinted and other users of the color
-/// @group Library:Color
 /// @type Color
 
 $black: black !default;
 
 /// The defualt black value, can be tinted and other users of the color
-/// @group Library:Color
 /// @type Color
 
 $white: white !default;
 
 /// The color palette map, can be extended or modified with set() and accessed with get()
-/// @group Library:Color
 /// @type map  
 
 $palette: (
@@ -32,7 +33,6 @@ $palette: (
 ) !default;
 
 /// Used to override or extend the color palette
-/// @group Library:Color
 /// @param {Map} $changes A map to merge into the color palette
 /// @example scss Setting the error and type color
 ///   @include color.set((
@@ -45,17 +45,15 @@ $palette: (
 }
 
 /// Get a color from the palette by name
-/// @group Library:Color
 /// @param {String} $name Name of color to get
 /// @return {Color}
 
 @function get($name) {
-  @return utils.map-get-required($palette, $name, 'color');;
+  @return utils.require-map-get($palette, $name, 'color');;
 }
 
 
 /// Lighten a color using the default white by a percentage
-/// @group Library:Color
 /// @param {Color} $color Color to apply to tint
 /// @param {Number} $percentage Percentage
 /// @return {Color}
@@ -67,7 +65,6 @@ $palette: (
 }
 
 /// Darken a color with the default black by a percentage
-/// @group Library:Color
 /// @param {Color} $color Color to shade
 /// @param {Number} $percentage Percentage to shade
 /// @return {Color}

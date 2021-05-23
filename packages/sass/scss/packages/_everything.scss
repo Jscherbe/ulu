@@ -1,11 +1,16 @@
-/// Stylesheet includes everything
-///
-/// @group Packages
+/// Stylesheet includes everything user just imports it
+/// - Note: Not configurable as far as output of styles (use minimal)
 
-// Allow configuration before output
 @forward "../lib";
-@forward "../components";
-// Output all stylesheet parts
+@forward "../base" as base-*;
+@forward "../components" as component-*;
+@forward "../helpers" as helper-*;
+
 @use "../base";
 @use "../components";
-@use "../utils";
+@use "../helpers";
+
+// Output all stylesheets
+@include base.styles();
+@include components.styles();
+@include helpers.styles();

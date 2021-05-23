@@ -1,12 +1,43 @@
+////
+/// @group Base
+////
+
+@forward "normalize" as normalize-*;
+@forward "elements" as elements-*;
+@forward "keyframes" as keyframes-*;
+
+@use "../lib/utils";
 @use "normalize";
 @use "elements";
 @use "keyframes";
 
+/// Used to check against user's includes
+/// @access private
+/// @type List
+
+$-all-includes: (
+  "typography", 
+  "accessibility", 
+  "utilities", 
+  "print"
+);
+
 /// Prints all Base styles
-/// @group Base
-@mixin styles() {
-  @include normalize.styles;
-  @include elements.styles;
-  @include keyframes.styles;
+/// @param {List} $includes A list of module names to include, else inludes all
+
+@mixin styles($includes: null) {
+  @include utils.file-header("base");
+  @if $includes {
+    @include utils.require-list-contains($-all-includes, $includes)
+  }
+  @if (utils.included("normalize", $includes)) {
+    @include normalize.styles;
+  }
+  @if (utils.included("elements", $includes)) {
+    @include elements.styles;
+  }
+  @if (utils.included("keyframes", $includes)) {
+    @include keyframes.styles;
+  }
 }
 

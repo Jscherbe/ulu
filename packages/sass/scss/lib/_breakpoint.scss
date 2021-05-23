@@ -1,3 +1,7 @@
+////
+/// @group Library:Breakpoints
+////
+
 @use "sass:map";
 @use "calculate";
 @use "utils";
@@ -7,25 +11,21 @@
 /// This number is just being used for calculating estimated em sizes from average base
 /// Since pixels are easier to understand but since we allow the user to set their font size 
 /// All of our css is relative to that, including most of the layout (rems, other relative units)
-/// @group Library:Breakpoints
 /// @type Number
 
 $base: 16px !default;
 
 /// The amount to offset min from max media queries incase you are using both (ie prevent overlap)
-/// @group Library:Breakpoints
 /// @type Number
 
 $gap: 0.01em !default;
 
 /// Defualt Breakpoint (sseful to set to major change in layout/how things work)
-/// @group Library:Breakpoints
 /// @type Number
 
 $default: "medium" !default;
 
 /// The default breakpoint sizes (targets are not precise, using em's)
-/// @group Library:Breakpoints
 /// @type Map
 
 $sizes: (
@@ -35,7 +35,6 @@ $sizes: (
 ) !default;
 
 /// Change the base pixel size used to setup defaults
-/// @group Library:Breakpoints
 /// @param {Number} $value The value to change to
 /// @example scss
 ///   @include breakpoints.set-base(20px);
@@ -45,7 +44,6 @@ $sizes: (
 }
 
 /// Update the breakpoint sizes map
-/// @group Library:Breakpoints
 /// @param {Map} $changes A map to merge into the breakpoints map
 /// @example scss Changing the medium breakpoint and adding jumbo
 ///   @include breakpoints.set((
@@ -58,7 +56,6 @@ $sizes: (
 }
 
 /// Create a media query that matches the min-width for a given size
-/// @group Library:Breakpoints
 /// @param {Number} $size The name of the breakpoint bsize
 /// @example scss
 ///   @include breakpoints.min("small") {
@@ -67,14 +64,13 @@ $sizes: (
 
 @mixin min($size: $default) {
   // Adding the small fraction to prevent overlap
-  $min: utils.map-get-required($sizes, $size, "breakpoints"); 
+  $min: utils.require-map-get($sizes, $size, "breakpoints"); 
   @media screen and (min-width: $min) {
     @content;
   }
 }
 
 /// Create a media query that matches the max-width for a given size
-/// @group Library:Breakpoints
 /// @param {Number} $size The name of the breakpoint bsize
 /// @example scss
 ///   @include breakpoints.max("medium") {
@@ -83,14 +79,13 @@ $sizes: (
 
 @mixin max($size: $default) {
   // Adding the small fraction to prevent overlap
-  $max: utils.map-get-required($sizes, $size) - $gap; 
+  $max: utils.require-map-get($sizes, $size) - $gap; 
   @media screen and (max-width: $max) {
     @content;
   }
 }
 
 /// Create a media query that matches the min-width and max-width sizes
-/// @group Library:Breakpoints
 /// @param {Number} $size The name of the breakpoint bsize
 /// @example scss
 ///   @include breakpoints.min-max("small", "medium") {
@@ -99,9 +94,24 @@ $sizes: (
 
 @mixin min-max($size-min, $size-max) {
   // Adding the small fraction to prevent overlap
-  $min: utils.map-get-required($sizes, $size-min, "breakpoints"); 
-  $max: utils.map-get-required($sizes, $size-max, "breakpoints") - $gap; 
+  $min: utils.require-map-get($sizes, $size-min, "breakpoints"); 
+  $max: utils.require-map-get($sizes, $size-max, "breakpoints") - $gap; 
   @media screen and (min-width: $min) and (max-width: $max) {
     @content;
+  }
+}
+
+/// Attaches breakpoints to an element psuedo content for access via script
+/// Use with ulu/js/breakpoints. Breakpoints always min-width (upwards)
+
+@mixin embed-for-scripts() {
+  &:before {
+    display: none;
+    content: "none";
+    @each $size, $breakpoint in $sizes {
+      @include min($size) {
+        content: $size;
+      }
+    }
   }
 }

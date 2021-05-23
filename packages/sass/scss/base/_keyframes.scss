@@ -1,7 +1,22 @@
+////
+/// @group Base:Keyframes
+////
+
 @use "../lib/utils";
 
 /// Prints CSS keyframes
-/// @group Base:Keyframes
+
 @mixin styles {
-  @include utils.fileHeader('base', 'keyframes');
+  @include utils.file-header('base', 'keyframes');
+
+  @keyframes FadeDownIn {
+    0%    {
+      opacity: 0; 
+      transform: translateY(-10px);
+    }
+    100%  {
+      opacity: 1; 
+      transform: translateY(0);
+    }
+  }
 }

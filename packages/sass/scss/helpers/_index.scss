@@ -1,14 +1,52 @@
+////
+/// @group Helpers
+////
+
+@forward "typography" as typography-*;
+@forward "accessibility"  as accessibility-*;
+@forward "utilities"  as utilities-*;
+@forward "print"  as print-*;
+
+@use "../lib/utils";
 @use "typography";
 @use "accessibility";
 @use "utilities";
 @use "print";
 
-/// Prints all helper styles
-/// @group Helpers
-@mixin styles() {
-  @include typography.styles;
-  @include accessibility.styles;
-  @include utilities.styles;
-  @include print.styles;
+/// Used to check against user's includes
+/// @access private
+/// @type List
+
+$-all-includes: (
+  "typography", 
+  "accessibility", 
+  "utilities", 
+  "print"
+);
+
+/// Prints all Helper styles
+/// @param {List} $includes A list of module names to include, else inludes all
+
+@mixin styles($includes: null) {
+  @include utils.file-header("helpers");
+  @if $includes {
+    @include utils.require-list-contains($-all-includes, $includes)
+  }
+  @if (utils.included("typography", $includes)) {
+    @include typography.styles;
+  }
+  @if (utils.included("accessibility", $includes)) {
+    @include accessibility.styles;
+  }
+  @if (utils.included("utilities", $includes)) {
+    @include utilities.styles;
+  }
+  @if (utils.included("print", $includes)) {
+    @include print.styles;
+  }
 }
+
+
+
+
 

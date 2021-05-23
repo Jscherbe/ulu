@@ -1,5 +1,10 @@
+////
+/// @group Library
+////
+
 @forward "selector" as selector-*;
 @forward "color" as color-*;
 @forward "typography" as typography-*;
 @forward "breakpoint" as breakpoint-*;
 @forward "accessibility" as accessibility-*;
+@forward "utility" as utility-*;

@@ -1,0 +1,19 @@
+// =============================================================================
+// ulu - site's configuration and access point
+// =============================================================================
+
+@forward "~@ulu/sass/scss/ulu";
+@use "~@ulu/sass/scss/ulu";
+
+// Use like this within your files/modules (if the file is at root level):
+//   @use "ulu"
+
+// Define ulu configuration below:
+// =============================================================================
+
+// Example:
+//   @include ulu.color-set((
+//     type: rgb(31, 41, 41),
+//     error: rgb(212, 42, 57)
+//   ));
+

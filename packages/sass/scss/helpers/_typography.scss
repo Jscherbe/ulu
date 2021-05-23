@@ -1,40 +1,40 @@
+////
+/// @group Helpers:Typography
+////
+
 @use "sass:map";
 @use "../lib/utils";
 @use "../lib/selector";
 @use "../lib/typography";
 
-/// Default Size Class Name 
-/// @group Helpers:Typography
-/// @type String
-$class: "#{ selector.$prefix }type" !default;
-
-/// Prints Typography Sizes
-/// @group Helpers:Typography
+/// Prints Typography Helper styles
 
 @mixin styles {
+  
+  @include utils.file-header('helpers', 'typography');
 
-  // @include utils.fileHeader('helpers', 'typography');
+  $prefix: selector.class("type");
 
-  // Size Classes
   @each $size, $values in typography.$sizes {
-    .#{ $class }-#{$size} {
+    #{ $prefix }-#{$size} {
       @include typography.size($size);
     }
   }
+  
+  #{ $prefix }-light    { font-weight: 300; }
+  #{ $prefix }-normal   { font-weight: normal; }
+  #{ $prefix }-semibold { font-weight: 600; }
+  #{ $prefix }-italic   { font-style: italic; }
+  #{ $prefix }-bold     { font-weight: bold; }
 
-  // Utility Classes
-  // .#{ $class }-light    { font-weight: 300; }
-  // .#{ $class }-normal   { font-weight: normal; }
-  // .#{ $class }-semibold { font-weight: 600; }
-  // .#{ $class }-italic   { font-style: italic; }
-  // .#{ $class }-bold     { font-weight: bold; }
-  // .#{ $class }-center   { text-align: center; }
-  // .#{ $class }-left     { text-align: left; }
-  // .#{ $class }-right    { text-align: right; }
-  // .#{ $class }-upper    { text-transform: uppercase; }
-  // .#{ $class }-lower    { text-transform: lowercase; }
-  // .#{ $class }-title    { text-transform: capitalize; }
-  // .#{ $class }-word-break { @include typography.word-break(); }
-  // .#{ $class }-word-break-all { @include typography.word-break(true); }
+  #{ $prefix }-center   { text-align: center; }
+  #{ $prefix }-left     { text-align: left; }
+  #{ $prefix }-right    { text-align: right; }
 
+  #{ $prefix }-upper    { text-transform: uppercase; }
+  #{ $prefix }-lower    { text-transform: lowercase; }
+  #{ $prefix }-title    { text-transform: capitalize; }
+
+  #{ $prefix }-word-break { @include typography.word-break(); }
+  #{ $prefix }-word-break-all { @include typography.word-break(true); }
 }

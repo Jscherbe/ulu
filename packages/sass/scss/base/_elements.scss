@@ -1,13 +1,18 @@
+////
+/// @group Base:Elements
+////
+
 @use "../lib/utils";
 @use "../lib/color";
 @use "../lib/element";
 @use "../lib/typography";
+@use "../lib/breakpoint";
 
-/// Prints elements styles
-/// @group Base:Elements
+/// Prints elements base styles
+
 @mixin styles {
 
-  @include utils.fileHeader('base', 'elements');
+  @include utils.file-header('base', 'elements');
 
   *,
   ::before,
@@ -29,6 +34,7 @@
     // This will allow the user preference in font size
     // Useful for accessibility
     @include typography.size("base");
+    @include breakpoint.embed-for-scripts();
   }
   h1, 
   h2, 
@@ -106,16 +112,16 @@
   // Style ordered lists since we don't use them much in the UI components
   ol {
     margin-bottom: element.$margin;
-    list-style: element.$ol-list-type-style outside;
+    list-style: element.$ol-list-style-type outside;
     li {
       margin-bottom: element.$margin-small;
       margin-left: 1rem;
     }
     ol {
       margin: element.$margin-small 0 0 element.$margin-small;
-      list-style: element.$ol-list-type-style--2;
+      list-style: element.$ol-list-style-type--2;
       ol { 
-        list-style-type: element.$ol-list-type-style--3;
+        list-style-type: element.$ol-list-style-type--3;
       }
     }
   }

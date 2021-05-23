@@ -1,17 +1,20 @@
-// Consider removing
+////
+/// @group Helpers:Utilities
+////
+
+@use "../lib/utils";
+@use "../lib/utility";
+
+/// Print utilities helper styles
+
 @mixin styles {
 
-  .cf,
-  .clearfix { 
-    &:before,
-    &:after {
-      content: "";
-      display: table;
-      flex-basis: 0; // Flexbox, clear fix for pseudo elements in Safari
-      order: 1;
-    }
-    &:after { clear: both; }
-    *zoom: 1;
+  @include utils.file-header('helpers', 'utilities');
+  
+  // Consider removing
+  .clearfix,
+  .cf { 
+    @include utility.clearfix();
   }
   .hidden {
     display: none;

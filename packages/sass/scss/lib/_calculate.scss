@@ -1,7 +1,10 @@
+////
+/// @group library:Calculate
+////
+
 @use "sass:math";
 
 /// Calculate the size of something at a given scale (percentage/exponential)
-/// @group library:Calculate
 /// @param {Number} $base The number the scale starts at
 /// @param {Number} $ratio The amount the scale changes over one set
 /// @param {Number} $sizes The number of steps in the scale
@@ -13,7 +16,6 @@
 }
 
 /// Convert from pixel to em
-/// @group library:Calculate
 /// @param {Number} $pixels The number the scale starts at
 /// @param {Number} $base How many pixels equal 1em
 /// @return {Number} Em Conversion

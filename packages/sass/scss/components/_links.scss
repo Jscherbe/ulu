@@ -1,0 +1,19 @@
+////
+/// @group Components:Links
+////
+
+@use "../lib/element";
+@use "../lib/selector";
+
+/// Link compontent styles (.link)
+/// - Contextual link styling
+/// - Styles all links within as normal text hyperlinks (hover, visited)
+
+@mixin styles {
+
+  #{ selector.class("links") } {
+    a {
+      @include element.link(true, true);
+    }
+  }
+}

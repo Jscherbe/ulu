@@ -1,0 +1,29 @@
+////
+/// @group Components
+////
+@use "../lib/utils";
+
+@forward "links" as links-*;
+
+@use "links";
+
+/// Used to check against user's includes
+/// @access private
+/// @type List
+
+$-all-includes: (
+  "links"
+);
+
+/// Prints all Components styles
+/// @param {List} $includes A list of module names to include, else inludes all
+
+@mixin styles($includes: null) {
+  @include utils.file-header("components");
+  @if $includes {
+    @include utils.require-list-contains($-all-includes, $includes)
+  }
+  @if (utils.included("links", $includes)) {
+    @include links.styles;
+  }
+}

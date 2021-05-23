@@ -1,36 +1,34 @@
+////
+/// @group Library:Elements
+////
+
 @use "color";
 
 /// Backdrop blur amount used on elements/components
-/// @group Library:Elements
 /// @type Number
 
 $backdrop-blur: 4px !default;     
 
 /// Box-shadow definition for elements that are on top of page 
-/// @group Library:Elements
 /// @type Number
 
 $box-shadow: 0 1px 5px color.get('box-shadow') !default;
 
 /// Box-shadow definition for elements that are raised off of the page (dropdowns, etc)
-/// @group Library:Elements
 
 $box-shadow--raised: 0 1px 12px color.get('box-shadow') !default;
 
 /// Box-shadow definition for elements that are above the page (fixed items, etc)
-/// @group Library:Elements
 
 $box-shadow--above: 0 1px 20px color.get('box-shadow') !default;
 
 /// Border definition for elements that use a rule (divider), 
 /// to change color set it in color module's palette
-/// @group Library:Elements
 
 $rule: 1px solid color.get('rule') !default;
 
 /// Border definition for elements that use a light weight rule (divider), 
 /// to change color set it in color module's palette
-/// @group Library:Elements
 
 $rule-light: 1px solid color.get('rule-light') !default;
 
@@ -52,19 +50,20 @@ $margin-large: 2em !default;
 /// Ordered list type (level 1)
 /// @group Library:Elements
 
-$ol-list-type-style: decimal !default;
+$ol-list-style-type: decimal !default;
 
 /// Ordered list type (level 2)
 /// @group Library:Elements
 
-$ol-list-type-style--2: lower-alpha !default;
+$ol-list-style-type--2: lower-alpha !default;
 
 /// Ordered list type (level 3)
-/// @group Library:Elements
 
-$ol-list-type-style--3: lower-roman !default;
+$ol-list-style-type--3: lower-roman !default;
 
-
+/// Print link styles
+/// @param {Boolean} $visited Include visited style
+/// @param {Boolean} $active Include active style
 
 @mixin link($visited: false, $active: false) {
   color: color.get("link");

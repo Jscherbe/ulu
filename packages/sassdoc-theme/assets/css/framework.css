@@ -1,6 +1,11 @@
 /* 
 =============================================================================
-base - normalize
+base:
+============================================================================= 
+*/
+/* 
+=============================================================================
+base:normalize
 ============================================================================= 
 */
 /*! modern-normalize v1.1.0 | MIT License | https://github.com/sindresorhus/modern-normalize */
@@ -206,7 +211,7 @@ summary {
 
 /* 
 =============================================================================
-base - elements
+base:elements
 ============================================================================= 
 */
 *,
@@ -231,6 +236,25 @@ body {
   font-size: 1rem;
   font-size: calc(1rem + 0.2vw);
   line-height: 1.5;
+}
+body:before {
+  display: none;
+  content: "none";
+}
+@media screen and (min-width: 31em) {
+  body:before {
+    content: "small";
+  }
+}
+@media screen and (min-width: 76em) {
+  body:before {
+    content: "medium";
+  }
+}
+@media screen and (min-width: 94.75em) {
+  body:before {
+    content: "large";
+  }
 }
 
 h1,
@@ -344,7 +368,45 @@ a:hover {
 
 /* 
 =============================================================================
-base - keyframes
+base:keyframes
+============================================================================= 
+*/
+@keyframes FadeDownIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* 
+=============================================================================
+components:
+============================================================================= 
+*/
+.links a {
+  color: blue;
+}
+.links a:hover {
+  color: darkblue;
+}
+.links a:visited {
+  color: purple;
+}
+.links a:active {
+  color: darkblue;
+}
+
+/* 
+=============================================================================
+helpers:
+============================================================================= 
+*/
+/* 
+=============================================================================
+helpers:typography
 ============================================================================= 
 */
 .type-small-x {
@@ -389,6 +451,67 @@ base - keyframes
   line-height: 1.4638906822;
 }
 
+.type-light {
+  font-weight: 300;
+}
+
+.type-normal {
+  font-weight: normal;
+}
+
+.type-semibold {
+  font-weight: 600;
+}
+
+.type-italic {
+  font-style: italic;
+}
+
+.type-bold {
+  font-weight: bold;
+}
+
+.type-center {
+  text-align: center;
+}
+
+.type-left {
+  text-align: left;
+}
+
+.type-right {
+  text-align: right;
+}
+
+.type-upper {
+  text-transform: uppercase;
+}
+
+.type-lower {
+  text-transform: lowercase;
+}
+
+.type-title {
+  text-transform: capitalize;
+}
+
+.type-word-break {
+  word-break: normal;
+  word-break: break-word;
+  hyphens: auto;
+}
+
+.type-word-break-all {
+  word-break: break-all;
+  word-break: break-word;
+  hyphens: auto;
+}
+
+/* 
+=============================================================================
+helpers:accessibility
+============================================================================= 
+*/
 .hidden-visually,
 .hide-v {
   clip: auto;
@@ -412,20 +535,25 @@ base - keyframes
   width: auto;
 }
 
-.cf,
-.clearfix {
+/* 
+=============================================================================
+helpers:utilities
+============================================================================= 
+*/
+.clearfix,
+.cf {
   *zoom: 1;
 }
-.cf:before, .cf:after,
-.clearfix:before,
-.clearfix:after {
+.clearfix:before, .clearfix:after,
+.cf:before,
+.cf:after {
   content: "";
   display: table;
   flex-basis: 0;
   order: 1;
 }
-.cf:after,
-.clearfix:after {
+.clearfix:after,
+.cf:after {
   clear: both;
 }
 

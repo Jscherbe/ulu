@@ -1,6 +1,16 @@
+////
+/// @group Helpers:Accessibility
+////
+
 @use "../lib/accessibility";
+@use "../lib/utils";
+
+/// Print Accessibility helper styles
 
 @mixin styles {
+  
+  @include utils.file-header('helpers', 'accessibility');
+
   .hidden-visually, 
   .hide-v {
     @include accessibility.hidden-visually();

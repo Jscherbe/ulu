@@ -1,1 +1,27 @@
-$prefix:                      "" !default;  
+////
+/// @group Library:Selector
+////
+
+@use "sass:map";
+
+$prefix: "" !default; 
+
+/// Class selector overrides
+/// @type Map
+
+$overrides: () !default;
+
+/// Set the class selector overrides
+
+@function set($changes) {
+  $overrides: map.merge($overrides, $changes) !global;
+}
+
+/// Used to allow global prefixing of classes, and also the ability to 
+/// Change a class used in the system (ie. like a component for example)
+/// @param {String} $class The classname to set
+
+@function class($class) {
+  $override: map.get($overrides, $class);
+  @return ".#{ $prefix }#{ if($override, $override, $class) }";
+}

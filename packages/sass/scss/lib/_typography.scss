@@ -1,71 +1,64 @@
+////
+/// @group Library:Typography
+////
+
 @use "sass:map";
 @use "sass:meta";
 @use "utils";
 @use "calculate";
 
 /// Base line height
-/// @group Library:Typography
 /// @type Number
 /// @link https://developer.mozilla.org/en-US/docs/Web/CSS/line-height MDN 1.5 is minimum for low vision, Dyslexia
 
 $line-height: 1.5 !default; 
 
 /// Base dense line height
-/// @group Library:Typography
 /// @type Number
 
 $line-height-dense: 1.2 !default;
 
 /// Base font-size set in rem's
-/// @group Library:Typography
 /// @type Number
 
 $font-size: 16px !default;
 
 /// Base font-family
-/// @group Library:Typography
 /// @type Number
 
 $font-family: ui-sans-serif, "Open Sans", Helvetica, Arial, sans-serif !default;
 
 /// Base font-family for monospace
-/// @group Library:Typography
 /// @type String
 
 $font-family-monospace: ui-monospace, SFMono-Regular, Consolas, Menlo, monospace !default;
 
 /// Base font-size ratio 
-/// @group Library:Typography
 /// @type Number
 
 $size-ratio: 2 !default;
 
 /// Base line-height ratio 
-/// @group Library:Typography
 /// @type Number
 
 $size-line-height-ratio: 0.97 !default;
 
 /// Base font-size scale steps (used in presets scaling) 
-/// @group Library:Typography
 /// @type Number
 
 $scale-steps: 5 !default;
 
 /// Responsive Typography Viewport Percentage (use vw units)
-/// @group Library:Typography
 /// @type Number
 
 $responsive-change: 0.2vw !default; // Each size would be increased/decreased by 25% from the base
 
 /// Default Margin (bottom only)
-/// @group Library:Typography
 /// @type Number
 
 $margin: 0.75em !default;
 
 /// Get scale of the base font-size
-/// @group Library:Typography
 /// @param {Number} $step Current size in the scale you want to calculate
 /// @return {Number} Base font-size scaled
 
@@ -74,7 +67,6 @@ $margin: 0.75em !default;
 }
 
 /// Get scale of the base font-size
-/// @group Library:Typography
 /// @param {Number} $step Current size in the scale you want to calculate
 /// @return {Number} Base font-size scaled
 
@@ -84,7 +76,6 @@ $margin: 0.75em !default;
 }
 
 /// Default size presets
-/// @group Library:Typography
 /// @type Map
 
 $sizes: (
@@ -126,7 +117,6 @@ $sizes: (
 ) !default;
 
 /// Update the typography presets map
-/// @group Library:Typography
 /// @param {Map} $changes A map to merge into the color palette
 /// @param {Map} $deep Use deep merge
 /// @param {Map} $overwrite Overwrite the presets completly (cannot be used with deep)
@@ -146,12 +136,11 @@ $sizes: (
 }
 
 /// Print a typography size (font-size, line-height)
-/// @group Library:Typography
 /// @param {String} $name Name to lookup 
 /// @param {String} $line-height Print out size's line-height, or override it, pass false to not include
 
 @mixin size($name, $line-height: true) {
-  $size: utils.map-get-required($sizes, $name, 'typography');
+  $size: utils.require-map-get($sizes, $name, 'typography');
   $fs: map.get($size, "font-size");
   $responsive: map.get($size, "responsive");
 
@@ -172,7 +161,6 @@ $sizes: (
 }
 
 /// Convert pixel value to rem value based on typography $font-size
-/// @group Library:Typography
 /// @param {Number} $pixels Pixel value to convert from
 /// @return {Number} Rem value
 
@@ -181,7 +169,6 @@ $sizes: (
 }
 
 /// Break word stradegy
-/// @group Library:Typography
 /// @param {Boolean} $force Force words to break (will have unusual breaks)
 
 @mixin word-break($force: false) {
