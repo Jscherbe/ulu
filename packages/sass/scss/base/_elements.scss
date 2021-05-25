@@ -1,5 +1,5 @@
 ////
-/// @group Base:Elements
+/// @group Base-Elements
 ////
 
 @use "../lib/utils";
@@ -28,7 +28,7 @@
   body {
     color: color.get('type');
     background-color: white;
-    font-family: typography.$font-family;
+    font-family: typography.get("font-family");
     // Note we are using relative units here instead of setting a 
     // pixel base like we use to on the HTML
     // This will allow the user preference in font size
@@ -58,7 +58,7 @@
   }
   p {
     margin-top: 0;
-    margin-bottom: typography.$margin; 
+    margin-bottom: typography.get("margin-bottom"); 
   }
   sub, sup {
     font-size: 75%;
@@ -67,7 +67,7 @@
     vertical-align: baseline;
   }
   small { 
-    @include typography.size("small", typography.$line-height-dense); 
+    @include typography.size("small", ("line-height" : typography.get("line-height-dense"))); 
   }
   sub { 
     bottom: -0.25em; 
@@ -83,7 +83,7 @@
   kbd,
   samp,
   pre {
-    font-family: typography.$font-family-monospace;
+    font-family: typography.get("font-family-monospace");
   }
   hr {
     height: 0;

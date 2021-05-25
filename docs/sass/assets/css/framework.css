@@ -232,10 +232,10 @@ html {
 body {
   color: black;
   background-color: white;
-  font-family: ui-sans-serif, "Open Sans", Helvetica, Arial, sans-serif;
+  font-family: "ui-sans-serif, " Open Sans ", Helvetica, Arial, sans-serif";
   font-size: 1rem;
-  font-size: calc(1rem + 0.2vw);
   line-height: 1.5;
+  font-size: calc(1rem + 0.2vw);
 }
 body:before {
   display: none;
@@ -280,7 +280,7 @@ p {
 
 p {
   margin-top: 0;
-  margin-bottom: 0.75em;
+  margin-bottom: 0.5em;
 }
 
 sub, sup {
@@ -292,8 +292,8 @@ sub, sup {
 
 small {
   font-size: 0.8705505633rem;
-  font-size: calc(0.8705505633rem + 0.2vw);
   line-height: 1.2;
+  font-size: calc(0.8705505633rem + 0.2vw);
 }
 
 sub {
@@ -313,7 +313,7 @@ code,
 kbd,
 samp,
 pre {
-  font-family: ui-monospace, SFMono-Regular, Consolas, Menlo, monospace;
+  font-family: ui-sans-serif, "Open Sans", Helvetica, Arial, sans-serif;
 }
 
 hr {
@@ -409,46 +409,46 @@ helpers:
 helpers:typography
 ============================================================================= 
 */
-.type-small-x {
+.small-x {
   font-size: 0.7578582833rem;
+  line-height: 1.5;
   font-size: calc(0.7578582833rem + 0.2vw);
-  line-height: 1.5;
 }
 
-.type-small {
+.small {
   font-size: 0.8705505633rem;
+  line-height: 1.5;
   font-size: calc(0.8705505633rem + 0.2vw);
-  line-height: 1.5;
 }
 
-.type-base {
+.base {
   font-size: 1rem;
-  font-size: calc(1rem + 0.2vw);
   line-height: 1.5;
+  font-size: calc(1rem + 0.2vw);
 }
 
-.type-large {
+.large {
   font-size: 1.148698355rem;
-  font-size: calc(1.148698355rem + 0.2vw);
   line-height: 1.4908900142;
+  font-size: calc(1.148698355rem + 0.2vw);
 }
 
-.type-large-x {
+.large-x {
   font-size: 1.3195079108rem;
-  font-size: calc(1.3195079108rem + 0.2vw);
   line-height: 1.4818353563;
+  font-size: calc(1.3195079108rem + 0.2vw);
 }
 
-.type-large-xx {
+.large-xx {
   font-size: 1.5157165665rem;
-  font-size: calc(1.5157165665rem + 0.2vw);
   line-height: 1.4728356903;
+  font-size: calc(1.5157165665rem + 0.2vw);
 }
 
-.type-large-xxx {
+.large-xxx {
   font-size: 1.7411011266rem;
-  font-size: calc(1.7411011266rem + 0.2vw);
   line-height: 1.4638906822;
+  font-size: calc(1.7411011266rem + 0.2vw);
 }
 
 .type-light {
@@ -463,12 +463,12 @@ helpers:typography
   font-weight: 600;
 }
 
-.type-italic {
-  font-style: italic;
-}
-
 .type-bold {
   font-weight: bold;
+}
+
+.type-italic {
+  font-style: italic;
 }
 
 .type-center {

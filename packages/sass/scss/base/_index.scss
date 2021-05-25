@@ -5,6 +5,7 @@
 @forward "normalize" as normalize-*;
 @forward "elements" as elements-*;
 @forward "keyframes" as keyframes-*;
+@forward "typography" as typography-*;
 
 @use "../lib/utils";
 @use "normalize";
@@ -19,7 +20,8 @@ $-all-includes: (
   "typography", 
   "accessibility", 
   "utilities", 
-  "print"
+  "print",
+  "typography"
 );
 
 /// Prints all Base styles

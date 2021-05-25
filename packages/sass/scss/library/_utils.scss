@@ -7,6 +7,8 @@
 $file-header-comments: true !default;
 
 @use "sass:map";
+@use "sass:meta";
+@use "sass:math";
 @use "sass:list";
 
 /// Get a required value from a map, throw an error if not found
@@ -69,5 +71,38 @@ $file-header-comments: true !default;
 #{ $context }:#{ $name }
 ============================================================================= 
 */
+  }
+}
+
+// Provide a default when value typpe is not correct
+/// @param {String} $type type of value it should be
+/// @param {String} $value the value to provide if it is that type
+/// @param {String} $fallback the fallback value
+
+@function if-type($type, $value, $fallback) {
+  @if meta.type-of($value) == $type {
+    @return $value;
+  } @else {
+    @return $fallback;
+  }
+}
+
+// Returns number unit info, and strips the unit
+/// @param {String} $number Number to get meta info for
+/// @return {Map} With properties (unit, value)
+
+@function number-info($number) {
+  $is-number: meta.type-of($number) != 'number';
+  $is-unitless: math.is-unitless($number);
+  @if ($is-unitless or not $is-number) {
+    @return (
+      "unit": null,
+      "value": $number 
+    );
+  } @else {
+    @return (
+      "unit" : math.unit($value), 
+      "value": $number / ($number * 0 + 1)
+    );
   }
 }

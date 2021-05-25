@@ -1,0 +1,251 @@
+////
+/// @group Library:Typography
+////
+
+@use "sass:map";
+@use "sass:math";
+@use "sass:meta";
+
+@use "utils";
+@use "calculate";
+@use "breakpoint";
+
+/// Module Settings
+/// @type Map
+/// @prop {Number} $config.font-size Default font size (use pixels, converted)
+/// @prop {Number} $config.font-family Default font family
+/// @prop {Number} $config.font-family-monospace Base font-family for monospace
+/// @prop {Number} $config.line-height Default line height
+/// @prop {Number} $config.line-height-dense Default dense line height
+/// @prop {Number} $config.size-ratio Font size scale when using preset sizes, ratio mixin)
+/// @prop {Number} $config.size-line-height-ratio Default line height scaling (when using preset sizes, ratio mixin). Can shrink line-height as size increase if desrireable
+/// @prop {Number} $config.responsive-change Amount to scale typography by browser's width (use viewport units)
+/// @prop {Number} $config.margin Default margin for typography (like paragraphs)
+
+$config: (
+  "font-size" : 16px,
+  "font-family" : ("ui-sans-serif, "Open Sans", Helvetica, Arial, sans-serif"),
+  "font-family-monospace" : (ui-sans-serif, "Open Sans", Helvetica, Arial, sans-serif),
+  "font-weight-light" : 300,
+  "font-weight-normal" : normal,
+  "font-weight-semibold" : 600,
+  "font-weight-bold" : bold,
+  "line-height" : 1.5,
+  "line-height-dense": 1.2,
+  "size-ratio": 2,
+  "size-line-height-ratio": 0.97,
+  "scale-steps": 5,
+  "responsive-change": 0.2vw, 
+  "margin-bottom":  0.5em,
+  "margin-top":  false,
+) !default;
+
+/// Change any module option
+/// @param {Map} $changes Map of changes
+///   @include typography.set-options(( "font-size" : 14px ));
+
+@mixin set($changes) {
+  $config: map.merge($config, $changes) !global;
+}
+
+/// Change any module option
+/// @param {Map} $changes Map of changes
+///   @include typography.set-options(( "font-size" : 14px ));
+
+@function get($name) {
+  @return utils.require-map-get($config, $name, 'typography [option]');
+}
+
+/// Get scale of the base font-size
+/// @param {Number} $step Current size in the scale you want to calculate
+/// @return {Number} Scaled value
+
+@function scale($step) {
+  @return calculate.ratio-scale-size(get("font-size"), get("size-ratio"), get("scale-steps"), $step);
+}
+
+/// Get scale of the line-height
+/// @param {Number} $step Current size in the scale you want to calculate
+/// @return {Number} Scaled value
+/// @todo Setup breakpoints
+
+@function scale-line-height($step) {
+  @return calculate.ratio-scale-size(get("line-height"), get("size-line-height-ratio"), get("scale-steps"), $step);
+}
+
+/// Convert pixel value to rem value based on typography $font-size
+/// @param {Number} $pixels Pixel value to convert from
+/// @return {Number} Rem value
+
+@function rem($pixels) {
+  @if math.unit($pixels) == "px"  {
+    @return ($pixels / get("font-size")) + rem;
+  } @else {
+    @return $pixels + 1rem;
+  }
+}
+
+/// Break word stradegy
+/// @param {Boolean} $force Force words to break (will have unusual breaks)
+
+@mixin word-break($force: false) {
+  word-break: if($force, break-all, normal);
+  word-break: break-word;
+  hyphens: auto;
+}
+
+/// Creates a size map
+/// @access private
+
+@function _new-size($font-size, $line-height: true, $is-headline: false) {
+  @return (
+    "font-size": $font-size,
+    "line-height": $line-height,
+    "responsive" : true,
+    "helper-class" : if($is-headline, false, true),
+    "helper-class-prefixed" : true,
+    "base-class" : if($is-headline, true, false),
+    "base-class-prefixed" : false
+  );
+}
+
+/// Default size presets
+/// @type Map
+/// @prop {Number} $size.name Name of size
+/// @prop {Number} $size.name.font-size Font size in rems or pixels
+/// @prop {Number} $size.name.line-height Line height (unitless)
+/// @prop {Number} $size.name.responsive Apply responsive sizes
+/// @prop {Boolean} $size.name.base-class This style should be included in the base (top can be overriden)
+/// @prop {Boolean} $size.name.helper-class This style should be included in the helpers (overrides)
+/// @todo Add adaptive and use a map of breakpoints and whether it's up or down
+/// @todo Add headlines
+
+$sizes: (
+  "small-x" :       _new-size(scale(-2)),
+  "small" :         _new-size(scale(-1)),
+  "base" :          _new-size(scale(0)),
+  "large" :         _new-size(scale(1),   scale-line-height(1)),
+  "large-x" :       _new-size(scale(2),   scale-line-height(2)),
+  "large-xx" :      _new-size(scale(3),   scale-line-height(3)),
+  "large-xxx" :     _new-size(scale(4),   scale-line-height(4)),
+  "h1" :            _new-size(scale(6),   scale-line-height(6),   true),
+  "h2" :            _new-size(scale(5),   scale-line-height(5),   true),
+  "h3" :            _new-size(scale(4),   scale-line-height(4),   true),
+  "h4" :            _new-size(scale(3),   scale-line-height(3),   true),
+  "h5" :            _new-size(scale(2),   scale-line-height(2),   true),
+  "h6" :            _new-size(scale(1),   scale-line-height(1),   true)
+) !default;
+
+/// Update the typography presets map
+/// @param {Map} $changes A map to merge into the color palette
+/// @param {Map} $deep Use deep merge
+/// @param {Map} $overwrite Overwrite the presets completly (cannot be used with deep)
+/// @example scss Setting the error and type color
+///   @include typography.set((
+///     "small" : 0.8rem
+///   ));
+
+@mixin set-sizes($changes, $deep: false, $overwrite: false) {
+  @if $deep {
+    $presets: map.deep-merge($presets, $changes) !global;
+  } @else if $overwrite {
+    $presets: $changes !global;
+  } @else {
+    $presets: map.merge($presets, $changes) !global;
+  }
+}
+
+/// Get a size's map
+/// @param {String} $name Name of size
+/// @return {Map} 
+
+@function get-size($name) {
+  @return utils.require-map-get($sizes, $name, 'typography [size]');
+}
+
+/// Print a font-size for a given size
+/// @param {String} $value Size name
+
+@function font-size($name) {
+  $size: get-size($name);
+  $font-size: map.get($size, "font-size");
+  @return rem($font-size);
+}
+
+/// Print a value from the size
+/// @param {Map} $size Size's map 
+
+@function get-size-value($size, $prop) {
+  // Font size is calculated differently
+  $value: map.get($size, $prop);
+  // No value
+  @if ($value == false or $value == null) {
+    @return null;
+  // Default
+  } @else if ($value == true)  {
+    @return get($prop);
+  } @else {
+    // Line-height doesn't need to be converted
+    @if ($prop == "line-height") {
+      @return $value;
+    } @else {
+      @return rem($value);
+    }
+  }
+}
+
+/// Print's the responsive type formula
+/// @param {String} $font-size Name to retrieve from sizes map or a unique size map that follows the API
+/// @param {Map} $changes Modifications to be merged into size before using
+
+@mixin font-size-responsive($font-size, $amount: null) {
+  @if (meta.type-of($amount) != "number") {
+    $amount: get("responsive-change");
+  }
+  font-size: calc(#{ $font-size } + #{ $amount });
+}
+
+/// Print a typography size (font-size, line-height)
+/// @param {String} $nameOrMap Name to retrieve from sizes map or a unique size map that follows the API
+/// @param {Map} $changes Modifications to be merged into size before using
+
+@mixin size($name, $changes: false) {
+  $size: $name;
+  // Allow custom maps
+  @if (meta.type-of($name) == "string") {
+    $size: get-size($name);
+  }
+  @if ($changes) {
+    $size: map.merge($size, $changes);
+  }
+  $breakpoints: map.get($size, "breakpoints");
+  $font-size: get-size-value($size, "font-size");
+  $responsive: map.get($size, "responsive");
+
+  font-size: $font-size;
+  line-height: get-size-value($size, "line-height");
+  margin-top: get-size-value($size, "margin-top");
+  margin-bottom: get-size-value($size, "margin-bottom");
+
+  // Just general scaling based on viewport
+  @if ($responsive) {
+    @include font-size-responsive($font-size, $responsive);
+  }
+
+  // If they have breakpoints, process them
+  @if $breakpoints {
+    @each $name, $breakpoint in $breakpoints {
+      $direction: map.get($breakpoint, "direction");
+      @if ($direction == "min") {
+        @include breakpoint.min($name) {
+          @include size($breakpoint);
+        }
+      } @else {
+        @include breakpoint.max($name) {
+          @include size($breakpoint);
+        }
+      }
+    }
+  }
+}
+

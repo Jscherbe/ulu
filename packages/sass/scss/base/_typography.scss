@@ -1,0 +1,30 @@
+////
+/// @group Base-Typography
+////
+
+@use "sass:map";
+@use "../lib/typography";
+
+/// Prints elements base styles
+
+@mixin styles {
+
+  @include utils.file-header('base', 'typography');
+
+  $prefix: selector.class("type");
+
+  // Print base typographic sizes
+  @each $size, $values in typography.$sizes {
+    @if (map.get($values, "base-class")) {
+      @if (map.get($values, "base-class-prefix")) {
+        #{ $prefix }-#{$size} {
+          @include typography.size($size);
+        }
+      } @else {
+        .#{$size} {
+          @include typography.size($size);
+        }
+      }
+    }
+  }
+}

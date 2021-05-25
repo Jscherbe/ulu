@@ -16,16 +16,25 @@
   $prefix: selector.class("type");
 
   @each $size, $values in typography.$sizes {
-    #{ $prefix }-#{$size} {
-      @include typography.size($size);
+    @if (map.get($values, "helper-class")) {
+      @if (map.get($values, "helper-class-prefix")) {
+        #{ $prefix }-#{$size} {
+          @include typography.size($size);
+        }
+      } @else {
+        .#{$size} {
+          @include typography.size($size);
+        }
+      }
     }
   }
   
-  #{ $prefix }-light    { font-weight: 300; }
-  #{ $prefix }-normal   { font-weight: normal; }
-  #{ $prefix }-semibold { font-weight: 600; }
+  #{ $prefix }-light    { font-weight: typography.get("font-weight-light"); }
+  #{ $prefix }-normal   { font-weight: typography.get("font-weight-normal"); }
+  #{ $prefix }-semibold { font-weight: typography.get("font-weight-semibold"); }
+  #{ $prefix }-bold     { font-weight: typography.get("font-weight-bold"); }
+  
   #{ $prefix }-italic   { font-style: italic; }
-  #{ $prefix }-bold     { font-weight: bold; }
 
   #{ $prefix }-center   { text-align: center; }
   #{ $prefix }-left     { text-align: left; }
