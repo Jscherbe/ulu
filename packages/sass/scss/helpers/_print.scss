@@ -1,8 +1,12 @@
 ////
-/// @group Helpers:Print
+/// @group helpers
 ////
 
 /// Printed Media Styles 
+/// @name helper-print-styles
+/// @example scss
+///  @include ulu.helper-print-styles();
+
 @mixin styles {
   // Note: this is an old framework stylesheet (may be outdated)
   @media (print) {

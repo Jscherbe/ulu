@@ -1,5 +1,5 @@
 ////
-/// @group Library:Selector
+/// @group selector
 ////
 
 @use "sass:map";
@@ -9,12 +9,13 @@ $prefix: "" !default;
 /// Class selector overrides
 /// @type Map
 
-$overrides: () !default;
+$class-overrides: () !default;
 
 /// Set the class selector overrides
+/// @param {Map} $changes Changes to merge
 
-@function set($changes) {
-  $overrides: map.merge($overrides, $changes) !global;
+@mixin set-class-overrides($changes) {
+  $class-overrides: map.merge($class-overrides, $changes) !global;
 }
 
 /// Used to allow global prefixing of classes, and also the ability to 
@@ -22,6 +23,6 @@ $overrides: () !default;
 /// @param {String} $class The classname to set
 
 @function class($class) {
-  $override: map.get($overrides, $class);
+  $override: map.get($class-overrides, $class);
   @return ".#{ $prefix }#{ if($override, $override, $class) }";
 }

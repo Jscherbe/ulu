@@ -232,7 +232,7 @@ html {
 body {
   color: black;
   background-color: white;
-  font-family: "ui-sans-serif, " Open Sans ", Helvetica, Arial, sans-serif";
+  font-family: ui-sans-serif, "Open Sans", Helvetica, Arial, sans-serif;
   font-size: 1rem;
   line-height: 1.5;
   font-size: calc(1rem + 0.2vw);
@@ -280,7 +280,7 @@ p {
 
 p {
   margin-top: 0;
-  margin-bottom: 0.5em;
+  margin-bottom: 0.5rem;
 }
 
 sub, sup {
@@ -313,7 +313,7 @@ code,
 kbd,
 samp,
 pre {
-  font-family: ui-sans-serif, "Open Sans", Helvetica, Arial, sans-serif;
+  font-family: Menlo, Consolas, Monaco, monospace;
 }
 
 hr {
@@ -383,6 +383,62 @@ base:keyframes
 }
 /* 
 =============================================================================
+base:typography
+============================================================================= 
+*/
+.h1 {
+  font-size: 2.29739671rem;
+  line-height: 1.4461633138;
+  font-size: calc(2.29739671rem + 0.2vw);
+}
+
+.h2 {
+  font-size: 2rem;
+  line-height: 1.455;
+  font-size: calc(2rem + 0.2vw);
+}
+
+.h3 {
+  font-size: 1.7411011266rem;
+  line-height: 1.4638906822;
+  font-size: calc(1.7411011266rem + 0.2vw);
+}
+
+.h4 {
+  font-size: 1.5157165665rem;
+  line-height: 1.4728356903;
+  font-size: calc(1.5157165665rem + 0.2vw);
+}
+
+.h5 {
+  font-size: 1.3195079108rem;
+  line-height: 1.4818353563;
+  font-size: calc(1.3195079108rem + 0.2vw);
+}
+
+.h6 {
+  font-size: 1.148698355rem;
+  line-height: 1.4908900142;
+  font-size: calc(1.148698355rem + 0.2vw);
+}
+
+/* 
+=============================================================================
+base:color
+============================================================================= 
+*/
+.color-context-dark {
+  background-color: black;
+  color: white;
+}
+
+.color-context-light {
+  background-color: white;
+  color: black;
+}
+
+/* 
+=============================================================================
 components:
 ============================================================================= 
 */
@@ -409,43 +465,43 @@ helpers:
 helpers:typography
 ============================================================================= 
 */
-.small-x {
+.type-small-x {
   font-size: 0.7578582833rem;
   line-height: 1.5;
   font-size: calc(0.7578582833rem + 0.2vw);
 }
 
-.small {
+.type-small {
   font-size: 0.8705505633rem;
   line-height: 1.5;
   font-size: calc(0.8705505633rem + 0.2vw);
 }
 
-.base {
+.type-base {
   font-size: 1rem;
   line-height: 1.5;
   font-size: calc(1rem + 0.2vw);
 }
 
-.large {
+.type-large {
   font-size: 1.148698355rem;
   line-height: 1.4908900142;
   font-size: calc(1.148698355rem + 0.2vw);
 }
 
-.large-x {
+.type-large-x {
   font-size: 1.3195079108rem;
   line-height: 1.4818353563;
   font-size: calc(1.3195079108rem + 0.2vw);
 }
 
-.large-xx {
+.type-large-xx {
   font-size: 1.5157165665rem;
   line-height: 1.4728356903;
   font-size: calc(1.5157165665rem + 0.2vw);
 }
 
-.large-xxx {
+.type-large-xxx {
   font-size: 1.7411011266rem;
   line-height: 1.4638906822;
   font-size: calc(1.7411011266rem + 0.2vw);
@@ -493,6 +549,18 @@ helpers:typography
 
 .type-title {
   text-transform: capitalize;
+}
+
+.type-family {
+  text-transform: ui-sans-serif, "Open Sans", Helvetica, Arial, sans-serif;
+}
+
+.type-family-serif {
+  text-transform: Cambria, Georgia, serif;
+}
+
+.type-family-mono {
+  text-transform: Menlo, Consolas, Monaco, monospace;
 }
 
 .type-word-break {

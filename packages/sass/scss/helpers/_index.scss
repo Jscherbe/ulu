@@ -1,5 +1,5 @@
 ////
-/// @group Helpers
+/// @group helpers
 ////
 
 @forward "typography" as typography-*;
@@ -7,7 +7,7 @@
 @forward "utilities"  as utilities-*;
 @forward "print"  as print-*;
 
-@use "../lib/utils";
+@use "../utils";
 @use "typography";
 @use "accessibility";
 @use "utilities";
@@ -25,7 +25,10 @@ $-all-includes: (
 );
 
 /// Prints all Helper styles
+/// @name helper-styles
 /// @param {List} $includes A list of module names to include, else inludes all
+/// @example scss
+///  @include ulu.helper-styles();
 
 @mixin styles($includes: null) {
   @include utils.file-header("helpers");

@@ -1,11 +1,15 @@
 ////
-/// @group Helpers:Utilities
+/// @group helpers
 ////
 
-@use "../lib/utils";
-@use "../lib/utility";
+@use "../utils";
+@use "../utility";
+@use "../layout";
 
 /// Print utilities helper styles
+/// @name helper-utilities-styles
+/// @example scss
+///  @include ulu.helper-utilities-styles();
 
 @mixin styles {
 
@@ -14,7 +18,7 @@
   // Consider removing
   .clearfix,
   .cf { 
-    @include utility.clearfix();
+    @include layout.clearfix();
   }
   .hidden {
     display: none;

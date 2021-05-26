@@ -1,11 +1,14 @@
 ////
-/// @group Helpers:Accessibility
+/// @group helpers
 ////
 
-@use "../lib/accessibility";
-@use "../lib/utils";
+@use "../accessibility";
+@use "../utils";
 
 /// Print Accessibility helper styles
+/// @name helper-accessibility-styles
+/// @example scss
+///  @include ulu.helper-accessibility-styles();
 
 @mixin styles {
   

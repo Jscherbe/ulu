@@ -1,12 +1,13 @@
 ////
-/// @group Library:Accessibility
+/// @group accessibility
 ////
 
 /// Hide text for assistive devices
 /// @param {Boolean} $hidden Defaults to true, pass false to override the hidden css (ie. on focus)
 /// @example scss
-///   @include accessibility.hidden-visually()
-///   @include accessibility.hidden-visually(false)
+///   @include ulu.accessibility-hidden-visually()
+///   // Reset styling
+///   @include ulu.accessibility-hidden-visually(false)
 
 @mixin hidden-visually($hidden: false) {
   @if $hidden {

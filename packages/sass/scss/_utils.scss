@@ -1,5 +1,5 @@
 ////
-/// @group Library:Utils
+/// @group utils
 ////
 
 /// Remove comments if you'd like
@@ -104,5 +104,17 @@ $file-header-comments: true !default;
       "unit" : math.unit($value), 
       "value": $number / ($number * 0 + 1)
     );
+  }
+}
+
+/// Repeatable pattern in core
+
+@function map-merge-or-overwrite($original, $changes, $deep: false, $overwrite: false) {
+  @if $deep {
+    @return map.deep-merge($original, $changes);
+  } @else if $overwrite {
+    @return $changes;
+  } @else {
+    @return map.merge($original, $changes);
   }
 }

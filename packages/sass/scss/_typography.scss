@@ -1,12 +1,15 @@
 ////
-/// @group Library:Typography
+/// @group typography
+/// @todo Idea: Should the maps value be processes when using the set-sizes, set? Instead of recalculated each time get-size is or get is used.
 ////
 
 @use "sass:map";
 @use "sass:math";
 @use "sass:meta";
+@use "sass:string";
 
 @use "utils";
+@use "utility";
 @use "calculate";
 @use "breakpoint";
 
@@ -24,8 +27,9 @@
 
 $config: (
   "font-size" : 16px,
-  "font-family" : ("ui-sans-serif, "Open Sans", Helvetica, Arial, sans-serif"),
-  "font-family-monospace" : (ui-sans-serif, "Open Sans", Helvetica, Arial, sans-serif),
+  "font-family" : (ui-sans-serif, "Open Sans", Helvetica, Arial, sans-serif),
+  "font-family-serif" : (Cambria, Georgia, serif),
+  "font-family-monospace" : (Menlo, Consolas, Monaco, monospace),
   "font-weight-light" : 300,
   "font-weight-normal" : normal,
   "font-weight-semibold" : 600,
@@ -36,11 +40,11 @@ $config: (
   "size-line-height-ratio": 0.97,
   "scale-steps": 5,
   "responsive-change": 0.2vw, 
-  "margin-bottom":  0.5em,
-  "margin-top":  false,
+  "margin-bottom":  0.5rem,
+  "margin-top":  false
 ) !default;
 
-/// Change any module option
+/// Change modules $config
 /// @param {Map} $changes Map of changes
 ///   @include typography.set-options(( "font-size" : 14px ));
 
@@ -85,6 +89,20 @@ $config: (
   }
 }
 
+/// Changes pixels to em
+/// @param {Number} $value Pixel value to convert from
+/// @param {Number} $base Conversion base (defaults to font-size)
+/// @return {Number} Rem value
+
+@function em($value, $base: null) {
+  @if (math.unit($value) == "px") {
+    $base: if($base, $base, get("font-size"));
+    @return $base / $value * 1em;
+  } @else  {
+    @return $value;
+  }
+}
+
 /// Break word stradegy
 /// @param {Boolean} $force Force words to break (will have unusual breaks)
 
@@ -94,8 +112,7 @@ $config: (
   hyphens: auto;
 }
 
-/// Creates a size map
-/// @access private
+// Creates a size map
 
 @function _new-size($font-size, $line-height: true, $is-headline: false) {
   @return (
@@ -146,13 +163,7 @@ $sizes: (
 ///   ));
 
 @mixin set-sizes($changes, $deep: false, $overwrite: false) {
-  @if $deep {
-    $presets: map.deep-merge($presets, $changes) !global;
-  } @else if $overwrite {
-    $presets: $changes !global;
-  } @else {
-    $presets: map.merge($presets, $changes) !global;
-  }
+  $sizes: utils.map-merge-or-overwrite($sizes, $changes, $deep, $overwrite) !global;
 }
 
 /// Get a size's map
@@ -172,25 +183,50 @@ $sizes: (
   @return rem($font-size);
 }
 
+/// Forces conversion to unitless line-height
+/// @param {Number} $line-height Line height size in px, em, or rem
+/// @param {Number} $font-size Font size in px, em, or rem
+
+@function unitless-line-height($line-height, $font-size) {
+  // Font size is rems, line-height is unkown
+  @if (math.is-unitless($line-height)) {
+    @return $line-height;
+  }
+  $unit: math.unit($line-height);
+  @if ($unit == "em") {
+    @return utility.strip-unit($line-height);
+  } @else if ($unit == "pixels" or $unit == "rem") {
+    @return utility.strip-unit(rem($line-height) / rem($font-size));
+  } @else {
+    @error "ULU: Unable to convert to unitless line-height for: #{ $line-height }";
+  }
+}
 /// Print a value from the size
 /// @param {Map} $size Size's map 
 
 @function get-size-value($size, $prop) {
   // Font size is calculated differently
   $value: map.get($size, $prop);
+  $font-size: map.get($size, "font-size");
+  
   // No value
   @if ($value == false or $value == null) {
     @return null;
-  // Default
-  } @else if ($value == true)  {
-    @return get($prop);
+  
   } @else {
-    // Line-height doesn't need to be converted
-    @if ($prop == "line-height") {
-      @return $value;
-    } @else {
-      @return rem($value);
+    // Default value
+    @if ($value == true)  {
+      $value: get($prop);
     }
+    // Force line-height to be unitless
+    @if ($prop == "line-height") {
+      @return unitless-line-height($value, $font-size);
+    }
+    // Convert to REM
+    @if (math.unit($value) == "px") {
+      $value: rem($value);
+    }
+    @return $value;
   }
 }
 

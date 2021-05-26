@@ -1,5 +1,5 @@
 ////
-/// @group Base
+/// @group base
 ////
 
 @forward "normalize" as normalize-*;
@@ -7,9 +7,11 @@
 @forward "keyframes" as keyframes-*;
 @forward "typography" as typography-*;
 
-@use "../lib/utils";
+@use "../utils";
 @use "normalize";
+@use "typography";
 @use "elements";
+@use "color";
 @use "keyframes";
 
 /// Used to check against user's includes
@@ -21,11 +23,15 @@ $-all-includes: (
   "accessibility", 
   "utilities", 
   "print",
-  "typography"
+  "typography",
+  "color"
 );
 
 /// Prints all Base styles
+/// @name base-styles
 /// @param {List} $includes A list of module names to include, else inludes all
+/// @example scss
+///  @include ulu.base-styles();
 
 @mixin styles($includes: null) {
   @include utils.file-header("base");
@@ -40,6 +46,12 @@ $-all-includes: (
   }
   @if (utils.included("keyframes", $includes)) {
     @include keyframes.styles;
+  }
+  @if (utils.included("typography", $includes)) {
+    @include typography.styles;
+  }
+  @if (utils.included("color", $includes)) {
+    @include color.styles;
   }
 }
 

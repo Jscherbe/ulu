@@ -1,10 +1,10 @@
 ////
-/// @group Components
+/// @group components
 ////
-@use "../lib/utils";
 
 @forward "links" as links-*;
 
+@use "../utils";
 @use "links";
 
 /// Used to check against user's includes
@@ -16,7 +16,10 @@ $-all-includes: (
 );
 
 /// Prints all Components styles
+/// @name component-styles
 /// @param {List} $includes A list of module names to include, else inludes all
+/// @example scss
+///  @include ulu.component-styles();
 
 @mixin styles($includes: null) {
   @include utils.file-header("components");

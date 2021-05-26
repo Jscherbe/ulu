@@ -1,14 +1,19 @@
 ////
-/// @group Base-Elements
+/// @group base
 ////
 
-@use "../lib/utils";
-@use "../lib/color";
-@use "../lib/element";
-@use "../lib/typography";
-@use "../lib/breakpoint";
+@use "../utils";
+@use "../color";
+@use "../element";
+@use "../typography";
+@use "../breakpoint";
+
+
 
 /// Prints elements base styles
+/// @name base-elements-styles
+/// @example scss
+///  @include ulu.base-elements-styles();
 
 @mixin styles {
 

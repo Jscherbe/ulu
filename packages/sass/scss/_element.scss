@@ -1,5 +1,5 @@
 ////
-/// @group Library:Elements
+/// @group element
 ////
 
 @use "color";
@@ -33,27 +33,22 @@ $rule: 1px solid color.get('rule') !default;
 $rule-light: 1px solid color.get('rule-light') !default;
 
 /// Common element margin (small)
-/// @group Library:Elements
 
 $margin-small: 0.65em !default;
 
 /// Common element margin
-/// @group Library:Elements
 
 $margin: 1em !default;
 
 /// Common element margin (large)
-/// @group Library:Elements
 
 $margin-large: 2em !default;
 
 /// Ordered list type (level 1)
-/// @group Library:Elements
 
 $ol-list-style-type: decimal !default;
 
 /// Ordered list type (level 2)
-/// @group Library:Elements
 
 $ol-list-style-type--2: lower-alpha !default;
 

@@ -1,10 +1,13 @@
 ////
-/// @group Base-Keyframes
+/// @group base
 ////
 
-@use "../lib/utils";
+@use "../utils";
 
 /// Prints CSS keyframes
+/// @name base-keyframes-styles
+/// @example scss
+///  @include ulu.base-keyframes-styles();
 
 @mixin styles {
   @include utils.file-header('base', 'keyframes');

@@ -1,0 +1,30 @@
+////
+/// @group base
+////
+
+@use "sass:map";
+@use "../utils";
+@use "../selector";
+@use "../color";
+
+/// Prints color styles 
+/// - in base so they can be overridden
+/// @name base-color-styles
+/// @example scss
+///  @include ulu.base-color-styles();
+
+@mixin styles {
+  
+  @include utils.file-header('base', 'color');
+
+  $prefix: selector.class("color");
+  $prefix-contexts: selector.class("color-context");
+  @debug color.$contexts;
+  @each $name, $context in color.$contexts {
+    @if (map.get($context, "base-class")) {
+      #{ $prefix-contexts }-#{$name} {
+        @include color.context-styles($name);
+      }
+    }
+  }
+}

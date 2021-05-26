@@ -1,11 +1,16 @@
 ////
-/// @group Base-Typography
+/// @group base
 ////
 
 @use "sass:map";
-@use "../lib/typography";
+@use "../typography";
+@use "../selector";
+@use "../utils";
 
 /// Prints elements base styles
+/// @name base-typography-styles
+/// @example scss
+///  @include ulu.base-typography-styles();
 
 @mixin styles {
 
@@ -16,7 +21,7 @@
   // Print base typographic sizes
   @each $size, $values in typography.$sizes {
     @if (map.get($values, "base-class")) {
-      @if (map.get($values, "base-class-prefix")) {
+      @if (map.get($values, "base-class-prefixed")) {
         #{ $prefix }-#{$size} {
           @include typography.size($size);
         }

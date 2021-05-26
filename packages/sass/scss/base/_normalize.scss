@@ -1,11 +1,15 @@
 ////
-/// @group Base-Normalize
+/// @group base
 ////
 
-@use "../lib/utils";
+@use "../utils";
+
 
 /// Prints the normalize stylesheet. We are using modern-normalize 1.1.0
+/// @name base-normalize-styles
 /// @link https://www.npmjs.com/package/modern-normalize Modern Normalize (NPM)
+/// @example scss
+///  @include ulu.base-normalize-styles();
 
 @mixin styles {
 
