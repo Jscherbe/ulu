@@ -6,7 +6,11 @@
     {% if example.description %}
     <div class="example__description">{{ example.description|safe }}</div>
     {% endif %}
-    <pre class="example__code  language-{{ example.type }}"><code>{{ example.code|escape|safe }}</code></pre>
+    {% if example.type != "raw" %}
+      <pre class="example__code  language-{{ example.type }}"><code>{{ example.code|escape|safe }}</code></pre>
+    {% else %}
+      <div style="padding: 1em;">{{ example.code|safe }}</div>
+    {% endif %}
   </div>
   {% endfor %}
 {% endif %}

@@ -12,6 +12,10 @@
 /// @name base-color-styles
 /// @example scss
 ///  @include ulu.base-color-styles();
+/// @example raw Example of a color-context
+///  <div class="color-context-dark" style="padding: 1rem">
+////   Some text in dark context
+//// </div>
 
 @mixin styles {
   

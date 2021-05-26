@@ -361,6 +361,7 @@ ol ol ol {
 
 a {
   color: blue;
+  text-decoration: none;
 }
 a:hover {
   color: darkblue;
@@ -444,6 +445,7 @@ components:
 */
 .links a {
   color: blue;
+  text-decoration: none;
 }
 .links a:hover {
   color: darkblue;
@@ -460,25 +462,32 @@ components:
 component:typography
 ============================================================================= 
 */
-.button {
+.button, .button:visited {
   appearance: none;
   cursor: pointer;
   display: inline-block;
   text-align: center;
-  text-transform: normal;
+  text-decoration: none;
+  text-transform: none;
   vertical-align: middle;
   font-family: ui-sans-serif, "Open Sans", Helvetica, Arial, sans-serif;
   font-weight: bold;
   font-size: 1rem;
   border-radius: 8px;
   background-clip: padding-box;
-  padding: 1em 0.35em;
+  padding: 0.75em 1.5em;
   color: white;
   line-height: 1.1;
   letter-spacing: 0.02em;
   border: 0 solid transparent;
-  background-color: black;
+  background-color: #4d4d4d;
+  box-shadow: 0 1px 5px black;
   margin: 0 0.25em 0.25em 0;
+}
+.button:hover {
+  color: white;
+  background-color: black;
+  border-color: transparent;
 }
 
 .button-small {
@@ -611,6 +620,10 @@ helpers:typography
 }
 
 .type-family {
+  text-transform: ui-sans-serif, "Open Sans", Helvetica, Arial, sans-serif;
+}
+
+.type-family-sans {
   text-transform: ui-sans-serif, "Open Sans", Helvetica, Arial, sans-serif;
 }
 

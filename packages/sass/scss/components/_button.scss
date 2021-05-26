@@ -12,12 +12,14 @@
 /// @name component-button-styles
 /// @example scss
 ///  @include ulu.component-button-styles();
+/// @example raw
+///  <a class="button" href="#">Button Default</a>
 
 @mixin styles {
   @include utils.file-header('component', 'typography');
 
   $prefix: selector.class("button");
-  
+
   #{ $prefix } {
     @include button.default();
   }

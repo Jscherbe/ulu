@@ -11,18 +11,22 @@
 @use "typography";
 @use "utils";
 
-$padding: 1em 0.35em !default;
-$background-color:  color.$black !default;
+$padding: 0.75em 1.5em !default;
+$background-color: color.tint(black, 30%) !default;
+$background-color--hover: black !default;
 $font-family: typography.get("font-family") !default;
 $font-weight: bold !default;
 $line-height: 1.1 !default;
 $letter-spacing: 0.02em !default;
-$text-transform: normal !default;
+$text-transform: none !default;
 $font-size: 1rem !default;
-$color:  color.$white !default;
+$color: white !default;
+$color--hover: white !default;
+$box-shadow: element.$box-shadow !default;
 $border-radius: element.$border-radius !default;
 $border-width: 0 !default;
 $border-color: transparent !default;
+$border-color--hover: transparent !default;
 $margin: 0 0.25em 0.25em 0 !default;
 
 $sizes: (
@@ -58,24 +62,34 @@ $styles: (
 ) !default;
 
 @mixin default() {
-  appearance: none;
-  cursor: pointer;
-  display: inline-block;
-  text-align: center;
-  text-transform: $text-transform;
-  vertical-align: middle;
-  font-family: $font-family;
-  font-weight: $font-weight;
-  font-size: $font-size;
-  border-radius: $border-radius;
-  background-clip: padding-box;
-  padding: $padding;
-  color: $color;
-  line-height: $line-height;
-  letter-spacing: $letter-spacing;
-  border: $border-width solid $border-color;
-  background-color: $background-color;
-  margin: $margin;
+  &,
+  &:visited {
+    appearance: none;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    text-transform: $text-transform;
+    vertical-align: middle;
+    font-family: $font-family;
+    font-weight: $font-weight;
+    font-size: $font-size;
+    border-radius: $border-radius;
+    background-clip: padding-box;
+    padding: $padding;
+    color: $color;
+    line-height: $line-height;
+    letter-spacing: $letter-spacing;
+    border: $border-width solid $border-color;
+    background-color: $background-color;
+    box-shadow: $box-shadow;
+    margin: $margin;
+  }
+  &:hover {
+    color: $color--hover;
+    background-color: $background-color--hover;
+    border-color: $border-color--hover;
+  }
 }
 
 @mixin size($name) {

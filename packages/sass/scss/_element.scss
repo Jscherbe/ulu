@@ -68,12 +68,17 @@ $ol-list-style-type--2: lower-alpha !default;
 
 $ol-list-style-type--3: lower-roman !default;
 
+/// Whether links use underline, etc
+
+$link-text-decoration: none !default;
+
 /// Print link styles
 /// @param {Boolean} $visited Include visited style
 /// @param {Boolean} $active Include active style
 
 @mixin link($visited: false, $active: false) {
   color: color.get("link");
+  text-decoration: $link-text-decoration;
   &:hover {
     color: color.get("link:hover");
   }
