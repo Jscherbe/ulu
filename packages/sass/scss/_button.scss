@@ -1,0 +1,116 @@
+////
+/// @group button
+////
+
+@use "sass:map";
+@use "sass:meta";
+@use "sass:string";
+
+@use "color";
+@use "element";
+@use "typography";
+@use "utils";
+
+$padding: 1em 0.35em !default;
+$background-color:  color.$black !default;
+$font-family: typography.get("font-family") !default;
+$font-weight: bold !default;
+$line-height: 1.1 !default;
+$letter-spacing: 0.02em !default;
+$text-transform: normal !default;
+$font-size: 1rem !default;
+$color:  color.$white !default;
+$border-radius: element.$border-radius !default;
+$border-width: 0 !default;
+$border-color: transparent !default;
+$margin: 0 0.25em 0.25em 0 !default;
+
+$sizes: (
+  "small" : (
+    "padding": 0.15em 0.75em,
+    "border-radius": element.$border-radius--small,
+  ),
+  "large" : (
+    "padding" : 0.5em 2em
+  )
+) !default;
+
+$styles: (
+  "transparent" : (
+    "background-color" : transparent,
+    "color" : "type",
+    "border-color" : transparent,
+    "box-shadow" : none,
+    "hover" : (
+      "background-color" : "white",
+      "color" : inherit,
+      "border-color" : transparent,
+    )
+  ),
+  "outline" : (
+    "background-color" : transparent,
+    "color" : "type",
+    "border-color" : "rule",
+    "hover" : (
+      "background-color" : "white",
+    )
+  ),
+) !default;
+
+@mixin default() {
+  appearance: none;
+  cursor: pointer;
+  display: inline-block;
+  text-align: center;
+  text-transform: $text-transform;
+  vertical-align: middle;
+  font-family: $font-family;
+  font-weight: $font-weight;
+  font-size: $font-size;
+  border-radius: $border-radius;
+  background-clip: padding-box;
+  padding: $padding;
+  color: $color;
+  line-height: $line-height;
+  letter-spacing: $letter-spacing;
+  border: $border-width solid $border-color;
+  background-color: $background-color;
+  margin: $margin;
+}
+
+@mixin size($name) {
+  $size: utils.require-map-get($sizes, $name, 'button [size]');
+  padding: map.get($size, "padding");
+  border-radius: map.get($size, "border-radius");
+  border-width: map.get($size, "border-width");
+}
+
+@function get-style-value($name, $prop, $for-hover: false) {
+  $is-color-prop: string.index($prop, "color");
+  $style: utils.require-map-get($styles, $name, 'button [color value]');
+  $hover: map.get($style, "hover");
+  $hover: if($hover, $hover, ());
+  $from: if($for-hover, $hover, $style);
+  $value: map.get($from, $prop);
+  $value: if($value, $value, map.get($style, $prop)); // Fallback to parent (if hover)
+
+  @if (meta.type-of($value) == "String" and $is-color-prop) {
+    @return color.get($value);
+  } @else {
+    @return $value;
+  }
+}
+
+@mixin style($name) {
+  background-color: get-style-value($name, "background-color", false);
+  color: get-style-value($name, "color", false);
+  border-color: get-style-value($name, "border-color", false);
+  box-shadow: get-style-value($name, "box-shadow", false);
+  &:hover,
+  &:visited {
+    background-color: get-style-value($name, "background-color", true);
+    color: get-style-value($name, "color", true);
+    border-color: get-style-value($name, "border-color", true);
+    box-shadow: get-style-value($name, "box-shadow", true);
+  }
+}

@@ -22,6 +22,18 @@ $box-shadow--raised: 0 1px 12px color.get('box-shadow') !default;
 
 $box-shadow--above: 0 1px 20px color.get('box-shadow') !default;
 
+/// Common element border radius
+
+$border-radius: 8px !default;
+
+/// Common element border radius (small)
+
+$border-radius--small: 3px !default;
+
+/// Common element border radius (large)
+
+$border-radius--large: 5% !default;
+
 /// Border definition for elements that use a rule (divider), 
 /// to change color set it in color module's palette
 

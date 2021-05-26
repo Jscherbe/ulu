@@ -13,7 +13,7 @@
   @include utils.file-header('base', 'keyframes');
 
   @keyframes FadeDownIn {
-    0%    {
+    0% {
       opacity: 0; 
       transform: translateY(-10px);
     }

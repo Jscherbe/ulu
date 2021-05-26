@@ -19,7 +19,7 @@
 
   $prefix: selector.class("color");
   $prefix-contexts: selector.class("color-context");
-  @debug color.$contexts;
+
   @each $name, $context in color.$contexts {
     @if (map.get($context, "base-class")) {
       #{ $prefix-contexts }-#{$name} {

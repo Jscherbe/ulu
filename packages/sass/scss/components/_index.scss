@@ -6,13 +6,15 @@
 
 @use "../utils";
 @use "links";
+@use "button";
 
 /// Used to check against user's includes
 /// @access private
 /// @type List
 
 $-all-includes: (
-  "links"
+  "links",
+  "button"
 );
 
 /// Prints all Components styles
@@ -28,5 +30,8 @@ $-all-includes: (
   }
   @if (utils.included("links", $includes)) {
     @include links.styles;
+  }
+  @if (utils.included("button", $includes)) {
+    @include button.styles;
   }
 }
