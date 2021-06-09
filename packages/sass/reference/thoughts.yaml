@@ -4,6 +4,11 @@
 
 # - Maybe think about the balance between generating code and having it in place. Also think about how important the prefixing is, could you use another library to implement prefixing (post-css, or something)?
 thoughts:
+  Organization:
+    - Think about how MDC is grouping each module into a directory, that can support javascript, documentation and other components something would need
+      * Note: We could include templates for this
+
+- Look how they use global stuff $box-shadow, etc
   Consider incorporating parts of the element mixin: from (2015 thing, elements are extendable maps);
     Bad:
       - Debugging:
