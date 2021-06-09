@@ -52,7 +52,12 @@ $sizes: (
 ///   ));
 
 @mixin set($changes) {
-  $presets: map.merge($sizes, $changes) !global;
+  $sizes: map.merge($sizes, $changes) !global;
+}
+
+@function exists($name) {
+  $size: map.get($sizes, $name);
+  @return if($size != null, true, false);
 }
 
 /// Create a media query that matches the min-width for a given size
@@ -98,6 +103,18 @@ $sizes: (
   $max: utils.require-map-get($sizes, $size-max, "breakpoints") - $gap; 
   @media screen and (min-width: $min) and (max-width: $max) {
     @content;
+  }
+}
+
+@mixin from($name, $direction: "min") {
+  @if ($direction == "min" or $direction == "up") {
+    @include min($name) {
+      @content;
+    }
+  } @else {
+    @include max($direction == "min" or $direction == "down") {
+      @content;
+    }
   }
 }
 

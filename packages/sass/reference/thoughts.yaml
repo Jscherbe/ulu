@@ -1,0 +1,31 @@
+# THINK ABOUT HOW TO USE THE RULES AND BOX SHADOWS FOR THE DIVIDERS FOR THE SECTIONS
+
+# - Need to figure out how to do sections, like the containers as simplifying the section layout, but how to get the border styles (Wait until you start using to determine this)
+
+# - Maybe think about the balance between generating code and having it in place. Also think about how important the prefixing is, could you use another library to implement prefixing (post-css, or something)?
+thoughts:
+  Consider incorporating parts of the element mixin: from (2015 thing, elements are extendable maps);
+    Bad:
+      - Debugging:
+        - Where maps came from
+        - Needs a better debug that gives you a map (it may do this already)
+      - It's like it's own language/thing to learn:
+        - This isn't so good for clients using the code
+        - It is pretty simple with a lot of pros
+        - User needs to understand how to get values into a map (ie using lists instead of css for example)
+    Good: 
+      - The extendable (base maps) is a really cool feature for authoring defualt elements
+      - Removing complete sets of elements is as easy as clearing a map
+      - Printing is simple and doesn't need repeated boilerplate code in modules
+    Ideas:
+      - We could incorporate a schema system that asserts requirements for certain maps:
+        - This would be nice to make sure certain map types exist for library mixins to work correctly (patterns, calculations)
+        - We could also make sure there is just one module that make's all of this work
+      - The library itself for get simpler allowing for more complex definitions (packages/frameworks) using this as a common API
+      - We could have a folder of core modules that we commonly need (typograph, layout, grid, etc)
+      - And then extend them in stylesheets/partials with selectors
+      - Or, we could have the maps base schema (ie. private parts "_" include the selector) and come up with a common API for how that works in the element map (does it extend the base's selector [as a modifier]):
+        - If we do this we could easily offer the ability to modify the selectors globally by passing a function to configuration (remember sass:meta module will enable passing function as a variable)
+        # https://sass-lang.com/documentation/modules/meta#get-function
+      - This would allow simpler code base with a more complex definition
+        

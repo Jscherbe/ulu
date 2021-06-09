@@ -3,59 +3,34 @@
 ////
 
 @use "../element";
+@use "../color";
+@use "../selector";
 
-// .rule {
-//   &:not(.rule--top) {
-//     border-bottom: $legacy-rule;
-//     margin-bottom: units(1.5);
-//     padding-bottom: units(1.5);
-//   }
-//   &--top {
-//     border-top: $legacy-rule;
-//     margin-top: units(1.5);
-//     padding-top: units(1.5);
-//   }
-//   &--large:not(.rule--top) {
-//     border-bottom-width: 3px;
-//     border-bottom-color: desaturate(color('blue-warm-20'), 20%);
-//     margin-bottom: units(2);
-//     padding-bottom: units(2);
-//   }
-//   &--large {
-//     border-top-width: 3px;
-//     margin-top: units(2);
-//     padding-top: units(2);
-//   }
-//   &--spaced:not(.rule--top) {
-//     margin-bottom: units(4);
-//     padding-bottom: units(4);
-//   }
-//   &--spaced.rule--top {
-//     margin-top: units(4);
-//     padding-top: units(4);
-//   }
-//   &--light {
-//     border-color: $legacy-rule-light--color;
-//   }
-// }
+$short-width: 2.5em !default;
 
-// .rule {
-//   display: block;
-//   margin: 1rem 0;
-//   border-bottom: @rule;
-//   &--spaced {
-//     margin: @element-margin 0;
-//   }
-//   &--spaced-large {
-//     margin: 4rem 0;
-//   }
-//   &--light {
-//     border-bottom-color: @color-rule-light;
-//   }
-//   &--short {
-//     width: 2.5rem;
-//     height: 3px;
-//     border-bottom: none;
-//     background-color: @color-violet;
-//   }
-// }
+@mixin styles {
+
+  $class: selector.class("rule");
+  
+  #{ $class } {
+    @include element.rule();
+  }
+  // Output user's styles presets
+  @each $name, $value in element.$rule-styles {
+    #{ $class }--#{ $name } {
+      border-bottom: element.get-rule-style($name);
+    }
+  }
+  // Output user's margin presets
+  @each $name, $value in element.$rule-margins {
+    #{ $class }--margin-#{ $name } {
+      margin-top: element.get-rule-margin($name);
+      margin-bottom: element.get-rule-margin($name);
+    }
+  }
+
+  // Meant to be user by tself without content
+  #{ $class }--short {
+    width: $short-width;
+  }
+}

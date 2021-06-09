@@ -6,6 +6,7 @@
 @forward "elements" as elements-*;
 @forward "keyframes" as keyframes-*;
 @forward "typography" as typography-*;
+@forward "layout" as layout-*;
 
 @use "../utils";
 @use "normalize";
@@ -13,6 +14,7 @@
 @use "elements";
 @use "color";
 @use "keyframes";
+@use "layout";
 
 /// Used to check against user's includes
 /// @access private
@@ -24,7 +26,8 @@ $-all-includes: (
   "utilities", 
   "print",
   "typography",
-  "color"
+  "color",
+  "layout"
 );
 
 /// Prints all Base styles
@@ -52,6 +55,9 @@ $-all-includes: (
   }
   @if (utils.included("color", $includes)) {
     @include color.styles;
+  }
+  @if (utils.included("layout", $includes)) {
+    @include layout.styles;
   }
 }
 

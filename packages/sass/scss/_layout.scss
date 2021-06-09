@@ -2,6 +2,65 @@
 /// @group layout
 ////
 
+@use "sass:map";
+@use "sass:list";
+@use "sass:meta";
+@use "utils";
+@use "breakpoint";
+
+$max-width: 50rem !default;
+
+$containers: (
+  "container" : (
+    "max-width" : $max-width,
+    "padding" : (4rem 2rem),
+    "breakpoints" : null
+  )
+) !default;
+
+@function get-container($name) {
+  @return utils.require-map-get($containers, $name, "Layout [get-container]");
+}
+
+@function get-container-padding($name, $sides: true) {
+  $container: get-container($name);
+  $padding: map.get($container, "padding");
+  $is-list: meta.type-of($padding) == "list"; // Else number
+  @if (not $is-list) {
+    @return $padding;
+  } @else {
+    @return list.nth(if($sides, 2, 1));
+  }
+  @return if($sides, get-container-padding-x($name), get-container-padding-y($name));
+}
+@function get-container-padding-x($name) {
+  @return get-container-padding($name, true);
+}
+@function get-container-padding-y($name) {
+  @return get-container-padding($name, false);
+}
+@mixin container-styles($name, $specific-breakpoint: false) {
+  $container: get-container($name);
+  $breakpoints: map.get($container, "breakpoints");
+  @if ($specific-breakpoint) {
+    $container: map.get($breakpoints, $specific-breakpoint);
+  }
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: map.get($container, "max-width");
+  padding: map.get($container, "padding");
+
+  // Recursive print other breakpoints
+  @if $breakpoints and not $specific-breakpoint {
+    @each $breakpoint, $props in $breakpoints {
+      $direction: map.get($props, "direction");
+      @include breakpoint.from($name, $direction) {
+        @include container-styles($name, $breakpoint);
+      }
+    }
+  }
+}
 // Flexbox stuff
 // Site padding margins
 

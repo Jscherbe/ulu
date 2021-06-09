@@ -18,6 +18,10 @@ $class-overrides: () !default;
   $class-overrides: map.merge($class-overrides, $changes) !global;
 }
 
+@function prefix-class($classname) {
+  @return ".#{ $prefix }#{ $classname }";
+}
+
 /// Used to allow global prefixing of classes, and also the ability to 
 /// Change a class used in the system (ie. like a component for example)
 /// @param {String} $class The classname to set

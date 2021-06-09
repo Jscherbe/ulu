@@ -273,14 +273,8 @@ $sizes: (
   @if $breakpoints {
     @each $name, $breakpoint in $breakpoints {
       $direction: map.get($breakpoint, "direction");
-      @if ($direction == "min") {
-        @include breakpoint.min($name) {
-          @include size($breakpoint);
-        }
-      } @else {
-        @include breakpoint.max($name) {
-          @include size($breakpoint);
-        }
+      @include breakpoint.from($name, $direction) {
+        @include size($breakpoint);
       }
     }
   }

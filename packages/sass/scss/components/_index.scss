@@ -3,10 +3,13 @@
 ////
 
 @forward "links" as links-*;
+@forward "button" as button-*;
+@forward "rule" as rule-*;
 
 @use "../utils";
 @use "links";
 @use "button";
+@use "rule";
 
 /// Used to check against user's includes
 /// @access private
@@ -14,7 +17,8 @@
 
 $-all-includes: (
   "links",
-  "button"
+  "button",
+  "rule"
 );
 
 /// Prints all Components styles
@@ -32,6 +36,9 @@ $-all-includes: (
     @include links.styles;
   }
   @if (utils.included("button", $includes)) {
+    @include button.styles;
+  }
+  @if (utils.included("rule", $includes)) {
     @include button.styles;
   }
 }

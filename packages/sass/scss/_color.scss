@@ -76,6 +76,11 @@ $contexts: (
   @return utils.require-map-get($palette, $name, 'color');
 }
 
+@function exists($name) {
+  $color: map.get($palette, $name);
+  @return if($color != null, true, false);
+}
+
 /// Set color contexts
 /// @param {Map} $changes A map to merge 
 /// @param {Map} $deep Use deep merge

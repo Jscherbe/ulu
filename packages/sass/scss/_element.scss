@@ -2,7 +2,9 @@
 /// @group element
 ////
 
+@use "sass:meta";
 @use "color";
+@use "utils";
 
 /// Backdrop blur amount used on elements/components
 /// @type Number
@@ -34,15 +36,54 @@ $border-radius--small: 3px !default;
 
 $border-radius--large: 5% !default;
 
+$rule--size: 1px !default;
+$rule--style: solid !default;
+
 /// Border definition for elements that use a rule (divider), 
 /// to change color set it in color module's palette
 
-$rule: 1px solid color.get('rule') !default;
+$rule: $rule--size $rule--style color.get('rule') !default;
 
 /// Border definition for elements that use a light weight rule (divider), 
 /// to change color set it in color module's palette
 
-$rule-light: 1px solid color.get('rule-light') !default;
+$rule-light: $rule--size $rule--style color.get('rule-light') !default;
+
+$rule-styles: (
+  "base" : $rule,
+  "light" : $rule-light,
+) !default;
+
+$rule-margins: (
+  "small" : 1rem,
+  "medium" : 3rem,
+  "large" : 5rem
+) !default;
+
+@mixin set-rule-styles($changes) {
+  $rule-styles: map.merge($rule-styles, $changes) !global;
+}
+@mixin set-rule-margins($changes) {
+  $rule-margins: map.merge($rule-margins, $changes) !global;
+}
+@function get-rule-style($name) {
+  @return utils.require-map-get($rule-styles, $name, "element [rule style]");
+}
+@function get-rule-margin($name) {
+  @return utils.require-map-get($rule-margins, $name, "element [rule style]");
+}
+@mixin rule(
+  $style-name: null, 
+  $margin-name: null
+) {
+  $style: if($style, get-rule-style($style-name), $rule);
+  $margin: if($style, get-rule-margin($margins-name), $margin);
+  border-bottom: $style;
+  margin-#{ $position }: $margin;
+  margin-#{ $position }: $margin;
+}
+
+
 
 /// Common element margin (small)
 

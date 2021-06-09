@@ -10,6 +10,7 @@
 @use "../../../sass/scss" as ulu;
 
 @include ulu.base-styles();
+@include ulu.grid-create();
 @include ulu.component-styles();
 @include ulu.helper-styles();
 
